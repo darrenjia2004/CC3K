@@ -2,7 +2,7 @@
 #define _ENEMY_H_
 
 #include "characters/character.h"
-#include "tile.h";
+#include "tile.h"
 
 class Enemy : public Character {
     const bool hasCompass;
@@ -12,6 +12,6 @@ class Enemy : public Character {
    public:
     void endOfTurnEffect(Tile& t);
 
-    Enemy(bool hasCompass, int goldDrop);
+    Enemy(int maxHp, int atk, int def, bool hasCompass, int goldDrop);
 };
 #endif

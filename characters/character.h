@@ -9,6 +9,7 @@ class Character {
     const int def;
     int hp;
 
+   public:
     Character(int maxHp, int atk, int def);
     int getHp();
     void addToHp(int n);

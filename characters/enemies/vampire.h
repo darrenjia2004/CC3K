@@ -4,8 +4,8 @@
 
 class Vampire : public Enemy {
    public:
-    Vampire(bool hasCompass) : Enemy{hasCompass, 1} {};
-    char getChar() { return c; };
     static const char c;
+    Vampire(bool hasCompass);
+    char getChar();
 };
 #endif

@@ -1,11 +1,11 @@
-#ifndef _GOBLIN_H_
-#define _GOBLIN_H_
+#ifndef _DRAGON_H_
+#define _DRAGON_H_
 #include "characters/enemy.h"
 
-class Goblin : public Enemy {
+class Dragon : public Enemy {
    public:
     static const char c;
-    Goblin(bool hasCompass);
+    Dragon(bool hasCompass);
     char getChar();
 };
 #endif

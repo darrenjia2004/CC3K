@@ -4,8 +4,8 @@
 
 class Phoenix : public Enemy {
    public:
-    Phoenix(bool hasCompass) : Enemy{hasCompass, 1} {};
-    char getChar() { return c; };
     static const char c;
+    Phoenix(bool hasCompass);
+    char getChar();
 };
 #endif

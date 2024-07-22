@@ -4,8 +4,8 @@
 
 class Troll : public Enemy {
    public:
-    Troll(bool hasCompass) : Enemy{hasCompass, 1} {};
-    char getChar() { return c; };
     static const char c;
+    Troll(bool hasCompass);
+    char getChar();
 };
 #endif
