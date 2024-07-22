@@ -18,6 +18,8 @@ class GameModel {
   bool inBounds(const pair<int, int>& pos);
   static vector<Direction> getGameDirections();
 
+  int numChambers;
+  
  public:
   vector<vector<Tile>> map;
   GameModel();

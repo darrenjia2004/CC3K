@@ -1,6 +1,6 @@
 #include "gameModel.h"
 
-GameModel::GameModel() {
+GameModel::GameModel() : numChambers{0} {
     init();
 }
 
@@ -49,7 +49,8 @@ void GameModel::loadChambers() {
         for (Tile& t : row) {
             // if we find a tile that needs to be filled but hasn't, then fill it with new chamber number
             if (t.c == '.' && t.getChamberNum() == -1) {
-                floodFill(t, Tile::incrementChamberCount());
+                floodFill(t, numChambers);
+                ++numChambers;
             }
         }
     }

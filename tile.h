@@ -7,9 +7,6 @@
 #include "command.h"
 
 class Tile {
-    // holds the current number of chambers
-    static int chamberCount;
-
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
 
@@ -22,7 +19,6 @@ class Tile {
     void setChamberNum(int n);
     const std::map<Direction, Tile*>& getNeighbours();
     void setNeighbour(Direction d, Tile* t);
-    static int incrementChamberCount();
 };
 
 #endif

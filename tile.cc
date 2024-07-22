@@ -2,8 +2,6 @@
 
 #include "command.h"
 
-int Tile::chamberCount = 0;
-
 Tile::Tile(char c) : chamberNum{-1}, c{c} {
 }
 
@@ -17,10 +15,6 @@ int Tile::getChamberNum() {
 
 void Tile::setChamberNum(int n) {
     chamberNum = n;
-}
-
-int Tile::incrementChamberCount() {
-    return chamberCount++;  // we want the old value
 }
 
 void Tile::setNeighbour(Direction d, Tile* t) {
