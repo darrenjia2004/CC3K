@@ -2,13 +2,14 @@
 #define _ITEM_H_
 #include <string>
 #include <vector>
+#include "entity.h"
 using namespace std;
 
-class Item {
+class Item : public Entity{
     // Enemy* boss;
     // virtual void applyItemEffect(Player& p) =0;
     public:
-    Item();
+    Item(char c);
     virtual ~Item();
 };
 

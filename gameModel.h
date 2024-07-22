@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <unordered_map>
 
 #include "tile.h"
 using namespace std;
@@ -19,11 +20,13 @@ class GameModel {
     bool inBounds(const pair<int, int>& pos);
     static vector<Direction> getGameDirections();
     Tile& getRandomTile();
+    void setPotionVis();
 
     int chamberCount;
     const int randomSeed;
 
    public:
+    static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
     GameModel();
 };

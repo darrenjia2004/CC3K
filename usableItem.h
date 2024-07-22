@@ -2,12 +2,13 @@
 #define _USABLEITEM_H_
 #include <string>
 #include <vector>
+#include "item.h"
 using namespace std;
 
-class UsableItem {
+class UsableItem : public Item {
     public:
     // void onUse(Player& p);
-    UsableItem();
+    UsableItem(char c);
     virtual ~UsableItem();
 };
 

@@ -1,6 +1,6 @@
 #include "barrierSuit.h"
 
-BarrierSuit::BarrierSuit(){
+BarrierSuit::BarrierSuit(): SteppableItem{c}{
 
 }
 

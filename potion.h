@@ -1,14 +1,15 @@
 #ifndef _POTION_H_
 #define _POTION_H_
 #include "usableItem.h"
+#include "gameModel.h"
 using namespace std;
 
 class Potion : public UsableItem {
     // virtual void applyItemEffect(Player& p) override;
     public:
-    // char virtual getChar() override;
+    virtual char getChar() override;
     const int hp, atk, def;
-    Potion(int hp, int atk, int def);
+    Potion(int hp, int atk, int def, char c);
     virtual ~Potion();
 };
 
