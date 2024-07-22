@@ -12,7 +12,8 @@ using namespace std;
 class Entity {
     vector<Tile*> observers;
     virtual void onDeath();
-   public: 
+public:
+    Entity(char c);
     const char c;
     virtual char getChar();
     virtual void endOfTurnEffect(Tile*);

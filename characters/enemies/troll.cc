@@ -2,8 +2,4 @@
 
 const char Troll::c = 'T';
 
-Troll::Troll(bool hasCompass) : Enemy{120, 25, 15, hasCompass, 1} {}
-
-char Troll::getChar() {
-    return c;
-}
+Troll::Troll(bool hasCompass) : Enemy{ 'T', 120, 25, 15, hasCompass, 1 } {}

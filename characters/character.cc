@@ -1,6 +1,6 @@
 #include "characters/character.h"
 
-Character::Character(int maxHp, int atk, int def) : maxHp{maxHp}, atk{atk}, def{def}, hp{maxHp} {}
+Character::Character(char c, int maxHp, int atk, int def) : Entity{ c }, maxHp{ maxHp }, atk{ atk }, def{ def }, hp{ maxHp } {}
 
 int Character::getHp() {
     return hp;

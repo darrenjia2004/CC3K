@@ -3,9 +3,8 @@
 #include "characters/enemy.h"
 
 class Werewolf : public Enemy {
-   public:
+public:
     static const char c;
     Werewolf(bool hasCompass);
-    char getChar();
 };
 #endif

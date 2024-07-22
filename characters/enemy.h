@@ -9,9 +9,9 @@ class Enemy : public Character {
     const int goldDrop;
     void onDeath();
 
-   public:
+public:
     void endOfTurnEffect(Tile& t);
 
-    Enemy(int maxHp, int atk, int def, bool hasCompass, int goldDrop);
+    Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop);
 };
 #endif

@@ -3,9 +3,8 @@
 #include "characters/enemy.h"
 
 class Vampire : public Enemy {
-   public:
+public:
     static const char c;
     Vampire(bool hasCompass);
-    char getChar();
 };
 #endif
