@@ -1,5 +1,9 @@
 #include "entity.h"
 
+Entity::Entity(char c): c{c}{
+    
+}
+
    char Entity::getChar(){
         return c;
     }

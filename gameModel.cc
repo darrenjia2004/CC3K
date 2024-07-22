@@ -3,16 +3,26 @@
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>
 
+unordered_map<char, bool> GameModel::potionVisibility;
+
 GameModel::GameModel() : chamberCount{0}, randomSeed{getpid()} {
     srand(randomSeed);
     init();
 }
 
 void GameModel::init() {
+    setPotionVis();
     loadTiles();
     loadNeighbours();
     loadChambers();
     // need to do a second pass to assign neighbours and chamber number
+}
+
+// sets the potion visibilities to false
+void GameModel::setPotionVis(){
+    for (int i =0; i<6; i++){
+        potionVisibility['0'+i] = false;
+    }
 }
 
 // method which loads the default map into the tile map

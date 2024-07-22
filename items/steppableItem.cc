@@ -1,6 +1,6 @@
 #include "steppableItem.h"
 
-SteppableItem::SteppableItem(){
+SteppableItem::SteppableItem(char c): Item{c}{
 
 }
 

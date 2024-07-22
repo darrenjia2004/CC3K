@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(){
+Item::Item(char c): Entity{c}{
 
 }
 

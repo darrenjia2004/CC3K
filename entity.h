@@ -6,15 +6,17 @@
 #include <utility>
 #include <vector>
 
+#include "drawable.h"
 #include "tile.h"
 using namespace std;
 
-class Entity {
+class Entity : public Drawable {
     vector<Tile*> observers;
     virtual void onDeath();
    public: 
     const char c;
-    virtual char getChar();
+    Entity(char c);
+    virtual char getChar() override;
     virtual void endOfTurnEffect(Tile*);
     virtual bool isPassable();
     void die();
