@@ -2,9 +2,9 @@
 #define _PLAYER_H_
 
 #include "characters/character.h"
-#include "tile.h";
-#include "potionfx.h";
-#include "potion.h";
+#include "tile.h"
+#include "potionfx.h"
+#include "items/potion.h"
 
 class Player : public Character {
     int hp;

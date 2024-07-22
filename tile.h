@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "command.h"
+#include "drawable.h"
 
 class Entity;
 

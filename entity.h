@@ -16,7 +16,6 @@ class Entity : public Drawable {
 public:
     Entity(char c);
     const char c;
-    Entity(char c);
     virtual char getChar() override;
     virtual void endOfTurnEffect(Tile*);
     virtual bool isPassable();
