@@ -19,6 +19,7 @@ class Tile {
     char getChar();
     int getChamberNum();
     void setChamberNum(int n);
+    bool isPassable();
     const std::map<Direction, Tile*>& getNeighbours();
     void setNeighbour(Direction d, Tile* t);
     void notify();
