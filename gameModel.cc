@@ -1,6 +1,13 @@
 #include "gameModel.h"
 
-GameModel::GameModel() : numChambers{0} {
+#include <stdlib.h>  // srand/rand
+#include <unistd.h>
+
+#include <iostream>
+#include <string>
+
+GameModel::GameModel() : chamberCount{0}, randomSeed{getpid()} {
+    srand(randomSeed);
     init();
 }
 
@@ -49,11 +56,13 @@ void GameModel::loadChambers() {
         for (Tile& t : row) {
             // if we find a tile that needs to be filled but hasn't, then fill it with new chamber number
             if (t.c == '.' && t.getChamberNum() == -1) {
-                floodFill(t, numChambers);
-                ++numChambers;
+                floodFill(t, chamberCount);
+                ++chamberCount;
             }
         }
     }
+
+    getRandomTile();
 }
 
 void GameModel::floodFill(Tile& t, int n) {
@@ -68,6 +77,24 @@ void GameModel::floodFill(Tile& t, int n) {
             floodFill(*neighbour, n);
         }
     }
+}
+
+Tile& GameModel::getRandomTile() {
+    int randomChamber{rand() % chamberCount};
+
+    cout << "chamberNum is " << randomChamber << endl;
+
+    int row{rand() % map.size()};
+    int col{rand() % map[row].size()};
+
+    while (map[row][col].getChamberNum() != randomChamber) {
+        row = rand() % map.size();
+        col = rand() % map[row].size();
+    }
+
+    cout << map[row][col].c << ' ' << row << ' ' << col << endl;
+
+    return map[row][col];
 }
 
 // utility functions
