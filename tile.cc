@@ -1,8 +1,8 @@
+#include "command.h"
+#include "entity.h"
 #include "tile.h"
 
-#include "command.h"
-
-Tile::Tile(char c) : chamberNum{-1}, c{c} {
+Tile::Tile(char c) : chamberNum{ -1 }, c{ c } {
 }
 
 char Tile::getChar() {
@@ -17,8 +17,8 @@ void Tile::setChamberNum(int n) {
     chamberNum = n;
 }
 
-bool Tile::isPassable(){
-    if(c == '#' || c == '\\' || c == '.'){
+bool Tile::isPassable() {
+    if (c == '#' || c == '\\' || c == '.') {
         return true;
     }
     return false;
@@ -32,7 +32,7 @@ const map<Direction, Tile*>& Tile::getNeighbours() {
     return neighbours;
 }
 
-void Tile::notify(){
+void Tile::notify() {
     char corpse = entity->getChar();
     // check dragon hoard
 }

@@ -3,9 +3,8 @@
 #include "characters/enemy.h"
 
 class Troll : public Enemy {
-   public:
-    Troll(bool hasCompass) : Enemy{hasCompass, 1} {};
-    char getChar() { return c; };
+public:
     static const char c;
+    Troll(bool hasCompass);
 };
 #endif

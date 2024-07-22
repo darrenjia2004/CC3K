@@ -13,7 +13,8 @@ using namespace std;
 class Entity : public Drawable {
     vector<Tile*> observers;
     virtual void onDeath();
-   public: 
+public:
+    Entity(char c);
     const char c;
     Entity(char c);
     virtual char getChar() override;

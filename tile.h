@@ -5,15 +5,15 @@
 #include <vector>
 
 #include "command.h"
-#include "entity.h"
-#include "drawable.h"
+
+class Entity;
 
 class Tile : public Drawable {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
     Entity* entity;
 
-   public:
+public:
     const char c;
 
     Tile(char c);

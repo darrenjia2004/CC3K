@@ -3,9 +3,8 @@
 #include "characters/enemy.h"
 
 class Goblin : public Enemy {
-   public:
+public:
     static const char c;
-    Goblin(bool hasCompass) : Enemy{hasCompass, 1} {};
-    char getChar() { return c; };
+    Goblin(bool hasCompass);
 };
 #endif
