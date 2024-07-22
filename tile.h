@@ -5,10 +5,12 @@
 #include <vector>
 
 #include "command.h"
+#include "entity.h"
 
 class Tile {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
+    Entity* entity;
 
    public:
     const char c;
@@ -19,6 +21,7 @@ class Tile {
     void setChamberNum(int n);
     const std::map<Direction, Tile*>& getNeighbours();
     void setNeighbour(Direction d, Tile* t);
+    void notify();
 };
 
 #endif

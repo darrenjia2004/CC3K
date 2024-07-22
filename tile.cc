@@ -24,3 +24,8 @@ void Tile::setNeighbour(Direction d, Tile* t) {
 const map<Direction, Tile*>& Tile::getNeighbours() {
     return neighbours;
 }
+
+void Tile::notify(){
+    char corpse = entity->getChar();
+    // check dragon hoard
+}
