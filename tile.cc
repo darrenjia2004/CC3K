@@ -17,6 +17,13 @@ void Tile::setChamberNum(int n) {
     chamberNum = n;
 }
 
+bool Tile::isPassable(){
+    if(c == '#' || c == '\\' || c == '.'){
+        return true;
+    }
+    return false;
+}
+
 void Tile::setNeighbour(Direction d, Tile* t) {
     neighbours[d] = t;
 }
