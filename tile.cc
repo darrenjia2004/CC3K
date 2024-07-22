@@ -6,7 +6,7 @@ Tile::Tile(char c) : chamberNum{ -1 }, c{ c } {
 }
 
 char Tile::getChar() {
-    return c;
+    return entity ? entity->getChar() : c;
 }
 
 int Tile::getChamberNum() {

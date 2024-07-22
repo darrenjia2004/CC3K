@@ -8,7 +8,7 @@
 
 class Entity;
 
-class Tile {
+class Tile : public Drawable {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
     Entity* entity;
@@ -17,7 +17,7 @@ public:
     const char c;
 
     Tile(char c);
-    char getChar();
+    virtual char getChar() override;
     int getChamberNum();
     void setChamberNum(int n);
     bool isPassable();
