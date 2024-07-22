@@ -4,8 +4,8 @@
 class Potionfx{
     const int atk;
     const int def;
-    Potionfx* nextPotionfx;
    public:
+    Potionfx* next;
     int getAtkChange();
     int getDefChange();
     Potionfx(int atk, int def);

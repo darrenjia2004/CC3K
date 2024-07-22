@@ -11,14 +11,14 @@ class Player : public Character {
     int maxHp;
     int atk;
     int def; 
-    int initAtk;
-    int initDef;
     Potionfx* pfx;
     void onDeath();
 
    public:
-    Player(int hp, int maxHp, int atk, int def, Potionfx* pfx);
-    void applyPotion(Potion& p);
+    Player(char c, int maxHp, int atk, int def, int hp);
+    void applyPotion(Potion* p);
+    int getAttack();
+    int getDefense();
     void increaseGold(float g);
     void gainCompass();
     void resetTempFx();

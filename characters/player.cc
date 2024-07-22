@@ -1,51 +1,51 @@
 #include "player.h"
 
-Player::Player(int maxHp, int atk, int def, Potionfx* pfx): Character{maxHp, atk, def}, pfx{pfx} {}
+Player::Player(char c, int maxHp, int atk, int def, int hp): Character{c, maxHp, atk, def}, hp{hp}{}
 
-void applyPotion(Potion& p){
+void Player::applyPotion(Potion* p){
     Potionfx* newPfx = new Potionfx{p->atk, p->def};
     newPfx->next = pfx->next;
     pfx->next = newPfx;
 }
 
-int getAttack(){
+int Player::getAttack(){
     int currAtk = atk;
     while(nullptr != pfx->next){
-        currAtk += getAtkChange();
-        p = p->next;
+        currAtk += pfx->getAtkChange();
+        pfx = pfx->next;
     }
     return currAtk;
 }
 
-void getDefense(){
+int Player::getDefense(){
     int currDef = def;
     while(nullptr != pfx->next){
-        currDef += getDefChange();
-        p = p->next;
+        currDef += pfx->getDefChange();
+        pfx = pfx->next;
     }
     return currDef;
-
-}
-void increaseGold(float g){
-
 }
 
-void gainCompass(){
+void Player::increaseGold(float g){
 
 }
 
-void resetTempFx(){
+void Player::gainCompass(){
 
 }
 
-void gainBarrierSuit(){
+void Player::resetTempFx(){
 
 }
 
-void calculateScore(){
+void Player::gainBarrierSuit(){
 
 }
 
-void use(pair<int> pcoords, Tile& t){
+void Player::calculateScore(){
+
+}
+
+void Player::use(pair<int, int> pcoords, Tile& t){
     
 }
