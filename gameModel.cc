@@ -3,9 +3,6 @@
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>
 
-#include <iostream>
-#include <string>
-
 GameModel::GameModel() : chamberCount{0}, randomSeed{getpid()} {
     srand(randomSeed);
     init();
@@ -61,8 +58,6 @@ void GameModel::loadChambers() {
             }
         }
     }
-
-    getRandomTile();
 }
 
 void GameModel::floodFill(Tile& t, int n) {
@@ -82,8 +77,6 @@ void GameModel::floodFill(Tile& t, int n) {
 Tile& GameModel::getRandomTile() {
     int randomChamber{rand() % chamberCount};
 
-    cout << "chamberNum is " << randomChamber << endl;
-
     int row{rand() % map.size()};
     int col{rand() % map[row].size()};
 
@@ -91,8 +84,6 @@ Tile& GameModel::getRandomTile() {
         row = rand() % map.size();
         col = rand() % map[row].size();
     }
-
-    cout << map[row][col].c << ' ' << row << ' ' << col << endl;
 
     return map[row][col];
 }
