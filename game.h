@@ -15,6 +15,7 @@ class Game {
   void render();
  public:
   Game();
+  virtual ~Game();
   void start();
 };
 

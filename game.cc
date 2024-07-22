@@ -8,6 +8,10 @@ void Game::init(){
     id = new CinInputDevice();
 }
 
+Game::~Game(){
+    delete id;
+}
+
 void Game::start(){
     while (true){
         Command c = id->getUserInput();
