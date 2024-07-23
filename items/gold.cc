@@ -8,6 +8,6 @@ Gold::~Gold(){
     
 }
 
-// void Gold::applyItemEffect(Player& p){
-//     p.increaseGold(goldValue);
-// }
+void Gold::applyItemEffect(Player& p){
+    p.increaseGold(goldValue);
+}

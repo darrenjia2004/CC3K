@@ -4,7 +4,7 @@
 using namespace std;
 
 class Gold : public SteppableItem {
-    // virtual void applyItemEffect(Player& p) override;
+    virtual void applyItemEffect(Player& p) override;
     public:
     const int goldValue;
     Gold(char c, int goldValue);
