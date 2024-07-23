@@ -2,11 +2,9 @@
 
 Player::Player(char c, int maxHp, int atk, int def, int hp): Character{c, maxHp, atk, def}, hp{hp}{}
 
-void Player::applyPotion(Potion* p){
-    // adds a new potion effect to the linked list of potion effects
-    Potionfx* newPfx = new Potionfx{p->atk, p->def};
-    newPfx->next = pfx->next;
-    pfx->next = newPfx;
+void Player::applyPotion(Potionfx* p){
+    p->next = pfx;
+    pfx = p;
 }
 
 int Player::getAttack(){

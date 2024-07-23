@@ -2,9 +2,9 @@
 #define _POTIONFX_H_
 
 class Potionfx{
+   public:
     const int atk;
     const int def;
-   public:
     Potionfx* next;
     int getAtkChange();
     int getDefChange();

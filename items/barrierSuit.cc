@@ -8,6 +8,6 @@ BarrierSuit::~BarrierSuit(){
     
 }
 
-// void BarrierSuit::applyItemEffect(Player& p){
-//     p.gainBarrierSuit();
-// }
+void BarrierSuit::applyItemEffect(Player& p){
+    p.gainBarrierSuit();
+}

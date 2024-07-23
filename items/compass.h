@@ -4,7 +4,7 @@
 using namespace std;
 
 class Compass : public SteppableItem {
-    // virtual void applyItemEffect(Player& p) override;
+    virtual void applyItemEffect(Player& p) override;
     public:
     Compass();
     virtual ~Compass();

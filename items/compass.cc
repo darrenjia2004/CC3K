@@ -8,6 +8,6 @@ Compass::~Compass(){
     
 }
 
-// void Compass::applyItemEffect(Player& p){
-//     p.gainCompass();
-// }
+void Compass::applyItemEffect(Player& p){
+    p.gainCompass();
+}
