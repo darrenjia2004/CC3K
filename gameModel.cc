@@ -1,8 +1,9 @@
 #include "gameModel.h"
 #include "characters/player.h"
+#include "characters/races/human.h"
 
 #include <stdlib.h>  // srand/rand
-#include <unistd.h>
+#include <unistd.h>  //getpid
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
@@ -16,7 +17,7 @@ void GameModel::init() {
     loadTiles();
     loadNeighbours();
     loadChambers();
-    // need to do a second pass to assign neighbours and chamber number
+    generate();
 }
 
 // sets the potion visibilities to false
@@ -85,7 +86,7 @@ void GameModel::floodFill(Tile& t, int n) {
     }
 }
 
-Tile& GameModel::getRandomTile() {
+pair<int, int> GameModel::getRandomTile() {
     int randomChamber{ rand() % chamberCount };
 
     int row{ rand() % map.size() };
@@ -96,7 +97,27 @@ Tile& GameModel::getRandomTile() {
         col = rand() % map[row].size();
     }
 
-    return map[row][col];
+    return { row, col };
+}
+
+void GameModel::generate() {
+    Player* p = new Human();
+    playerCoords = addToRandomTile(p, true);
+}
+
+pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
+    //precondition: player has been loaded in if canBeWithPlayer = false
+
+    pair<int, int> p{ getRandomTile() };
+
+    if (!canBeWithPlayer) {
+        while (map[p.first][p.second].getChamberNum() == map[playerCoords.first][playerCoords.second].getChamberNum()) {
+            p = getRandomTile();
+        }
+    }
+
+    map[p.first][p.second].setEntity(e);
+    return p;
 }
 
 // utility functions

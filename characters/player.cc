@@ -53,4 +53,7 @@ void Player::use(pair<int, int> pcoords, Tile& t){
     
 }
 
+void Player::attack(Direction d, Tile& tile){}
+void Player::move(Direction d, Tile& tile){}
+
 void Player::onDeath(){}

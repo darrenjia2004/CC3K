@@ -32,6 +32,8 @@ class Player : public Character {
     void gainBarrierSuit();
     virtual float calculateScore();
     void use(pair<int, int> pcoords, Tile& t);
+    void attack(Direction d, Tile& tile);
+    void move(Direction d, Tile& tile);
 };
 
 #endif

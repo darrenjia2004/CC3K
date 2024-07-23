@@ -1,13 +1,13 @@
-#include "human.h"
+#include "characters/races/human.h"
 
-string Human::getRace(){
+Human::Human() : Player{ '@', 140, 20, 20, 140 } {}
+
+string Human::getRace() {
     return "Human";
 }
 
-Human::Human() : Player{'@', 140, 20, 20, 140} {}
-
-float Human::calculateScore(){
-   return calculateScore() * 1.5; 
+float Human::calculateScore() {
+    return getGold() * 1.5;
 }
 
 

@@ -15,9 +15,11 @@ class Tile : public Drawable {
     Entity* entity;
 
 public:
+    Tile(char c);
+    ~Tile();
     const char c;
     Entity* getEntity();
-    Tile(char c);
+    void setEntity(Entity* e);
     virtual char getChar() override;
     int getChamberNum();
     void setChamberNum(int n);

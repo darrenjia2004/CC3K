@@ -4,8 +4,8 @@
 
 class Human : public Player {
 public:
-    string getRace() override;
-    float calculateScore() override;
     Human();
+    string getRace();
+    float calculateScore();
 };
 #endif
