@@ -1,6 +1,16 @@
 #include "gameModel.h"
 #include "characters/player.h"
 #include "characters/races/human.h"
+#include "items/potion.h"
+#include "items/gold.h"
+#include "characters/enemies/werewolf.h"
+#include "characters/enemies/vampire.h"
+#include "characters/enemies/goblin.h"
+#include "characters/enemies/troll.h"
+#include "characters/enemies/phoenix.h"
+#include "characters/enemies/merchant.h"
+#include "characters/enemies/dragon.h"
+
 
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>  //getpid
@@ -86,6 +96,54 @@ void GameModel::floodFill(Tile& t, int n) {
     }
 }
 
+void GameModel::generate() {
+    //player generation
+    Player* p = new Human();
+    playerCoords = addToRandomTile(p, true);
+
+    //stair generation
+    pair<int, int> stairCoords{ addToRandomTile(nullptr, false) };
+    map[stairCoords.first][stairCoords.second].makeStairs();
+
+    //potion generation
+    for (int i = 0; i < numPotions; ++i) {
+        addToRandomTile(getRandomPotion(), true);
+    }
+
+    vector<pair<int, int>> dragonHordes;
+
+    //gold generation
+    for (int i = 0; i < numGolds; ++i) {
+        Gold* g = getRandomGold();
+        pair<int, int> p{ addToRandomTile(g, true) };
+
+        if (g->c == '9') { //dragon hoard
+            dragonHordes.push_back(p);
+        }
+    }
+
+    //enemy generation
+    int compassIndex{ rand() % numEnemies };
+    int index{ 0 };
+
+    for (pair<int, int> coord : dragonHordes) {
+        //find neighbour of tile
+        Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
+
+        while (neighbour->getEntity()) {
+            neighbour = getRandomNeighbour(map[coord.first][coord.second]);
+        }
+        neighbour->setEntity(new Dragon(compassIndex == index));
+        ++index;
+    }
+
+    for (;index < numEnemies; ++index) {
+        addToRandomTile(getRandomEnemy(compassIndex == index), true);
+    }
+
+    //TODO checks for at least one free space next to dragon hoard
+}
+
 pair<int, int> GameModel::getRandomTile() {
     int randomChamber{ rand() % chamberCount };
 
@@ -100,9 +158,86 @@ pair<int, int> GameModel::getRandomTile() {
     return { row, col };
 }
 
-void GameModel::generate() {
-    Player* p = new Human();
-    playerCoords = addToRandomTile(p, true);
+Potion* GameModel::getRandomPotion() {
+    int num{ rand() % 6 };
+
+    switch (num) {
+    case 0: //RH
+        return new Potion{ 10, 0, 0, '0' };
+    case 1: //BA
+        return new Potion{ 0, 5, 0, '1' };
+    case 2: //BD
+        return new Potion{ 0, 0, 5, '2' };
+    case 3: //PH
+        return new Potion{ -10, 0, 0, '3' };
+    case 4: //WA
+        return new Potion{ 0, -5, 0, '4' };
+    case 5: //WD
+        return new Potion{ 0, 0, -5, '5' };
+    }
+}
+
+Gold* GameModel::getRandomGold() {
+    int num{ rand() % 8 };
+
+    switch (num) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+        return new Gold{ '6', 1 }; //normal
+    case 5:
+    case 6:
+        return new Gold{ '7', 2 }; //small hoard
+    case 7:
+        return new Gold{ '9', 6 }; //dragon hoard
+    }
+}
+
+Enemy* GameModel::getRandomEnemy(bool hasCompass) {
+    int num{ rand() % 18 };
+    switch (num) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+        return new Werewolf(hasCompass);
+    case 4:
+    case 5:
+    case 6:
+        return new Vampire(hasCompass);
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+        return new Goblin(hasCompass);
+    case 12:
+    case 13:
+        return new Troll(hasCompass);
+    case 14:
+    case 15:
+        return new Phoenix(hasCompass);
+    case 16:
+    case 17:
+        return new Merchant(hasCompass);
+    }
+}
+
+Tile* GameModel::getRandomNeighbour(const Tile& current) {
+    vector<Direction> dirs{ getGameDirections() };
+    const std::map<Direction, Tile*> neighbours{ current.getNeighbours() };
+
+    Direction d{ dirs[rand() % dirs.size()] };
+    auto iter{ neighbours.find(d) };
+
+    while (iter == neighbours.end()) {
+        d = dirs[rand() % dirs.size()];
+        iter = neighbours.find(d);
+    }
+
+    return iter->second;
 }
 
 pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
@@ -110,10 +245,13 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
 
     pair<int, int> p{ getRandomTile() };
 
-    if (!canBeWithPlayer) {
-        while (map[p.first][p.second].getChamberNum() == map[playerCoords.first][playerCoords.second].getChamberNum()) {
-            p = getRandomTile();
-        }
+    while (
+        (!canBeWithPlayer &&
+            (map[p.first][p.second].getChamberNum() ==
+                map[playerCoords.first][playerCoords.second].getChamberNum())) ||
+        map[p.first][p.second].getEntity()
+        ) {
+        p = getRandomTile();
     }
 
     map[p.first][p.second].setEntity(e);
