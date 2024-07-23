@@ -8,7 +8,8 @@
 #include <unordered_map>
 
 #include "tile.h"
-#include "characters/player.h"
+
+class Player;
 using namespace std;
 
 class GameModel {
@@ -22,16 +23,16 @@ class GameModel {
     static vector<Direction> getGameDirections();
     Tile& getRandomTile();
     void setPotionVis();
-    
-    pair<int,int> playerCoords;
+
+    pair<int, int> playerCoords;
     int chamberCount;
     const int randomSeed;
     int floor;
 
-   public:
+public:
     static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
-    
+
     string playerTurn(Command c);
     int getFloor();
     Player* getPlayer();

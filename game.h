@@ -10,10 +10,10 @@ using namespace std;
 class Game {
   GameModel gm;
   InputDevice* id;
-  View v;
+  View<Tile> v;
   void init();
   void render(string actionString);
- public:
+public:
   Game();
   virtual ~Game();
   void start();
