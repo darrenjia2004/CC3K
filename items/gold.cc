@@ -1,6 +1,6 @@
 #include "gold.h"
 
-Gold::Gold(char c, int goldValue): goldValue{goldValue}, SteppableItem{c}{
+Gold::Gold(char c, int goldValue, bool isUnlocked): goldValue{goldValue}, SteppableItem{c, isUnlocked}{
 
 }
 

@@ -133,7 +133,7 @@ void GameModel::generate() {
         while (neighbour->getEntity()) {
             neighbour = getRandomNeighbour(map[coord.first][coord.second]);
         }
-        neighbour->setEntity(new Dragon(compassIndex == index));
+        neighbour->setEntity(new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity())));
         ++index;
     }
 
@@ -191,7 +191,7 @@ Gold* GameModel::getRandomGold() {
     case 6:
         return new Gold{ '7', 2 }; //small hoard
     case 7:
-        return new Gold{ '9', 6 }; //dragon hoard
+        return new Gold{ '9', 6, false}; //dragon hoard
     }
 }
 

@@ -6,10 +6,11 @@
 using namespace std;
 
 class Item : public Entity{
-    // Enemy* boss;
+    bool isUnlocked;
     virtual void applyItemEffect(Player& p) =0;
     public:
-    Item(char c);
+    void unlock();
+    Item(char c, bool isUnlocked = true);
     virtual ~Item();
 };
 

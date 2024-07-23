@@ -9,7 +9,7 @@ class SteppableItem : public Item {
     public:
     // void onStepped(Player& p);
     // virtual bool isPassable() override;
-    SteppableItem(char c);
+    SteppableItem(char c, bool isUnlocked = true);
     virtual ~SteppableItem();
 };
 

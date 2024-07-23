@@ -6,7 +6,7 @@ using namespace std;
 class BarrierSuit : public SteppableItem {
     virtual void applyItemEffect(Player& p) override;
     public:
-    BarrierSuit();
+    BarrierSuit(bool isUnlocked = false);
     virtual ~BarrierSuit();
 };
 
