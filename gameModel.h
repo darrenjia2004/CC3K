@@ -18,10 +18,14 @@ class GameModel {
     void loadNeighbours();
     void loadChambers();
     void floodFill(Tile& t, int n);
+    void generate();
+    pair<int, int> addToRandomTile(Entity* e, bool canBeWithPlayer);
+
+
     pair<int, int> getCoords(Direction d);  // first is row, second is column
     bool inBounds(const pair<int, int>& pos);
     static vector<Direction> getGameDirections();
-    Tile& getRandomTile();
+    pair<int, int> getRandomTile();
     void setPotionVis();
 
     pair<int, int> playerCoords;

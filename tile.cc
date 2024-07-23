@@ -5,6 +5,10 @@
 Tile::Tile(char c) : chamberNum{ -1 }, c{ c }, entity{ nullptr } {
 }
 
+Tile::~Tile() {
+    delete entity;
+}
+
 char Tile::getChar() {
     return entity ? entity->getChar() : c;
 }
@@ -39,4 +43,8 @@ void Tile::notify() {
 
 Entity* Tile::getEntity() {
     return entity;
+}
+
+void Tile::setEntity(Entity* e) {
+    entity = e;
 }
