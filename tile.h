@@ -13,6 +13,7 @@ class Tile : public Drawable {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
     Entity* entity;
+    bool stairs;
 
 public:
     Tile(char c);
@@ -24,9 +25,11 @@ public:
     int getChamberNum();
     void setChamberNum(int n);
     bool isPassable();
-    const std::map<Direction, Tile*>& getNeighbours();
+    const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);
     void notify();
+    void makeStairs();
+    bool isStairs();
 };
 
 #endif

@@ -2,7 +2,7 @@
 #include "entity.h"
 #include "tile.h"
 
-Tile::Tile(char c) : chamberNum{ -1 }, c{ c }, entity{ nullptr } {
+Tile::Tile(char c) : chamberNum{ -1 }, c{ c }, entity{ nullptr }, stairs{ false } {
 }
 
 Tile::~Tile() {
@@ -10,7 +10,7 @@ Tile::~Tile() {
 }
 
 char Tile::getChar() {
-    return entity ? entity->getChar() : c;
+    return entity ? entity->getChar() : stairs ? '\\' : c;
 }
 
 int Tile::getChamberNum() {
@@ -32,7 +32,7 @@ void Tile::setNeighbour(Direction d, Tile* t) {
     neighbours[d] = t;
 }
 
-const map<Direction, Tile*>& Tile::getNeighbours() {
+const map<Direction, Tile*>& Tile::getNeighbours() const {
     return neighbours;
 }
 
@@ -47,4 +47,12 @@ Entity* Tile::getEntity() {
 
 void Tile::setEntity(Entity* e) {
     entity = e;
+}
+
+void Tile::makeStairs() {
+    stairs = true;
+}
+
+bool Tile::isStairs() {
+    return stairs;
 }

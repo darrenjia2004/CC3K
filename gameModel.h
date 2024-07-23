@@ -10,9 +10,17 @@
 #include "tile.h"
 
 class Player;
+class Potion;
+class Gold;
+class Enemy;
+
 using namespace std;
 
 class GameModel {
+    static const int numPotions{ 10 };
+    static const int numGolds{ 10 };
+    static const int numEnemies{ 20 };
+
     void init();
     void loadTiles();
     void loadNeighbours();
@@ -20,12 +28,16 @@ class GameModel {
     void floodFill(Tile& t, int n);
     void generate();
     pair<int, int> addToRandomTile(Entity* e, bool canBeWithPlayer);
-
+    void addGolds(int n);
 
     pair<int, int> getCoords(Direction d);  // first is row, second is column
     bool inBounds(const pair<int, int>& pos);
     static vector<Direction> getGameDirections();
     pair<int, int> getRandomTile();
+    Potion* getRandomPotion();
+    Gold* getRandomGold();
+    Enemy* getRandomEnemy(bool hasCompass);
+    Tile* getRandomNeighbour(const Tile& current);
     void setPotionVis();
 
     pair<int, int> playerCoords;

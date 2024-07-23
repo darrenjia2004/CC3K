@@ -6,3 +6,6 @@ Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop)
 void Enemy::onDeath() {}
 
 void Enemy::endOfTurnEffect(Tile& t) {}
+
+void Enemy::attack(Direction d, Tile& tile) {}
+void Enemy::move(Direction d, Tile& tile) {}

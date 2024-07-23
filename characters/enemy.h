@@ -13,5 +13,7 @@ public:
     void endOfTurnEffect(Tile& t);
 
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop);
+    void attack(Direction d, Tile& tile);
+    void move(Direction d, Tile& tile);
 };
 #endif
