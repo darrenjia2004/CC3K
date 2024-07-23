@@ -15,22 +15,22 @@ class Player : public Character {
     int def; 
     float gold;
     string race;
-    Potionfx* pfx;
     virtual void onDeath();
 
    public:
+    Potionfx* pfx;
     Player(char c, int maxHp, int atk, int def, int hp);
-    void applyPotion(Potion* p);
+    virtual void applyPotion(Potion* p);
     int getAttack();
     int getDefense();
     float getGold();
     int getHp();
-    string getRace();
+    virtual string getRace();
     void increaseGold(float gold);
     void gainCompass();
     void resetTempFx();
     void gainBarrierSuit();
-    void calculateScore();
+    virtual float calculateScore();
     void use(pair<int, int> pcoords, Tile& t);
 };
 
