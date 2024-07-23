@@ -5,7 +5,7 @@
 class Orc : public Player {
 public:
     string getRace() override;
-    float calculateScore() override;
+    void increaseGold(float gold) override;
     Orc();
 };
 #endif

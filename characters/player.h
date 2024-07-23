@@ -26,7 +26,7 @@ class Player : public Character {
     float getGold();
     int getHp();
     virtual string getRace();
-    void increaseGold(float gold);
+    virtual void increaseGold(float gold);
     void gainCompass();
     void resetTempFx();
     void gainBarrierSuit();
