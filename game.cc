@@ -20,12 +20,13 @@ void Game::start(){
             break;
         }
         else{
-            render();
-            cout << "command received, calling player turn" << endl;
+            string actionString = gm.playerTurn(c);
+            actionString = "this is the string for the action the player has performed";
+            render(actionString);
         }
     }
 }
 
-void Game::render(){
-    v.draw(gm.map);
+void Game::render(string actionString){
+    v.draw(gm.map, gm.getPlayer(), gm.getFloor(), actionString);
 }

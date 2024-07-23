@@ -36,3 +36,7 @@ void Tile::notify() {
     char corpse = entity->getChar();
     // check dragon hoard
 }
+
+Entity* Tile::getEntity(){
+    return entity;
+}
