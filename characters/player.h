@@ -6,11 +6,15 @@
 #include "potionfx.h"
 #include "items/potion.h"
 
+using namespace std;
+
 class Player : public Character {
     int hp;
     int maxHp;
     int atk;
     int def; 
+    float gold;
+    string race;
     Potionfx* pfx;
     void onDeath();
 
@@ -19,7 +23,10 @@ class Player : public Character {
     void applyPotion(Potion* p);
     int getAttack();
     int getDefense();
-    void increaseGold(float g);
+    float getGold();
+    int getHp();
+    string getRace();
+    void increaseGold(float gold);
     void gainCompass();
     void resetTempFx();
     void gainBarrierSuit();

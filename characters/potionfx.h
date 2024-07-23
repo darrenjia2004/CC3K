@@ -9,5 +9,6 @@ class Potionfx{
     int getAtkChange();
     int getDefChange();
     Potionfx(int atk, int def);
+    ~Potionfx();
 };
 #endif
