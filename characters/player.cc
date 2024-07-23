@@ -18,7 +18,7 @@ int Player::getDefense(){
 }
 
 float Player::getGold(){
-    return gold;
+    return totGold;
 }
 
 int Player::getHp(){
@@ -30,7 +30,7 @@ string Player::getRace(){
 }
 
 void Player::increaseGold(float gold){
-
+    totGold += gold;
 }
 
 void Player::gainCompass(){
@@ -46,7 +46,7 @@ void Player::gainBarrierSuit(){
 }
 
 float Player::calculateScore(){
-
+    return totGold;
 }
 
 void Player::use(pair<int, int> pcoords, Tile& t){

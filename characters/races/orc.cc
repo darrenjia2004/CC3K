@@ -6,8 +6,8 @@ string Orc::getRace(){
 
 Orc::Orc() : Player{'@', 180, 30, 25, 180} {}
 
-float Orc::calculateScore(){
-   return getGold() * 0.5; 
+void Orc::increaseGold(float gold){
+    increaseGold(gold*0.5);
 }
 
 
