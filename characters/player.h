@@ -13,7 +13,7 @@ class Player : public Character {
     int maxHp;
     int atk;
     int def; 
-    float gold;
+    float totGold;
     string race;
     virtual void onDeath();
 
