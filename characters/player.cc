@@ -29,7 +29,7 @@ string Player::getRace(){
     return race;
 }
 
-void Player::increaseGold(float g){
+void Player::increaseGold(float gold){
 
 }
 
@@ -45,7 +45,7 @@ void Player::gainBarrierSuit(){
 
 }
 
-void Player::calculateScore(){
+float Player::calculateScore(){
 
 }
 
