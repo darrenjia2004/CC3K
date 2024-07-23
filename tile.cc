@@ -2,7 +2,7 @@
 #include "entity.h"
 #include "tile.h"
 
-Tile::Tile(char c) : chamberNum{ -1 }, c{ c } {
+Tile::Tile(char c) : chamberNum{ -1 }, c{ c }, entity{ nullptr } {
 }
 
 char Tile::getChar() {
@@ -37,6 +37,6 @@ void Tile::notify() {
     // check dragon hoard
 }
 
-Entity* Tile::getEntity(){
+Entity* Tile::getEntity() {
     return entity;
 }

@@ -9,11 +9,14 @@ using namespace std;
 
 template<typename T> class View {
 public:
-    void draw(vector<vector<T>>& map, Player* p, int floor, string actionString) {
-        for (auto v : map) {
-            for (auto t : v) {
-                cout << t.getChar();
+    enable_if_t<is_base_of<Drawable, T>::value, void>
+
+        draw(T** map, int rows, int cols, Player* p, int floor, string actionString) {
+        for (int i = 0; i < rows; ++i) {
+            for (int j = 0; j < cols; ++j) {
+                cout << map[i][j].getChar();
             }
+
             cout << endl;
         }
         // cout << "Race: " << p->getRace() << "Gold: " << p->getGold() << "         Floor: " << floor << endl;
