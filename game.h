@@ -12,7 +12,7 @@ class Game {
   InputDevice* id;
   View v;
   void init();
-  void render();
+  void render(string actionString);
  public:
   Game();
   virtual ~Game();

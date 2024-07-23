@@ -16,7 +16,7 @@ class Tile : public Drawable {
 
 public:
     const char c;
-
+    Entity* getEntity();
     Tile(char c);
     virtual char getChar() override;
     int getChamberNum();

@@ -142,3 +142,16 @@ vector<Direction> GameModel::getGameDirections() {
         Direction::SW,
     };
 }
+
+Player* GameModel::getPlayer(){
+    return static_cast<Player*>(map[playerCoords.first][playerCoords.second].getEntity());
+}
+
+int GameModel::getFloor(){
+    return floor;
+}
+
+string playerTurn(Command c){
+    // move,, attack, use , etc depending on the command. Return the string saying what happened i.e 'Player moves East'
+    return "test action";
+}
