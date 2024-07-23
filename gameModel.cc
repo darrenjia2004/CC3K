@@ -1,11 +1,12 @@
 #include "gameModel.h"
+#include "characters/player.h"
 
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{0}, randomSeed{getpid()} {
+GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() } {
     srand(randomSeed);
     init();
 }
@@ -19,9 +20,9 @@ void GameModel::init() {
 }
 
 // sets the potion visibilities to false
-void GameModel::setPotionVis(){
-    for (int i =0; i<6; i++){
-        potionVisibility['0'+i] = false;
+void GameModel::setPotionVis() {
+    for (int i = 0; i < 6; i++) {
+        potionVisibility['0' + i] = false;
     }
 }
 
@@ -34,7 +35,7 @@ void GameModel::loadTiles() {
         map.push_back(vector<Tile>());
         row++;
         for (int i = 0; i < line.length(); i++) {
-            Tile t{line[i]};
+            Tile t{ line[i] };
             map[row].push_back(t);
         }
     }
@@ -42,13 +43,13 @@ void GameModel::loadTiles() {
 }
 
 void GameModel::loadNeighbours() {
-    vector<Direction> dirs{getGameDirections()};
+    vector<Direction> dirs{ getGameDirections() };
 
     for (int i = 0; i < map.size(); ++i) {
         for (int j = 0; j < map[i].size(); ++j) {
             for (Direction d : dirs) {
                 // for every direction, check if in bounds and add to array
-                pair<int, int> neighbourPosition{pair<int, int>(i, j) + getCoords(d)};
+                pair<int, int> neighbourPosition{ pair<int, int>(i, j) + getCoords(d) };
 
                 if (inBounds(neighbourPosition)) {
                     map[i][j].setNeighbour(d, &map[neighbourPosition.first][neighbourPosition.second]);
@@ -71,11 +72,11 @@ void GameModel::loadChambers() {
 }
 
 void GameModel::floodFill(Tile& t, int n) {
-    auto& neighbours{t.getNeighbours()};
+    auto& neighbours{ t.getNeighbours() };
     t.setChamberNum(n);
 
     for (auto iter = neighbours.begin(); iter != neighbours.end(); ++iter) {
-        Tile* neighbour{iter->second};
+        Tile* neighbour{ iter->second };
 
         // if neighbour needs chamber and doesnt have one assigned, then recurse
         if (neighbour->c == '.' && neighbour->getChamberNum() == -1) {
@@ -85,10 +86,10 @@ void GameModel::floodFill(Tile& t, int n) {
 }
 
 Tile& GameModel::getRandomTile() {
-    int randomChamber{rand() % chamberCount};
+    int randomChamber{ rand() % chamberCount };
 
-    int row{rand() % map.size()};
-    int col{rand() % map[row].size()};
+    int row{ rand() % map.size() };
+    int col{ rand() % map[row].size() };
 
     while (map[row][col].getChamberNum() != randomChamber) {
         row = rand() % map.size();
@@ -101,24 +102,24 @@ Tile& GameModel::getRandomTile() {
 // utility functions
 pair<int, int> GameModel::getCoords(Direction d) {
     switch (d) {
-        case Direction::NO:
-            return {-1, 0};
-        case Direction::SO:
-            return {1, 0};
-        case Direction::EA:
-            return {0, 1};
-        case Direction::WE:
-            return {0, -1};
-        case Direction::NE:
-            return {-1, 1};
-        case Direction::NW:
-            return {-1, -1};
-        case Direction::SE:
-            return {1, 1};
-        case Direction::SW:
-            return {1, -1};
-        default:
-            return {0, 0};
+    case Direction::NO:
+        return { -1, 0 };
+    case Direction::SO:
+        return { 1, 0 };
+    case Direction::EA:
+        return { 0, 1 };
+    case Direction::WE:
+        return { 0, -1 };
+    case Direction::NE:
+        return { -1, 1 };
+    case Direction::NW:
+        return { -1, -1 };
+    case Direction::SE:
+        return { 1, 1 };
+    case Direction::SW:
+        return { 1, -1 };
+    default:
+        return { 0, 0 };
     }
 }
 
@@ -127,7 +128,7 @@ bool GameModel::inBounds(const pair<int, int>& pos) {
 }
 
 pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2) {
-    return {p1.first + p2.first, p1.second + p2.second};
+    return { p1.first + p2.first, p1.second + p2.second };
 }
 
 vector<Direction> GameModel::getGameDirections() {
@@ -143,15 +144,15 @@ vector<Direction> GameModel::getGameDirections() {
     };
 }
 
-Player* GameModel::getPlayer(){
+Player* GameModel::getPlayer() {
     return static_cast<Player*>(map[playerCoords.first][playerCoords.second].getEntity());
 }
 
-int GameModel::getFloor(){
+int GameModel::getFloor() {
     return floor;
 }
 
-string playerTurn(Command c){
+string GameModel::playerTurn(Command c) {
     // move,, attack, use , etc depending on the command. Return the string saying what happened i.e 'Player moves East'
     return "test action";
 }

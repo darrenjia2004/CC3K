@@ -52,3 +52,5 @@ float Player::calculateScore(){
 void Player::use(pair<int, int> pcoords, Tile& t){
     
 }
+
+void Player::onDeath(){}

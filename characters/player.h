@@ -15,7 +15,7 @@ class Player : public Character {
     int def; 
     float gold;
     string race;
-    void onDeath();
+    virtual void onDeath();
 
    public:
     Potionfx* pfx;
