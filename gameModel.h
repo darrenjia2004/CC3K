@@ -39,6 +39,7 @@ class GameModel {
     Enemy* getRandomEnemy(bool hasCompass);
     Tile* getRandomNeighbour(const Tile& current);
     void setPotionVis();
+    Tile& getPlayerTile();
 
     pair<int, int> playerCoords;
     int chamberCount;

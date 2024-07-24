@@ -11,3 +11,7 @@ Item::~Item(){
 void Item::unlock(){
     isUnlocked = true;
 }
+
+bool Item::getUnlocked(){
+    return isUnlocked;
+}

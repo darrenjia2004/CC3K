@@ -22,10 +22,12 @@ void Tile::setChamberNum(int n) {
 }
 
 bool Tile::isPassable() {
-    if (c == '#' || c == '\\' || c == '.') {
-        return true;
+    bool tilePassable = false;
+    if (c == '#' || c == '\\' || c == '.' || c == '+') {
+        tilePassable = true;
     }
-    return false;
+    
+    return entity ? tilePassable && entity->isPassable() : tilePassable;
 }
 
 void Tile::setNeighbour(Direction d, Tile* t) {
@@ -37,8 +39,13 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 }
 
 void Tile::notify() {
-    char corpse = entity->getChar();
-    // check dragon hoard
+    //cout << "tile notified of death" << endl;
+    Entity* e = getEntity();
+    if(e){
+        //cout << "deleting entity" << endl;
+        delete e;
+    }
+    setEntity(nullptr);
 }
 
 Entity* Tile::getEntity() {

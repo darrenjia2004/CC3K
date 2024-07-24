@@ -8,11 +8,11 @@ SteppableItem::~SteppableItem(){
     
 }
 
-// void Item::onStepped(Player& p){
-//     applyItemEffect(p);
-//     die();
-// }
+void SteppableItem::onStepped(Player& p){
+    applyItemEffect(p);
+    die();
+}
 
-// bool SteppableItem::isPassable(){
-//     return (boss == null)
-// }
+bool SteppableItem::isPassable(){
+    return getUnlocked();
+}

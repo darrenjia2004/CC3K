@@ -8,6 +8,6 @@ public:
     Dragon(bool hasCompass, Item* ownedItem);
     void onDeath();
 public:
-    void move(Direction d, Tile& t);
+    pair<bool, string> move(Direction d, Tile& t);
 };
 #endif

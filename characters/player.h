@@ -30,9 +30,9 @@ class Player : public Character {
     void resetTempFx();
     void gainBarrierSuit();
     virtual float calculateScore();
-    void use(pair<int, int> pcoords, Tile& t);
-    void attack(Direction d, Tile& tile);
-    void move(Direction d, Tile& tile);
+    void use(Direction d, Tile& tile);
+    virtual void attack(Direction d, Tile& tile) override;
+    virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };
 
 #endif

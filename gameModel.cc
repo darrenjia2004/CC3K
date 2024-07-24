@@ -255,6 +255,9 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     }
 
     map[p.first][p.second].setEntity(e);
+    if (e){
+        e->attach(&map[p.first][p.second]);
+    }
     return p;
 }
 
@@ -304,7 +307,11 @@ vector<Direction> GameModel::getGameDirections() {
 }
 
 Player* GameModel::getPlayer() {
-    return static_cast<Player*>(map[playerCoords.first][playerCoords.second].getEntity());
+    return static_cast<Player*>(getPlayerTile().getEntity());
+}
+
+Tile& GameModel::getPlayerTile(){
+    return map[playerCoords.first][playerCoords.second];
 }
 
 int GameModel::getFloor() {
@@ -312,6 +319,16 @@ int GameModel::getFloor() {
 }
 
 string GameModel::playerTurn(Command c) {
-    // move,, attack, use , etc depending on the command. Return the string saying what happened i.e 'Player moves East'
-    return "test action";
+    switch (c.action)
+    {
+        case Action::MOVE:{
+            auto p = getPlayer()->move(c.direction, getPlayerTile());
+            if (p.first){
+                playerCoords = playerCoords + getCoords(c.direction); 
+            }
+            return p.second;
+        }
+        default:
+            return "some other action \n";
+    }
 }

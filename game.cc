@@ -28,7 +28,6 @@ void Game::start() {
         }
         else {
             string actionString = gm.playerTurn(c);
-            actionString = "this is the string for the action the player has performed";
             render(actionString);
         }
     }
