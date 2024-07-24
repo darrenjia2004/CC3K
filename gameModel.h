@@ -45,7 +45,7 @@ class GameModel {
     int chamberCount;
     const int randomSeed;
     int floor;
-
+    Tile** rawMap;
 public:
     static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
@@ -54,6 +54,7 @@ public:
     int getFloor();
     Player* getPlayer();
     GameModel();
+    Tile** getRawMap();
 };
 
 pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2);

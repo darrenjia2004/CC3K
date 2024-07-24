@@ -17,7 +17,7 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() } {
+GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() }, rawMap{nullptr} {
     srand(randomSeed);
     init();
 }
@@ -42,6 +42,7 @@ void GameModel::loadTiles() {
     string line;
     ifstream file("defaultMap.txt");
     int row = -1;
+
     while (getline(file, line)) {
         map.push_back(vector<Tile>());
         row++;
@@ -51,6 +52,13 @@ void GameModel::loadTiles() {
         }
     }
     file.close();
+
+    //then also load in rawMap (precondition: rawMap does not hold any tiles)
+    rawMap = new Tile*[map.size()];
+
+    for(int i = 0; i < map.size(); ++i){
+        rawMap[i] = &map[i][0];
+    }
 }
 
 void GameModel::loadNeighbours() {
@@ -318,6 +326,10 @@ int GameModel::getFloor() {
     return floor;
 }
 
+Tile** GameModel::getRawMap(){
+    return rawMap;
+}
+
 string GameModel::playerTurn(Command c) {
     switch (c.action)
     {
@@ -330,6 +342,9 @@ string GameModel::playerTurn(Command c) {
         }
         case Action::USE:{
             return getPlayer()->use(c.direction, getPlayerTile()).second;
+        }
+        case Action::ATTACK:{
+            return getPlayer()->attack(c.direction, getPlayerTile()).second;
         }
         default:
             return "some other action \n";
