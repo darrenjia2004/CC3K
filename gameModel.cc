@@ -328,6 +328,9 @@ string GameModel::playerTurn(Command c) {
             }
             return p.second;
         }
+        case Action::USE:{
+            return getPlayer()->use(c.direction, getPlayerTile()).second;
+        }
         default:
             return "some other action \n";
     }
