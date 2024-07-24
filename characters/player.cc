@@ -1,5 +1,6 @@
 #include "player.h"
 #include "items/steppableItem.h"
+#include "items/usableItem.h"
 
 Player::Player(char c, int maxHp, int atk, int def, int hp): Character{c, maxHp, atk, def}, hp{hp}{}
 
@@ -9,11 +10,11 @@ void Player::applyPotion(Potionfx* p){
 }
 
 int Player::getAttack(){
-    return pfx ? atk + pfx->getAtkChange(): atk;
+    return pfx ? max(atk + pfx->getAtkChange(), 0): atk;
 }
 
 int Player::getDefense(){
-    return pfx ? def + pfx->getDefChange(): def;
+    return pfx ? max(def + pfx->getDefChange(), 0): def;
 }
 
 float Player::getGold(){
@@ -48,8 +49,19 @@ float Player::calculateScore(){
     return totGold;
 }
 
-void Player::use(Direction d, Tile& tile){
-    
+pair<bool, string> Player::use(Direction d, Tile& tile){
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    Entity* targetEntity = target->getEntity();
+
+
+    if (UsableItem* item = dynamic_cast<UsableItem*>(targetEntity)) {
+        item->onUse(*this);
+        return {true, "Player successfully used an item \n"};
+    }
+
+    return {false, "Player tried to use an item, but failed \n"};
+
 }
 
 void Player::attack(Direction d, Tile& tile){}
