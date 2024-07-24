@@ -7,8 +7,10 @@ using namespace std;
 
 class Item : public Entity{
     bool isUnlocked;
+    protected:
     virtual void applyItemEffect(Player& p) =0;
     public:
+    bool getUnlocked();
     void unlock();
     Item(char c, bool isUnlocked = true);
     virtual ~Item();

@@ -13,3 +13,14 @@ void Character::addToHp(int n) {
 void Character::subtractFromHp(int n) {
     hp -= n;
 }
+
+// Moves the character without performing any checks
+// Precondition: The tile you are trying to move to must be empty or else memory leak
+void Character::moveNoChecks(Direction d, Tile& tile){
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    target->setEntity(this);
+    tile.setEntity(nullptr);
+    this->detach(&tile);
+    this->attach(target);
+}

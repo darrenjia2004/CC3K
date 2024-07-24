@@ -72,11 +72,11 @@ public:
 
             cout << RESET << endl;
         }
-        // cout << "Race: " << p->getRace() << "Gold: " << p->getGold() << "         Floor: " << floor << endl;
-        // cout << "HP: " << p->getHp() << endl;
-        // cout << "Atk: " << p->getAtk() << endl;
-        // cout << "Def: " << p->getDef() << endl;
-        // cout << "Action: " << actionString;
+        cout << "Race: " << p->getRace() << " Gold: " << p->getGold() << "         Floor: " << floor << endl;
+        cout << "HP: " << p->getHp() << endl;
+        cout << "Atk: " << p->getAttack() << endl;
+        cout << "Def: " << p->getDefense() << endl;
+        cout << "Action: " << actionString;
     }
 };
 
