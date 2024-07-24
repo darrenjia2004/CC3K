@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "item.h"
+#include "player.h"
 using namespace std;
 
 class SteppableItem : public Item {

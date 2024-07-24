@@ -22,12 +22,17 @@ void Tile::setChamberNum(int n) {
 }
 
 bool Tile::isPassable() {
-    bool tilePassable = false;
-    if (c == '#' || c == '\\' || c == '.' || c == '+') {
-        tilePassable = true;
+    if (c == '+' || c == '#' || c == '\\' || c == '.' && entity->isPassable()) {
+        return true;
     }
-    
-    return entity ? tilePassable && entity->isPassable() : tilePassable;
+    return false;
+}
+
+bool Tile::isMonsterPassable(){
+    if (c == '\\' || c == '.') {
+        return true;
+    }
+    return false;
 }
 
 void Tile::setNeighbour(Direction d, Tile* t) {

@@ -9,6 +9,3 @@ Orc::Orc() : Player{'@', 180, 30, 25, 180} {}
 void Orc::increaseGold(float gold){
     increaseGold(gold*0.5);
 }
-
-
-

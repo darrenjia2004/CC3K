@@ -12,6 +12,9 @@
     }
 
     bool Entity::isPassable(){
+    }
+
+    bool Entity::isMonsterPassable(){
         return false;
     }
 

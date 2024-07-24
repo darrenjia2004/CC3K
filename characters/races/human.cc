@@ -9,6 +9,3 @@ string Human::getRace() {
 float Human::calculateScore() {
     return getGold() * 1.5;
 }
-
-
-

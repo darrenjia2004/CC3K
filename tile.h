@@ -25,6 +25,7 @@ public:
     int getChamberNum();
     void setChamberNum(int n);
     bool isPassable();
+    bool isMonsterPassable();
     const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);
     void notify();

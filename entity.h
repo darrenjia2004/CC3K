@@ -19,6 +19,7 @@ public:
     virtual char getChar() override;
     virtual void endOfTurnEffect(Tile*);
     virtual bool isPassable();
+    bool isMonsterPassable();
     void die();
     virtual void attach(Tile*);
     virtual void detach(Tile*);
