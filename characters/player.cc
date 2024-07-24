@@ -16,6 +16,7 @@ int Player::getAttack(){
 }
 
 int Player::getDefense(){
+    // TODO: 100 if barrier suit
     return pfx ? Character::getDefense() + pfx->getDefChange(): Character::getDefense();
 }
 
@@ -70,7 +71,7 @@ pair<bool, string> Player::attack(Direction d, Tile& tile){
     // if the target is a enemy then reduce enemy hp by current attack
     // kill the enemy if its health falls below 0
     if (Enemy* enemyPtr = dynamic_cast<Enemy*>(targetEntity)){
-        enemyPtr->subtractFromHp(ceil((100/(100+enemyPtr->getDefense()))*getAttack()));
+        enemyPtr->subtractFromHp(ceil((100.0/(100.0+enemyPtr->getDefense()))*getAttack()));
         if(enemyPtr->getHp() <= 0){
             enemyPtr->die();
         }

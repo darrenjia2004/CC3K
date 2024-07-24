@@ -364,6 +364,9 @@ string GameModel::playerTurn(Command c) {
         case Action::USE:{
             return getPlayer()->use(c.direction, getPlayerTile()).second;
         }
+        case Action::ATTACK:{
+            return getPlayer()->attack(c.direction, getPlayerTile()).second;
+        }
         default:
             actionString = "some other action \n";
             break;

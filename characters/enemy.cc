@@ -26,7 +26,7 @@ pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
     // TODO: Merchant magic
     if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
         if(successfulAttack == 1){
-             playerPtr->subtractFromHp(ceil((100/(100+playerPtr->getDefense()))*getAttack()));
+             playerPtr->subtractFromHp(ceil((100.0/(100.0+playerPtr->getDefense()))*getAttack()));
             if(playerPtr->getHp() <= 0){
                 playerPtr->die();
             }
