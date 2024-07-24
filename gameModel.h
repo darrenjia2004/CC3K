@@ -43,7 +43,7 @@ class GameModel {
 
     pair<int, int> playerCoords;
     int chamberCount;
-    const int randomSeed;
+    const unsigned randomSeed;
     int floor;
     Tile** rawMap;
 public:

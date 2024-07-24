@@ -11,13 +11,14 @@
 #include "characters/enemies/merchant.h"
 #include "characters/enemies/dragon.h"
 
-
+#include <chrono>
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>  //getpid
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() }, rawMap{ nullptr }, floor{ 0 } {
+GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+rawMap{ nullptr }, floor{ 0 } {
     srand(randomSeed);
     init();
 }
@@ -54,9 +55,9 @@ void GameModel::loadTiles() {
     file.close();
 
     //then also load in rawMap (precondition: rawMap does not hold any tiles)
-    rawMap = new Tile*[map.size()];
+    rawMap = new Tile * [map.size()];
 
-    for(int i = 0; i < map.size(); ++i){
+    for (int i = 0; i < map.size(); ++i) {
         rawMap[i] = &map[i][0];
     }
 }
@@ -199,7 +200,7 @@ Gold* GameModel::getRandomGold() {
     case 6:
         return new Gold{ '7', 2 }; //small hoard
     case 7:
-        return new Gold{ '9', 6, false}; //dragon hoard
+        return new Gold{ '9', 6, false }; //dragon hoard
     }
 }
 
@@ -263,7 +264,7 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     }
 
     map[p.first][p.second].setEntity(e);
-    if (e){
+    if (e) {
         e->attach(&map[p.first][p.second]);
     }
     return p;
@@ -318,7 +319,7 @@ Player* GameModel::getPlayer() {
     return static_cast<Player*>(getPlayerTile().getEntity());
 }
 
-Tile& GameModel::getPlayerTile(){
+Tile& GameModel::getPlayerTile() {
     return map[playerCoords.first][playerCoords.second];
 }
 
@@ -326,27 +327,27 @@ int GameModel::getFloor() {
     return floor;
 }
 
-Tile** GameModel::getRawMap(){
+Tile** GameModel::getRawMap() {
     return rawMap;
 }
 
 string GameModel::playerTurn(Command c) {
     switch (c.action)
     {
-        case Action::MOVE:{
-            auto p = getPlayer()->move(c.direction, getPlayerTile());
-            if (p.first){
-                playerCoords = playerCoords + getCoords(c.direction); 
-            }
-            return p.second;
+    case Action::MOVE: {
+        auto p = getPlayer()->move(c.direction, getPlayerTile());
+        if (p.first) {
+            playerCoords = playerCoords + getCoords(c.direction);
         }
-        case Action::USE:{
-            return getPlayer()->use(c.direction, getPlayerTile()).second;
-        }
-        case Action::ATTACK:{
-            return getPlayer()->attack(c.direction, getPlayerTile()).second;
-        }
-        default:
-            return "some other action \n";
+        return p.second;
+    }
+    case Action::USE: {
+        return getPlayer()->use(c.direction, getPlayerTile()).second;
+    }
+    case Action::ATTACK: {
+        return getPlayer()->attack(c.direction, getPlayerTile()).second;
+    }
+    default:
+        return "some other action \n";
     }
 }

@@ -1,12 +1,6 @@
 #include "game.h"
 
 Game::Game() : gm{ new GameModel() } {
-    rawMap = new Tile * [gm->map.size()];
-
-    for (int i = 0; i < gm->map.size(); ++i) {
-        rawMap[i] = &gm->map[i][0];
-    }
-
     init();
 }
 
@@ -16,7 +10,6 @@ void Game::init() {
 
 Game::~Game() {
     delete id;
-    delete[] rawMap;
     delete gm;
 }
 

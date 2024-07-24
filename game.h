@@ -11,7 +11,6 @@ class Game {
   GameModel* gm;
   InputDevice* id;
   View<Tile> v;
-  Tile** rawMap;
   void init();
   void render(string actionString);
 public:
