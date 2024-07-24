@@ -13,7 +13,7 @@ void Enemy::onDeath() {
 
 void Enemy::endOfTurnEffect(Tile& t) {}
 
-void Enemy::attack(Direction d, Tile& tile) {}
+pair<bool, string> Enemy::attack(Direction d, Tile& tile) {}
 
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
