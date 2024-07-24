@@ -15,9 +15,10 @@ public:
     Character(char c, int maxHp, int atk, int def);
     int getHp();
     void addToHp(int n);
-    void subtractFromHp(int n);
-
-    virtual void attack(Direction d, Tile& tile) = 0;
+    virtual void subtractFromHp(int n);
+    virtual int getAttack();
+    virtual int getDefense();
+    virtual pair<bool, string> attack(Direction d, Tile& tile) = 0;
     // move should return a bool indicating success and a string for what happened
     virtual pair<bool, string> move(Direction d, Tile& tile) = 0;
 };

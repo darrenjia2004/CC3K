@@ -1,7 +1,9 @@
 #include "player.h"
+#include "enemy.h"
 #include "items/steppableItem.h"
+#include <cmath>
 
-Player::Player(char c, int maxHp, int atk, int def, int hp): Character{c, maxHp, atk, def}, hp{hp}{}
+Player::Player(char c, int maxHp, int atk, int def): Character{c, maxHp, atk, def}{}
 
 void Player::applyPotion(Potionfx* p){
     p->next = pfx;
@@ -9,19 +11,15 @@ void Player::applyPotion(Potionfx* p){
 }
 
 int Player::getAttack(){
-    return pfx ? atk + pfx->getAtkChange(): atk;
+    return pfx ? Character::getAttack() + pfx->getAtkChange(): Character::getAttack();
 }
 
 int Player::getDefense(){
-    return pfx ? def + pfx->getDefChange(): def;
+    return pfx ? Character::getDefense() + pfx->getDefChange(): Character::getDefense();
 }
 
 float Player::getGold(){
     return totGold;
-}
-
-int Player::getHp(){
-    return hp;
 }
 
 string Player::getRace(){
@@ -52,8 +50,23 @@ void Player::use(Direction d, Tile& tile){
     
 }
 
-void Player::attack(Direction d, Tile& tile){}
+pair<bool, string> Player::attack(Direction d, Tile& tile){
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    Entity* targetEntity = target->getEntity();
 
+    // if the target is a enemy then reduce enemy hp by current attack
+    // kill the enemy if its health falls below 0
+    if (Enemy* enemyPtr = dynamic_cast<Enemy*>(targetEntity)){
+        enemyPtr->subtractFromHp(ceil((100/(100+enemyPtr->getDefense()))*getAttack()));
+        if(enemyPtr->getHp() <= 0){
+            enemyPtr->die();
+        }
+        return make_pair(true, "Player successfully attacked \n");
+    }else{
+        return make_pair(false, "Nothing to attack! \n");
+    }
+}
 
 pair<bool, string> Player::move(Direction d, Tile& tile){
     auto neighbours = tile.getNeighbours();

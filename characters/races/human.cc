@@ -1,6 +1,6 @@
 #include "characters/races/human.h"
 
-Human::Human() : Player{ '@', 140, 20, 20, 140 } {}
+Human::Human() : Player{ '@', 140, 20, 20} {}
 
 string Human::getRace() {
     return "Human";
