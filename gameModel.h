@@ -40,11 +40,14 @@ class GameModel {
     Tile* getRandomNeighbour(const Tile& current);
     void setPotionVis();
     Tile& getPlayerTile();
+    void generatePlayer(Player* player = nullptr);
+    void resetBoard();
 
     pair<int, int> playerCoords;
     int chamberCount;
     const int randomSeed;
-    int floor;
+    int floor = 1;
+    pair<int, int> stairCoords;
 
 public:
     static unordered_map<char, bool> potionVisibility;

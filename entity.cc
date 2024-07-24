@@ -7,7 +7,7 @@
         return c;
     }
 
-    void Entity::endOfTurnEffect(Tile*){
+    void Entity::endOfTurnEffect(Tile&){
 
     }
 

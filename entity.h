@@ -17,7 +17,7 @@ public:
     Entity(char c);
     const char c;
     virtual char getChar() override;
-    virtual void endOfTurnEffect(Tile*);
+    virtual void endOfTurnEffect(Tile&);
     virtual bool isPassable();
     void die();
     virtual void attach(Tile*);
