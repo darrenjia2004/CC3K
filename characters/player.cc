@@ -1,7 +1,7 @@
 #include "player.h"
 #include "enemy.h"
 #include "items/steppableItem.h"
-#include <cmath>
+#include <cmath> //ceil
 #include "items/usableItem.h"
 
 Player::Player(char c, int maxHp, int atk, int def): Character{c, maxHp, atk, def}{}

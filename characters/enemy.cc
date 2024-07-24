@@ -1,5 +1,7 @@
 #include "characters/enemy.h"
 #include "items/item.h"
+#include <cmath>     // ceil
+#include <stdlib.h>  // srand/rand
 
 Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
 : Character{ c, maxHp, atk, def }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
@@ -13,7 +15,29 @@ void Enemy::onDeath() {
 
 void Enemy::endOfTurnEffect(Tile& t) {}
 
-pair<bool, string> Enemy::attack(Direction d, Tile& tile) {}
+pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    Entity* targetEntity = target->getEntity();
+    int successfulAttack = rand() % 2;
+
+    // if the target is the player then reduce player hp by current attack
+    // kill the enemy if its health falls below 0
+    // TODO: Merchant magic
+    if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
+        if(successfulAttack == 1){
+             playerPtr->subtractFromHp(ceil((100/(100+playerPtr->getDefense()))*getAttack()));
+            if(playerPtr->getHp() <= 0){
+                playerPtr->die();
+            }
+            return make_pair(true, "Attacked by monster :( \n");
+        }else{
+            return  make_pair(false, "Haha Monster Missed! \n");
+        }
+    }else{
+        return make_pair(false, "Nothing to attack! \n");
+    }
+}
 
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
