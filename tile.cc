@@ -30,6 +30,14 @@ bool Tile::isPassable() {
     return entity ? tilePassable && entity->isPassable() : tilePassable;
 }
 
+bool Tile::isMonsterPassable() {
+    bool tilePassable = false;
+    if (c == '\\' || c == '.') {
+        tilePassable = true;
+    }
+    return entity ? tilePassable : tilePassable;
+}
+
 void Tile::setNeighbour(Direction d, Tile* t) {
     neighbours[d] = t;
 }
