@@ -14,6 +14,15 @@ void Character::subtractFromHp(int n) {
     hp -= n;
 }
 
+int Character::getAttack(){
+    return atk;
+}
+
+int Character::getDefense(){
+    return atk;
+}
+
+
 // Moves the character without performing any checks
 // Precondition: The tile you are trying to move to must be empty or else memory leak
 void Character::moveNoChecks(Direction d, Tile& tile){

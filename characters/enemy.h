@@ -16,7 +16,7 @@ public:
     void endOfTurnEffect(Tile& t);
 
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem = nullptr);
-    virtual void attack(Direction d, Tile& tile) override;
+    virtual pair<bool, string> attack(Direction d, Tile& tile) override;
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };
 #endif
