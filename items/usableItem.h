@@ -9,7 +9,7 @@ using namespace std;
 class UsableItem : public Item {
     public:
     UsableItem(char c);
-    virtual void onUse(Player& p) = 0;
+    void onUse(Player& p);
     virtual ~UsableItem();
 };
 

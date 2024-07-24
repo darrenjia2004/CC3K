@@ -8,7 +8,7 @@ UsableItem::~UsableItem(){
     
 }
 
-// void Item::onUse(Player& p){
-//     applyItemEffect(p);
-//     die();
-// }
+void UsableItem::onUse(Player& p){
+    applyItemEffect(p);
+    die();
+}

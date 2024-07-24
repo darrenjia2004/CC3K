@@ -10,11 +10,11 @@ void Player::applyPotion(Potionfx* p){
 }
 
 int Player::getAttack(){
-    return pfx ? atk + pfx->getAtkChange(): atk;
+    return pfx ? max(atk + pfx->getAtkChange(), 0): atk;
 }
 
 int Player::getDefense(){
-    return pfx ? def + pfx->getDefChange(): def;
+    return pfx ? max(def + pfx->getDefChange(), 0): def;
 }
 
 float Player::getGold(){
