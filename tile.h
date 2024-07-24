@@ -31,6 +31,7 @@ public:
     void notify();
     void makeStairs();
     bool isStairs();
+    void unmakeStairs();
 };
 
 #endif

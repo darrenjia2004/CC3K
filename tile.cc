@@ -71,3 +71,7 @@ void Tile::makeStairs() {
 bool Tile::isStairs() {
     return stairs;
 }
+
+void Tile::unmakeStairs(){
+    stairs = false;
+}

@@ -27,6 +27,7 @@ void GameModel::init() {
     loadTiles();
     loadNeighbours();
     loadChambers();
+    generatePlayer();
     generate();
 }
 
@@ -96,14 +97,23 @@ void GameModel::floodFill(Tile& t, int n) {
     }
 }
 
+// if the provided player is null, create a new player and add it to a random tile, otherwise put the provided player on the board
+void GameModel::generatePlayer(Player* player){
+    if (player){
+        playerCoords = addToRandomTile(player, true);
+    }
+    else{
+        Player* p = new Human();
+        playerCoords = addToRandomTile(p, true);
+    }
+}
+
 void GameModel::generate() {
-    //player generation
-    Player* p = new Human();
-    playerCoords = addToRandomTile(p, true);
 
     //stair generation
-    pair<int, int> stairCoords{ addToRandomTile(nullptr, false) };
-    map[stairCoords.first][stairCoords.second].makeStairs();
+    pair<int, int> sCoords{ addToRandomTile(nullptr, false) };
+    stairCoords = sCoords;
+    map[sCoords.first][sCoords.second].makeStairs();
 
     //potion generation
     for (int i = 0; i < numPotions; ++i) {
@@ -249,7 +259,7 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
         (!canBeWithPlayer &&
             (map[p.first][p.second].getChamberNum() ==
                 map[playerCoords.first][playerCoords.second].getChamberNum())) ||
-        map[p.first][p.second].getEntity()
+        map[p.first][p.second].getEntity() || p == stairCoords
         ) {
         p = getRandomTile();
     }
@@ -318,7 +328,29 @@ int GameModel::getFloor() {
     return floor;
 }
 
+void GameModel::resetBoard(){
+    // detach the player tile from player so we dont delete it
+    Tile& t = getPlayerTile();
+    t.setEntity(nullptr);
+
+    // clear all the non player entities
+    for(auto& v: map){
+        for(auto& t: v){
+            Entity* e = t.getEntity();
+            if (e){
+                delete(e);
+                t.setEntity(nullptr);
+            }
+        }
+    }
+
+    playerCoords = {-1,-1};
+    map[stairCoords.first][stairCoords.second].unmakeStairs();
+    stairCoords = {-1,-1};
+}
+
 string GameModel::playerTurn(Command c) {
+    string actionString;
     switch (c.action)
     {
         case Action::MOVE:{
@@ -326,12 +358,33 @@ string GameModel::playerTurn(Command c) {
             if (p.first){
                 playerCoords = playerCoords + getCoords(c.direction); 
             }
-            return p.second;
+            actionString = p.second;
+            break;
         }
         case Action::USE:{
             return getPlayer()->use(c.direction, getPlayerTile()).second;
         }
         default:
-            return "some other action \n";
+            actionString = "some other action \n";
+            break;
     }
+    if (stairCoords == playerCoords){
+        floor++;
+        Player* p = getPlayer();
+        resetBoard();
+        generatePlayer(p);
+        generate();
+        return "Player moved onto stairs \n";
+    }
+
+    //trigger the end of turn effects for all entities
+    for(auto& v: map){
+        for(auto& t: v){
+            Entity* e = t.getEntity();
+            if (e){
+                e->endOfTurnEffect(t);
+            }
+        }
+    }
+    return actionString;
 }
