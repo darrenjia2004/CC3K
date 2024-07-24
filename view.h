@@ -76,7 +76,9 @@ public:
         cout << "HP: " << p->getHp() << endl;
         cout << "Atk: " << p->getAttack() << endl;
         cout << "Def: " << p->getDefense() << endl;
-        cout << "Action: " << actionString;
+        if(actionString != ""){
+            cout << "Action: " << actionString;
+        }
     }
 };
 

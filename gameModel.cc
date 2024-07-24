@@ -17,7 +17,7 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() }, rawMap{nullptr} {
+GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() }, rawMap{ nullptr }, floor{ 0 } {
     srand(randomSeed);
     init();
 }

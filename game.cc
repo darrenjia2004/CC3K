@@ -21,6 +21,9 @@ Game::~Game() {
 }
 
 void Game::start() {
+    // display game initially
+    render("");
+
     while (true) {
         Command c = id->getUserInput();
         if (c.action == Action::QUIT) {
@@ -31,6 +34,7 @@ void Game::start() {
             cout << "restarting game" << endl;
             delete gm;
             gm = new GameModel();
+            render("");
         }
         else {
             string actionString = gm->playerTurn(c);
