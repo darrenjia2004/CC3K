@@ -2,6 +2,7 @@
 #include "enemy.h"
 #include "items/steppableItem.h"
 #include <cmath>
+#include "items/usableItem.h"
 
 Player::Player(char c, int maxHp, int atk, int def): Character{c, maxHp, atk, def}{}
 
@@ -46,8 +47,19 @@ float Player::calculateScore(){
     return totGold;
 }
 
-void Player::use(Direction d, Tile& tile){
-    
+pair<bool, string> Player::use(Direction d, Tile& tile){
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    Entity* targetEntity = target->getEntity();
+
+
+    if (UsableItem* item = dynamic_cast<UsableItem*>(targetEntity)) {
+        item->onUse(*this);
+        return {true, "Player successfully used an item \n"};
+    }
+
+    return {false, "Player tried to use an item, but failed \n"};
+
 }
 
 pair<bool, string> Player::attack(Direction d, Tile& tile){

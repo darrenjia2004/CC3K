@@ -24,3 +24,7 @@ char Potion::getChar(){
         return 'P';
     }
 }
+
+void Potion::onUse(Player& p){
+    
+}

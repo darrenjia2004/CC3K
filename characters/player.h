@@ -12,7 +12,7 @@ class Player : public Character {
     string race;
     virtual void onDeath();
 
-   public:
+public:
     Potionfx* pfx;
     Player(char c, int maxHp, int atk, int def);
     virtual void applyPotion(Potionfx* p);
@@ -25,7 +25,7 @@ class Player : public Character {
     void resetTempFx();
     void gainBarrierSuit();
     virtual float calculateScore();
-    void use(Direction d, Tile& tile);
+    virtual pair<bool, string> use(Direction d, Tile& tile);
     virtual pair<bool, string> attack(Direction d, Tile& tile) override;
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };
