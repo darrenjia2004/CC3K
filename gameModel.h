@@ -54,6 +54,7 @@ public:
     int getFloor();
     Player* getPlayer();
     GameModel();
+    ~GameModel();
     Tile** getRawMap();
 };
 

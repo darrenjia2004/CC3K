@@ -23,6 +23,10 @@ rawMap{ nullptr }, floor{ 0 } {
     init();
 }
 
+GameModel::~GameModel(){
+    delete[] rawMap;
+}
+
 void GameModel::init() {
     setPotionVis();
     loadTiles();
