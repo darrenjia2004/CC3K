@@ -20,8 +20,8 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel(Action a) : chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-rawMap{ nullptr }, floor{ 0 }, playerRaceAction{ a } {
+GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount { 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+floor{ 1 }, rawMap { nullptr } {
     srand(randomSeed);
     init();
 }
@@ -216,8 +216,6 @@ Potion* GameModel::getRandomPotion() {
 
 Gold* GameModel::getRandomGold() {
     int num{ rand() % 8 };
-    return new Gold{ 6, false }; //dragon hoard
-
 
     switch (num) {
     case 0:

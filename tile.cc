@@ -2,7 +2,7 @@
 #include "entity.h"
 #include "tile.h"
 
-Tile::Tile(char c) : chamberNum{ -1 }, c{ c }, entity{ nullptr }, stairs{ false } {
+Tile::Tile(char c) : chamberNum{ -1 }, entity{ nullptr }, stairs{ false }, c{ c } {
 }
 
 Tile::~Tile() {

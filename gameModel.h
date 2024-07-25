@@ -22,6 +22,12 @@ class GameModel {
     static const int numGolds{ 10 };
     static const int numEnemies{ 20 };
     const Action playerRaceAction;
+    pair<int, int> playerCoords;
+    int chamberCount;
+    const unsigned randomSeed;
+    int floor;
+    pair<int, int> stairCoords;
+    Tile** rawMap;
 
     void init();
     void loadTiles();
@@ -30,7 +36,6 @@ class GameModel {
     void floodFill(Tile& t, int n);
     void generate();
     pair<int, int> addToRandomTile(Entity* e, bool canBeWithPlayer);
-    void addGolds(int n);
 
     bool inBounds(const pair<int, int>& pos);
     pair<int, int> getRandomTile();
@@ -43,12 +48,6 @@ class GameModel {
     void generatePlayer(Player* player = nullptr);
     void resetBoard();
 
-    pair<int, int> playerCoords;
-    int chamberCount;
-    const unsigned randomSeed;
-    int floor = 1;
-    pair<int, int> stairCoords;
-    Tile** rawMap;
 public:
     static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
