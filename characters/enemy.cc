@@ -26,7 +26,7 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     
     int num{ rand() % 8 };
     Direction d = directions[num];
-    return Enemy::move(d, t);
+    return move(d, t);
 }
 
 pair<bool, string> Enemy::attack(Direction d, Tile& tile) {

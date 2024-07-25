@@ -7,4 +7,6 @@ Dragon::Dragon(bool hasCompass, Item* ownedItem) : Enemy{ 'D', 150, 20, 20, hasC
 void Dragon::onDeath() {}
 
 // dragon does not move, so this does nothing
-pair<bool, string> Dragon::move(Direction d, Tile& t) {}
+pair<bool, string> Dragon::move(Direction d, Tile& t) {
+    return make_pair(false, "Dragons don't move");
+}
