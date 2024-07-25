@@ -4,7 +4,7 @@
 #include <cmath> //ceil
 #include "items/usableItem.h"
 
-Player::Player(char c, int maxHp, int atk, int def): Character{c, maxHp, atk, def}{}
+Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def}, totGold{0}, race{race}, pfx{nullptr} {}
 
 void Player::applyPotion(Potionfx* p){
     p->next = pfx;

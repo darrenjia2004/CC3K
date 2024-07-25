@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <algorithm>
 
-    Entity::Entity(char c): c{c}{}
+    Entity::Entity(char c): hasDoneEndOfTurn{false}, c{c}{}
 
    char Entity::getChar(){
         return c;

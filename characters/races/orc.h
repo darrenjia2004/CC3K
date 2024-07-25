@@ -4,7 +4,6 @@
 
 class Orc : public Player {
 public:
-    string getRace() override;
     void increaseGold(float gold) override;
     Orc();
 };
