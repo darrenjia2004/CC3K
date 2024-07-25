@@ -7,7 +7,7 @@ class Gold : public SteppableItem {
     virtual void applyItemEffect(Player& p) override;
     public:
     const int goldValue;
-    Gold(char c, int goldValue, bool isUnlocked = true);
+    Gold(int goldValue, bool isUnlocked = true);
     virtual ~Gold();
 };
 

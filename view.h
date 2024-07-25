@@ -35,6 +35,8 @@ template<typename T> class View {
             case 'B':
             case 'P':
                 return BLUE;
+            case 'G':
+                return BOLDYELLOW;
             case '0':
             case '1':
             case '2':
@@ -43,11 +45,6 @@ template<typename T> class View {
             case '4':
             case '5':
                 return RED;
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-                return BOLDYELLOW;
             case 'V':
             case 'W':
             case 'N':

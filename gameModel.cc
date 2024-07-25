@@ -154,7 +154,7 @@ void GameModel::generate() {
         Gold* g = getRandomGold();
         pair<int, int> p{ addToRandomTile(g, true) };
 
-        if (g->c == '9') { //dragon hoard
+        if (g->goldValue == 6) { //dragon hoard
             dragonHordes.push_back(p);
         }
     }
@@ -223,12 +223,12 @@ Gold* GameModel::getRandomGold() {
     case 2:
     case 3:
     case 4:
-        return new Gold{ '6', 1 }; //normal
+        return new Gold{ 1 }; //normal
     case 5:
     case 6:
-        return new Gold{ '7', 2 }; //small hoard
+        return new Gold{ 2 }; //small hoard
     case 7:
-        return new Gold{ '9', 6, false }; //dragon hoard
+        return new Gold{6, false }; //dragon hoard
     }
 }
 
