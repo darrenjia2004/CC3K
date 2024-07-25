@@ -4,7 +4,6 @@
 
 class Dwarf : public Player {
 public:
-    string getRace() override;
     void increaseGold(float gold) override;
     Dwarf();
 };

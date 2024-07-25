@@ -51,6 +51,8 @@ Command CinInputDevice::getUserInput(){
             return Command{Action::MOVE, d};
         }
     }
+
+    return Command{Action::NONE};
     
 }
 

@@ -16,7 +16,7 @@ class Entity : public Drawable {
     bool hasDoneEndOfTurn;
 public:
     bool getHasDoneEndOfTurn();
-    bool setHasDoneEndOfTurn(bool b);
+    void setHasDoneEndOfTurn(bool b);
     Entity(char c);
     const char c;
     virtual char getChar() override;

@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <algorithm>
 
-    Entity::Entity(char c): c{c}{}
+    Entity::Entity(char c): hasDoneEndOfTurn{false}, c{c}{}
 
    char Entity::getChar(){
         return c;
@@ -11,7 +11,7 @@
         return make_pair(false, "empty end of turn effect");
     }
 
-    bool Entity::setHasDoneEndOfTurn(bool b){
+    void Entity::setHasDoneEndOfTurn(bool b){
         hasDoneEndOfTurn = b;
     }
 

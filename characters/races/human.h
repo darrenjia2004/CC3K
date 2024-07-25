@@ -5,7 +5,6 @@
 class Human : public Player {
 public:
     Human();
-    string getRace();
-    float calculateScore();
+    float calculateScore() override;
 };
 #endif

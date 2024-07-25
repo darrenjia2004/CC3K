@@ -9,17 +9,19 @@ using namespace std;
 
 class Player : public Character {
     float totGold;
-    string race;
+    const string race;
     virtual void onDeath();
 
 public:
     Potionfx* pfx;
-    Player(char c, int maxHp, int atk, int def);
+    Player(char c, int maxHp, int atk, int def, string race);
+    virtual ~Player();
     virtual void applyPotion(Potionfx* p);
+    void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;
     float getGold();
-    virtual string getRace();
+    string getRace();
     virtual void increaseGold(float gold);
     void gainCompass();
     void resetTempFx();
