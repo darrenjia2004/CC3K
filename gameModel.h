@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 #include <unordered_map>
-
+#include "command.h"
 #include "tile.h"
 
 class Player;
@@ -30,9 +30,7 @@ class GameModel {
     pair<int, int> addToRandomTile(Entity* e, bool canBeWithPlayer);
     void addGolds(int n);
 
-    pair<int, int> getCoords(Direction d);  // first is row, second is column
     bool inBounds(const pair<int, int>& pos);
-    static vector<Direction> getGameDirections();
     pair<int, int> getRandomTile();
     Potion* getRandomPotion();
     Gold* getRandomGold();

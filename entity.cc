@@ -7,8 +7,8 @@
         return c;
     }
 
-    void Entity::endOfTurnEffect(Tile&){
-
+    pair<bool,string> Entity::endOfTurnEffect(Tile& t){
+        return make_pair(false, "empty end of turn effect");
     }
 
     bool Entity::isPassable(){

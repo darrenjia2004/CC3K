@@ -1,5 +1,7 @@
 #ifndef _COMMAND_H_
 #define _COMMAND_H_
+#include <vector>
+#include <utility>
 using namespace std;
 
 enum class Action {
@@ -26,6 +28,9 @@ enum class Direction {
     SW,
     NONE
 };
+
+pair<int, int> getCoords(Direction d);
+vector<Direction> getGameDirections();
 
 class Command {
   public:

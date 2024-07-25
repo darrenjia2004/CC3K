@@ -13,7 +13,7 @@ class Enemy : public Character {
     Item* ownedItem;
 
 public:
-    void endOfTurnEffect(Tile& t);
+    virtual pair<bool,string> endOfTurnEffect(Tile& t) override;
 
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem = nullptr);
     virtual pair<bool, string> attack(Direction d, Tile& tile) override;
