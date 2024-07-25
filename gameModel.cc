@@ -126,11 +126,12 @@ void GameModel::generatePlayer(Player* player) {
         case Action::SELECTELF:
             playerCoords = addToRandomTile(new Elf(), true);
             break;
-        case Action::SELECTHUMAN:
-            playerCoords = addToRandomTile(new Human(), true);
-            break;
         case Action::SELECTORC:
             playerCoords = addToRandomTile(new Orc(), true);
+            break;
+        case Action::SELECTHUMAN:
+        default:
+            playerCoords = addToRandomTile(new Human(), true);
             break;
         }
     }
@@ -208,7 +209,7 @@ Potion* GameModel::getRandomPotion() {
         return new Potion{ -10, 0, 0, '3' };
     case 4: //WA
         return new Potion{ 0, -5, 0, '4' };
-    case 5: //WD
+    default: // corresponds to 5, WD
         return new Potion{ 0, 0, -5, '5' };
     }
 }
@@ -228,7 +229,7 @@ Gold* GameModel::getRandomGold() {
     case 5:
     case 6:
         return new Gold{ 2 }; //small hoard
-    case 7:
+    default: // 7
         return new Gold{6, false }; //dragon hoard
     }
 }
@@ -257,8 +258,7 @@ Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     case 14:
     case 15:
         return new Phoenix(hasCompass);
-    case 16:
-    case 17:
+    default: //16, 17
         return new Merchant(hasCompass);
     }
 }
