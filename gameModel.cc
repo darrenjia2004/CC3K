@@ -119,28 +119,24 @@ void GameModel::generatePlayer(Player* player) {
         playerCoords = addToRandomTile(player, true);
     }
     else {
-        Player* p = new Human();
-        playerCoords = addToRandomTile(p, true);
+        switch (playerRaceAction) {
+        case Action::SELECTDWARF:
+            playerCoords = addToRandomTile(new Dwarf(), true);
+            break;
+        case Action::SELECTELF:
+            playerCoords = addToRandomTile(new Elf(), true);
+            break;
+        case Action::SELECTHUMAN:
+            playerCoords = addToRandomTile(new Human(), true);
+            break;
+        case Action::SELECTORC:
+            playerCoords = addToRandomTile(new Orc(), true);
+            break;
+        }
     }
 }
 
 void GameModel::generate() {
-    //player generation
-    switch (playerRaceAction) {
-    case Action::SELECTDWARF:
-        playerCoords = addToRandomTile(new Dwarf(), true);
-        break;
-    case Action::SELECTELF:
-        playerCoords = addToRandomTile(new Elf(), true);
-        break;
-    case Action::SELECTHUMAN:
-        playerCoords = addToRandomTile(new Human(), true);
-        break;
-    case Action::SELECTORC:
-        playerCoords = addToRandomTile(new Orc(), true);
-        break;
-    }
-
     //stair generation
     pair<int, int> sCoords{ addToRandomTile(nullptr, false) };
     stairCoords = sCoords;
@@ -273,7 +269,7 @@ Tile* GameModel::getRandomNeighbour(const Tile& current) {
     Direction d{ dirs[rand() % dirs.size()] };
     auto iter{ neighbours.find(d) };
 
-    while (iter == neighbours.end()) {
+    while ((iter == neighbours.end()) || !iter->second->isMonsterPassable()) {
         d = dirs[rand() % dirs.size()];
         iter = neighbours.find(d);
     }
