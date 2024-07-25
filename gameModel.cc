@@ -167,10 +167,9 @@ void GameModel::generate() {
         //find neighbour of tile
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
-        while (neighbour->getEntity()) {
-            neighbour = getRandomNeighbour(map[coord.first][coord.second]);
-        }
-        neighbour->setEntity(new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity())));
+        Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
+        neighbour->setEntity(d);
+        d->attach(neighbour);
         ++index;
     }
 
@@ -216,6 +215,8 @@ Potion* GameModel::getRandomPotion() {
 
 Gold* GameModel::getRandomGold() {
     int num{ rand() % 8 };
+    return new Gold{ 6, false }; //dragon hoard
+
 
     switch (num) {
     case 0:
@@ -269,7 +270,8 @@ Tile* GameModel::getRandomNeighbour(const Tile& current) {
     Direction d{ dirs[rand() % dirs.size()] };
     auto iter{ neighbours.find(d) };
 
-    while ((iter == neighbours.end()) || !iter->second->isMonsterPassable()) {
+    // in our case, the third condition implies the second, but this is more general
+    while ((iter == neighbours.end()) || !iter->second->isMonsterPassable() || iter->second->getEntity()) {
         d = dirs[rand() % dirs.size()];
         iter = neighbours.find(d);
     }

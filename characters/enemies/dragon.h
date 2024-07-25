@@ -6,7 +6,6 @@ class Dragon : public Enemy {
 public:
     static const char c;
     Dragon(bool hasCompass, Item* ownedItem);
-    void onDeath();
 public:
     pair<bool, string> move(Direction d, Tile& t);
 };

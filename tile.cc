@@ -60,6 +60,7 @@ Entity* Tile::getEntity() {
     return entity;
 }
 
+//TODO handle observer attaches/detaches here
 void Tile::setEntity(Entity* e) {
     entity = e;
 }
