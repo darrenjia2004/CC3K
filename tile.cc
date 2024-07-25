@@ -35,7 +35,7 @@ bool Tile::isMonsterPassable() {
     if (c == '\\' || c == '.') {
         tilePassable = true;
     }
-    return entity ? tilePassable : tilePassable;
+    return entity ? false : tilePassable;
 }
 
 void Tile::setNeighbour(Direction d, Tile* t) {

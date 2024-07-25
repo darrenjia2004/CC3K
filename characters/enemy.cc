@@ -2,6 +2,7 @@
 #include "items/item.h"
 #include <cmath>     // ceil
 #include <stdlib.h>  // srand/rand
+#include "command.h"
 
 Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
 : Character{ c, maxHp, atk, def }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
@@ -13,7 +14,20 @@ void Enemy::onDeath() {
     }
 }
 
-void Enemy::endOfTurnEffect(Tile& t) {}
+pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
+    auto neighbours = t.getNeighbours();
+    for (auto d : neighbours){
+        Entity* targetEntity = d.second->getEntity();
+        if(Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
+            return attack(d.first, t);
+        }
+    }
+    vector<Direction> directions = getGameDirections();
+    
+    int num{ rand() % 8 };
+    Direction d = directions[num];
+    return Enemy::move(d, t);
+}
 
 pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();

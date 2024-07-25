@@ -271,29 +271,7 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     return p;
 }
 
-// utility functions
-pair<int, int> GameModel::getCoords(Direction d) {
-    switch (d) {
-    case Direction::NO:
-        return { -1, 0 };
-    case Direction::SO:
-        return { 1, 0 };
-    case Direction::EA:
-        return { 0, 1 };
-    case Direction::WE:
-        return { 0, -1 };
-    case Direction::NE:
-        return { -1, 1 };
-    case Direction::NW:
-        return { -1, -1 };
-    case Direction::SE:
-        return { 1, 1 };
-    case Direction::SW:
-        return { 1, -1 };
-    default:
-        return { 0, 0 };
-    }
-}
+
 
 bool GameModel::inBounds(const pair<int, int>& pos) {
     return pos.first < map.size() && pos.second < map[pos.first].size();
@@ -303,18 +281,6 @@ pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2) {
     return { p1.first + p2.first, p1.second + p2.second };
 }
 
-vector<Direction> GameModel::getGameDirections() {
-    return {
-        Direction::NO,
-        Direction::SO,
-        Direction::EA,
-        Direction::WE,
-        Direction::NE,
-        Direction::NW,
-        Direction::SE,
-        Direction::SW,
-    };
-}
 
 Player* GameModel::getPlayer() {
     return static_cast<Player*>(getPlayerTile().getEntity());
@@ -381,13 +347,24 @@ string GameModel::playerTurn(Command c) {
     }
 
     //trigger the end of turn effects for all entities
-    for(auto& v: map){
-        for(auto& t: v){
-            Entity* e = t.getEntity();
-            if (e){
-                e->endOfTurnEffect(t);
+    for(int i = 0; i<map.size(); i++){
+        for(int j = 0; j<map[i].size();j++){
+            Entity* e = map[i][j].getEntity();
+            if (e && !e->getHasDoneEndOfTurn()){
+                e->endOfTurnEffect(map[i][j]);
+                e->setHasDoneEndOfTurn(true);
             }
         }
     }
+
+    for(int i = 0; i<map.size(); i++){
+        for(int j = 0; j<map[i].size();j++){
+            Entity* e = map[i][j].getEntity();
+            if (e){
+                e->setHasDoneEndOfTurn(false);
+            }
+        }
+    }
+
     return actionString;
 }
