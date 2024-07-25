@@ -1,6 +1,9 @@
 #include "gameModel.h"
 #include "characters/player.h"
+#include "characters/races/dwarf.h"
+#include "characters/races/elf.h"
 #include "characters/races/human.h"
+#include "characters/races/orc.h"
 #include "items/potion.h"
 #include "items/gold.h"
 #include "characters/enemies/werewolf.h"
@@ -11,15 +14,20 @@
 #include "characters/enemies/merchant.h"
 #include "characters/enemies/dragon.h"
 
-
+#include <chrono>
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>  //getpid
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ getpid() } {
+GameModel::GameModel(Action a) : chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+rawMap{ nullptr }, floor{ 0 }, playerRaceAction{ a } {
     srand(randomSeed);
     init();
+}
+
+GameModel::~GameModel() {
+    delete[] rawMap;
 }
 
 void GameModel::init() {
@@ -43,6 +51,7 @@ void GameModel::loadTiles() {
     string line;
     ifstream file("defaultMap.txt");
     int row = -1;
+
     while (getline(file, line)) {
         map.push_back(vector<Tile>());
         row++;
@@ -52,6 +61,13 @@ void GameModel::loadTiles() {
         }
     }
     file.close();
+
+    //then also load in rawMap (precondition: rawMap does not hold any tiles)
+    rawMap = new Tile * [map.size()];
+
+    for (int i = 0; i < map.size(); ++i) {
+        rawMap[i] = &map[i][0];
+    }
 }
 
 void GameModel::loadNeighbours() {
@@ -98,17 +114,32 @@ void GameModel::floodFill(Tile& t, int n) {
 }
 
 // if the provided player is null, create a new player and add it to a random tile, otherwise put the provided player on the board
-void GameModel::generatePlayer(Player* player){
-    if (player){
+void GameModel::generatePlayer(Player* player) {
+    if (player) {
         playerCoords = addToRandomTile(player, true);
     }
-    else{
+    else {
         Player* p = new Human();
         playerCoords = addToRandomTile(p, true);
     }
 }
 
 void GameModel::generate() {
+    //player generation
+    switch (playerRaceAction) {
+    case Action::SELECTDWARF:
+        playerCoords = addToRandomTile(new Dwarf(), true);
+        break;
+    case Action::SELECTELF:
+        playerCoords = addToRandomTile(new Elf(), true);
+        break;
+    case Action::SELECTHUMAN:
+        playerCoords = addToRandomTile(new Human(), true);
+        break;
+    case Action::SELECTORC:
+        playerCoords = addToRandomTile(new Orc(), true);
+        break;
+    }
 
     //stair generation
     pair<int, int> sCoords{ addToRandomTile(nullptr, false) };
@@ -201,7 +232,7 @@ Gold* GameModel::getRandomGold() {
     case 6:
         return new Gold{ '7', 2 }; //small hoard
     case 7:
-        return new Gold{ '9', 6, false}; //dragon hoard
+        return new Gold{ '9', 6, false }; //dragon hoard
     }
 }
 
@@ -265,7 +296,7 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     }
 
     map[p.first][p.second].setEntity(e);
-    if (e){
+    if (e) {
         e->attach(&map[p.first][p.second]);
     }
     return p;
@@ -286,7 +317,7 @@ Player* GameModel::getPlayer() {
     return static_cast<Player*>(getPlayerTile().getEntity());
 }
 
-Tile& GameModel::getPlayerTile(){
+Tile& GameModel::getPlayerTile() {
     return map[playerCoords.first][playerCoords.second];
 }
 
@@ -294,50 +325,54 @@ int GameModel::getFloor() {
     return floor;
 }
 
-void GameModel::resetBoard(){
+Tile** GameModel::getRawMap() {
+    return rawMap;
+}
+
+void GameModel::resetBoard() {
     // detach the player tile from player so we dont delete it
     Tile& t = getPlayerTile();
     t.setEntity(nullptr);
 
     // clear all the non player entities
-    for(auto& v: map){
-        for(auto& t: v){
+    for (auto& v : map) {
+        for (auto& t : v) {
             Entity* e = t.getEntity();
-            if (e){
+            if (e) {
                 delete(e);
                 t.setEntity(nullptr);
             }
         }
     }
 
-    playerCoords = {-1,-1};
+    playerCoords = { -1,-1 };
     map[stairCoords.first][stairCoords.second].unmakeStairs();
-    stairCoords = {-1,-1};
+    stairCoords = { -1,-1 };
 }
 
 string GameModel::playerTurn(Command c) {
     string actionString;
     switch (c.action)
     {
-        case Action::MOVE:{
-            auto p = getPlayer()->move(c.direction, getPlayerTile());
-            if (p.first){
-                playerCoords = playerCoords + getCoords(c.direction); 
-            }
-            actionString = p.second;
-            break;
+    case Action::MOVE: {
+        auto p = getPlayer()->move(c.direction, getPlayerTile());
+        if (p.first) {
+            playerCoords = playerCoords + getCoords(c.direction);
         }
-        case Action::USE:{
-            return getPlayer()->use(c.direction, getPlayerTile()).second;
-        }
-        case Action::ATTACK:{
-            return getPlayer()->attack(c.direction, getPlayerTile()).second;
-        }
-        default:
-            actionString = "some other action \n";
-            break;
+        actionString = p.second;
+        break;
     }
-    if (stairCoords == playerCoords){
+    case Action::USE: {
+        return getPlayer()->use(c.direction, getPlayerTile()).second;
+    }
+    case Action::ATTACK: {
+        return getPlayer()->attack(c.direction, getPlayerTile()).second;
+    }
+    default:
+        actionString = "some other action \n";
+        break;
+    }
+    if (stairCoords == playerCoords) {
         floor++;
         Player* p = getPlayer();
         resetBoard();
@@ -347,20 +382,20 @@ string GameModel::playerTurn(Command c) {
     }
 
     //trigger the end of turn effects for all entities
-    for(int i = 0; i<map.size(); i++){
-        for(int j = 0; j<map[i].size();j++){
+    for (int i = 0; i < map.size(); i++) {
+        for (int j = 0; j < map[i].size();j++) {
             Entity* e = map[i][j].getEntity();
-            if (e && !e->getHasDoneEndOfTurn()){
+            if (e && !e->getHasDoneEndOfTurn()) {
                 e->endOfTurnEffect(map[i][j]);
                 e->setHasDoneEndOfTurn(true);
             }
         }
     }
 
-    for(int i = 0; i<map.size(); i++){
-        for(int j = 0; j<map[i].size();j++){
+    for (int i = 0; i < map.size(); i++) {
+        for (int j = 0; j < map[i].size();j++) {
             Entity* e = map[i][j].getEntity();
-            if (e){
+            if (e) {
                 e->setHasDoneEndOfTurn(false);
             }
         }

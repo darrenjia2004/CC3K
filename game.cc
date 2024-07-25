@@ -1,12 +1,6 @@
 #include "game.h"
 
-Game::Game() {
-    rawMap = new Tile * [gm.map.size()];
-
-    for (int i = 0; i < gm.map.size(); ++i) {
-        rawMap[i] = &gm.map[i][0];
-    }
-
+Game::Game() : gm{ nullptr } {
     init();
 }
 
@@ -16,23 +10,54 @@ void Game::init() {
 
 Game::~Game() {
     delete id;
-    delete[] rawMap;
+    delete gm;
 }
 
 void Game::start() {
-    while (true) {
+    bool initialQuit{ createGameModel() };
+
+    while (initialQuit) {
         Command c = id->getUserInput();
         if (c.action == Action::QUIT) {
-            cout << "quitting game" << endl;
             break;
         }
+        else if (c.action == Action::RESTART) {
+            if (!createGameModel()) {
+                break;
+            }
+        }
         else {
-            string actionString = gm.playerTurn(c);
+            string actionString = gm->playerTurn(c);
             render(actionString);
         }
     }
+
+    v.print("Quitting game.");
+}
+
+bool Game::createGameModel() {
+    v.print("Choose your race: (d)warf, (e)lf, (h)uman, or (o)rc.");
+    v.print("Alternatively, press q to quit.");
+    Command c{ id->getUserInput() };
+    while ((c.action != Action::SELECTDWARF)
+        && (c.action != Action::SELECTELF)
+        && (c.action != Action::SELECTHUMAN)
+        && (c.action != Action::SELECTORC)
+        && (c.action != Action::QUIT)
+        ) {
+        c = id->getUserInput();
+    }
+
+    if (c.action == Action::QUIT) {
+        return false;
+    }
+
+    delete gm;
+    gm = new GameModel(c.action);
+    render("");
+    return true;
 }
 
 void Game::render(string actionString) {
-    v.draw(rawMap, gm.map.size(), gm.map[0].size(), gm.getPlayer(), gm.getFloor(), actionString);
+    v.draw(gm->getRawMap(), gm->map.size(), gm->map[0].size(), gm->getPlayer(), gm->getFloor(), actionString);
 }

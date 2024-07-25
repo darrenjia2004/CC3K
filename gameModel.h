@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include "command.h"
 #include "tile.h"
+#include "command.h"
 
 class Player;
 class Potion;
@@ -20,6 +21,7 @@ class GameModel {
     static const int numPotions{ 10 };
     static const int numGolds{ 10 };
     static const int numEnemies{ 20 };
+    const Action playerRaceAction;
 
     void init();
     void loadTiles();
@@ -43,10 +45,10 @@ class GameModel {
 
     pair<int, int> playerCoords;
     int chamberCount;
-    const int randomSeed;
+    const unsigned randomSeed;
     int floor = 1;
     pair<int, int> stairCoords;
-
+    Tile** rawMap;
 public:
     static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
@@ -54,7 +56,9 @@ public:
     string playerTurn(Command c);
     int getFloor();
     Player* getPlayer();
-    GameModel();
+    GameModel(Action a);
+    ~GameModel();
+    Tile** getRawMap();
 };
 
 pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2);

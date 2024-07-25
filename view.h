@@ -61,6 +61,10 @@ template<typename T> class View {
         }
     }
 public:
+    void print(string str){
+        cout << str << endl;
+    }
+
     enable_if_t<is_base_of<Drawable, T>::value, void>
 
         draw(T** map, int rows, int cols, Player* p, int floor, string actionString) {
@@ -76,7 +80,9 @@ public:
         cout << "HP: " << p->getHp() << endl;
         cout << "Atk: " << p->getAttack() << endl;
         cout << "Def: " << p->getDefense() << endl;
-        cout << "Action: " << actionString;
+        if(actionString != ""){
+            cout << "Action: " << actionString;
+        }
     }
 };
 

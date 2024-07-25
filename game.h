@@ -8,12 +8,12 @@
 using namespace std;
 
 class Game {
-  GameModel gm;
+  GameModel* gm;
   InputDevice* id;
   View<Tile> v;
-  Tile** rawMap;
   void init();
   void render(string actionString);
+  bool createGameModel();
 public:
   Game();
   virtual ~Game();
