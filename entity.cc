@@ -11,6 +11,14 @@
         return make_pair(false, "empty end of turn effect");
     }
 
+    bool Entity::setHasDoneEndOfTurn(bool b){
+        hasDoneEndOfTurn = b;
+    }
+
+    bool Entity::getHasDoneEndOfTurn(){
+        return hasDoneEndOfTurn;
+    }
+
     bool Entity::isPassable(){
         return false;
     }

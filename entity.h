@@ -13,7 +13,10 @@ using namespace std;
 class Entity : public Drawable {
     vector<Tile*> observers;
     virtual void onDeath();
+    bool hasDoneEndOfTurn;
 public:
+    bool getHasDoneEndOfTurn();
+    bool setHasDoneEndOfTurn(bool b);
     Entity(char c);
     const char c;
     virtual char getChar() override;

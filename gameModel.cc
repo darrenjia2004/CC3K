@@ -347,10 +347,21 @@ string GameModel::playerTurn(Command c) {
     for(int i = 0; i<map.size(); i++){
         for(int j = 0; j<map[i].size();j++){
             Entity* e = map[i][j].getEntity();
-            if (e){
+            if (e && !e->getHasDoneEndOfTurn()){
                 e->endOfTurnEffect(map[i][j]);
+                e->setHasDoneEndOfTurn(true);
             }
         }
     }
+
+    for(int i = 0; i<map.size(); i++){
+        for(int j = 0; j<map[i].size();j++){
+            Entity* e = map[i][j].getEntity();
+            if (e){
+                e->setHasDoneEndOfTurn(false);
+            }
+        }
+    }
+
     return actionString;
 }
