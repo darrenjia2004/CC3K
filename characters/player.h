@@ -15,7 +15,9 @@ class Player : public Character {
 public:
     Potionfx* pfx;
     Player(char c, int maxHp, int atk, int def, string race);
+    virtual ~Player();
     virtual void applyPotion(Potionfx* p);
+    void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;
     float getGold();

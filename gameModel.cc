@@ -116,6 +116,7 @@ void GameModel::floodFill(Tile& t, int n) {
 // if the provided player is null, create a new player and add it to a random tile, otherwise put the provided player on the board
 void GameModel::generatePlayer(Player* player) {
     if (player) {
+        player->clearPotions();
         playerCoords = addToRandomTile(player, true);
     }
     else {

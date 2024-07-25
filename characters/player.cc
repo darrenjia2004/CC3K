@@ -6,9 +6,18 @@
 
 Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def}, totGold{0}, race{race}, pfx{nullptr} {}
 
+Player::~Player(){
+    delete pfx;
+}
+
 void Player::applyPotion(Potionfx* p){
     p->next = pfx;
     pfx = p;
+}
+
+void Player::clearPotions(){
+    delete pfx;
+    pfx = nullptr;
 }
 
 int Player::getAttack(){
