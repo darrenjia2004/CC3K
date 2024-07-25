@@ -1,6 +1,9 @@
 #include "gameModel.h"
 #include "characters/player.h"
+#include "characters/races/dwarf.h"
+#include "characters/races/elf.h"
 #include "characters/races/human.h"
+#include "characters/races/orc.h"
 #include "items/potion.h"
 #include "items/gold.h"
 #include "characters/enemies/werewolf.h"
@@ -17,13 +20,13 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel() : chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-rawMap{ nullptr }, floor{ 0 } {
+GameModel::GameModel(Action a) : chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+rawMap{ nullptr }, floor{ 0 }, playerRaceAction{ a } {
     srand(randomSeed);
     init();
 }
 
-GameModel::~GameModel(){
+GameModel::~GameModel() {
     delete[] rawMap;
 }
 
@@ -111,8 +114,20 @@ void GameModel::floodFill(Tile& t, int n) {
 
 void GameModel::generate() {
     //player generation
-    Player* p = new Human();
-    playerCoords = addToRandomTile(p, true);
+    switch (playerRaceAction) {
+    case Action::SELECTDWARF:
+        playerCoords = addToRandomTile(new Dwarf(), true);
+        break;
+    case Action::SELECTELF:
+        playerCoords = addToRandomTile(new Elf(), true);
+        break;
+    case Action::SELECTHUMAN:
+        playerCoords = addToRandomTile(new Human(), true);
+        break;
+    case Action::SELECTORC:
+        playerCoords = addToRandomTile(new Orc(), true);
+        break;
+    }
 
     //stair generation
     pair<int, int> stairCoords{ addToRandomTile(nullptr, false) };

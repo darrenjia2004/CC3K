@@ -13,6 +13,7 @@ class Game {
   View<Tile> v;
   void init();
   void render(string actionString);
+  bool createGameModel();
 public:
   Game();
   virtual ~Game();

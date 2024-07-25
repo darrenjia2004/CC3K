@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include "tile.h"
+#include "command.h"
 
 class Player;
 class Potion;
@@ -20,6 +21,7 @@ class GameModel {
     static const int numPotions{ 10 };
     static const int numGolds{ 10 };
     static const int numEnemies{ 20 };
+    const Action playerRaceAction;
 
     void init();
     void loadTiles();
@@ -53,7 +55,7 @@ public:
     string playerTurn(Command c);
     int getFloor();
     Player* getPlayer();
-    GameModel();
+    GameModel(Action a);
     ~GameModel();
     Tile** getRawMap();
 };

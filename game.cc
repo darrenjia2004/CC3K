@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : gm{ new GameModel() } {
+Game::Game() : gm{ nullptr } {
     init();
 }
 
@@ -14,26 +14,48 @@ Game::~Game() {
 }
 
 void Game::start() {
-    // display game initially
-    render("");
+    bool initialQuit{ createGameModel() };
 
-    while (true) {
+    while (initialQuit) {
         Command c = id->getUserInput();
         if (c.action == Action::QUIT) {
-            cout << "quitting game" << endl;
             break;
         }
         else if (c.action == Action::RESTART) {
-            cout << "restarting game" << endl;
-            delete gm;
-            gm = new GameModel();
-            render("");
+            if (!createGameModel()) {
+                break;
+            }
         }
         else {
             string actionString = gm->playerTurn(c);
             render(actionString);
         }
     }
+
+    v.print("Quitting game.");
+}
+
+bool Game::createGameModel() {
+    v.print("Choose your race: (d)warf, (e)lf, (h)uman, or (o)rc.");
+    v.print("Alternatively, press q to quit.");
+    Command c{ id->getUserInput() };
+    while ((c.action != Action::SELECTDWARF)
+        && (c.action != Action::SELECTELF)
+        && (c.action != Action::SELECTHUMAN)
+        && (c.action != Action::SELECTORC)
+        && (c.action != Action::QUIT)
+        ) {
+        c = id->getUserInput();
+    }
+
+    if (c.action == Action::QUIT) {
+        return false;
+    }
+
+    delete gm;
+    gm = new GameModel(c.action);
+    render("");
+    return true;
 }
 
 void Game::render(string actionString) {
