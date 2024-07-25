@@ -14,6 +14,8 @@ void Potion::applyItemEffect(Player& p){
     GameModel::potionVisibility[c] = true;
     Potionfx* pfx = new Potionfx{atk, def};
     p.applyPotion(pfx);
+
+    p.addToHp(hp);
 }
 
 char Potion::getChar(){
@@ -23,8 +25,4 @@ char Potion::getChar(){
     else{
         return 'P';
     }
-}
-
-void Potion::onUse(Player& p){
-    
 }

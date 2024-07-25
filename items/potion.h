@@ -9,7 +9,6 @@ class Potion : public UsableItem {
     virtual char getChar() override;
     const int hp, atk, def;
     Potion(int hp, int atk, int def, char c);
-    void onUse(Player& p);
     virtual ~Potion();
 };
 

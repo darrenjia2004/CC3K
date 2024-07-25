@@ -8,6 +8,7 @@ int Character::getHp() {
 
 void Character::addToHp(int n) {
     hp += n;
+    hp = min(hp, maxHp);
 }
 
 void Character::subtractFromHp(int n) {
