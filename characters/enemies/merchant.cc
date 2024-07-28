@@ -1,4 +1,5 @@
 #include "characters/enemies/merchant.h"
+#include "items/gold.h"
 
 const char Merchant::c = 'M';
 bool Merchant::aggressive = false;
@@ -11,4 +12,8 @@ bool Merchant::attackHits(){
 
 void Merchant::afterAttacked(Character& attacker){
     aggressive = true;
+}
+
+Entity* Merchant::getLoot(){
+    return new Gold{ 4 };
 }

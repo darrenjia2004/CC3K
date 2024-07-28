@@ -9,5 +9,6 @@ public:
     Merchant(bool hasCompass);
     bool attackHits() override;
     void afterAttacked(Character& attacker) override;
+    Entity* getLoot() override;
 };
 #endif
