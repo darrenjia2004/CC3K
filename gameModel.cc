@@ -20,8 +20,8 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount { 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-floor{ 1 }, rawMap { unique_ptr<Tile*[]>{} } {
+GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} } {
     srand(randomSeed);
     init();
 }
@@ -62,7 +62,7 @@ void GameModel::loadTiles() {
     file.close();
 
     //then also load in rawMap (precondition: rawMap does not hold any tiles)
-    rawMap = unique_ptr<Tile*[]>(new Tile * [map.size()]);
+    rawMap = unique_ptr<Tile * []>(new Tile * [map.size()]);
 
     for (int i = 0; i < map.size(); ++i) {
         rawMap[i] = &map[i][0];
@@ -119,6 +119,7 @@ void GameModel::generatePlayer(Player* player) {
         pair<int, int> newCoords = addToRandomTile(nullptr, true);
         Tile& newTile = map[newCoords.first][newCoords.second];
         map[playerCoords.first][playerCoords.second].moveEntityTo(newTile);
+        playerCoords = newCoords;
     }
     else {
         switch (playerRaceAction) {
@@ -230,7 +231,7 @@ Gold* GameModel::getRandomGold() {
     case 6:
         return new Gold{ 2 }; //small hoard
     default: // 7
-        return new Gold{6, false }; //dragon hoard
+        return new Gold{ 6, false }; //dragon hoard
     }
 }
 
@@ -328,7 +329,7 @@ Tile** GameModel::getRawMap() {
 }
 
 void GameModel::resetBoard() {
-    // detach the player tile from player so we dont delete it
+    // detach the player tile from player so we dont remove it
     // Tile& t = getPlayerTile();
     // t.setEntity(nullptr);
 
@@ -337,13 +338,12 @@ void GameModel::resetBoard() {
         for (auto& t : v) {
             Entity* e = t.getEntity();
             if (e != getPlayer()) {
-                //delete(e);
                 t.setEntity(nullptr);
             }
         }
     }
 
-    playerCoords = { -1,-1 };
+    //playerCoords = { -1,-1 };
     map[stairCoords.first][stairCoords.second].unmakeStairs();
     stairCoords = { -1,-1 };
 }

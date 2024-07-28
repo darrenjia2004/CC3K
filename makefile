@@ -10,7 +10,7 @@ ${EXEC}: ${OBJECTS}
 
 -include ${DEPENDS}
 
-# Extra recipe that allows us to delete temporary files by saying
+# Extra recipe that allows us to remove temporary files by saying
 # make clean
 
 .PHONY: clean
