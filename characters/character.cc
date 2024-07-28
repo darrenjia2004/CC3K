@@ -20,7 +20,7 @@ int Character::getAttack(){
 }
 
 int Character::getDefense(){
-    return atk;
+    return def;
 }
 
 
