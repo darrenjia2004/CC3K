@@ -21,13 +21,12 @@
 unordered_map<char, bool> GameModel::potionVisibility;
 
 GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount { 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-floor{ 1 }, rawMap { nullptr } {
+floor{ 1 }, rawMap { unique_ptr<Tile*[]>{} } {
     srand(randomSeed);
     init();
 }
 
 GameModel::~GameModel() {
-    delete[] rawMap;
 }
 
 void GameModel::init() {
@@ -63,7 +62,7 @@ void GameModel::loadTiles() {
     file.close();
 
     //then also load in rawMap (precondition: rawMap does not hold any tiles)
-    rawMap = new Tile * [map.size()];
+    rawMap = unique_ptr<Tile*[]>(new Tile * [map.size()]);
 
     for (int i = 0; i < map.size(); ++i) {
         rawMap[i] = &map[i][0];
@@ -323,7 +322,7 @@ int GameModel::getFloor() {
 }
 
 Tile** GameModel::getRawMap() {
-    return rawMap;
+    return rawMap.get();
 }
 
 void GameModel::resetBoard() {

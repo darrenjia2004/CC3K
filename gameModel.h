@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <utility>
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include "command.h"
@@ -27,7 +28,7 @@ class GameModel {
     const unsigned randomSeed;
     int floor;
     pair<int, int> stairCoords;
-    Tile** rawMap;
+    unique_ptr<Tile*[]> rawMap;
 
     void init();
     void loadTiles();

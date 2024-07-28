@@ -1,5 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
+#include <memory>
 #include <string>
 #include <vector>
 #include "gameModel.h"
@@ -8,8 +9,8 @@
 using namespace std;
 
 class Game {
-  GameModel* gm;
-  InputDevice* id;
+  unique_ptr<GameModel> gm;
+  unique_ptr<InputDevice> id;
   View<Tile> v;
   void init();
   void render(string actionString);

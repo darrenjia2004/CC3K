@@ -1,16 +1,14 @@
 #include "game.h"
 
-Game::Game() : gm{ nullptr } {
+Game::Game() : gm{ unique_ptr<GameModel>(nullptr) } {
     init();
 }
 
 void Game::init() {
-    id = new CinInputDevice();
+    id = make_unique<CinInputDevice>(CinInputDevice());
 }
 
 Game::~Game() {
-    delete id;
-    delete gm;
 }
 
 void Game::start() {
@@ -52,8 +50,7 @@ bool Game::createGameModel() {
         return false;
     }
 
-    delete gm;
-    gm = new GameModel(c.action);
+    gm = unique_ptr<GameModel>(new GameModel(c.action));
     render("");
     return true;
 }
