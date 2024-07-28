@@ -171,7 +171,6 @@ void GameModel::generate() {
 
         Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
         neighbour->setEntity(d);
-        d->attach(neighbour);
         ++index;
     }
 
@@ -293,9 +292,6 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     }
 
     map[p.first][p.second].setEntity(e);
-    if (e) {
-        e->attach(&map[p.first][p.second]);
-    }
     return p;
 }
 
@@ -329,14 +325,13 @@ Tile** GameModel::getRawMap() {
 void GameModel::resetBoard() {
     // detach the player tile from player so we dont delete it
     Tile& t = getPlayerTile();
-    t.setEntity(nullptr);
+    t.setEntity(nullptr, false);
 
     // clear all the non player entities
     for (auto& v : map) {
         for (auto& t : v) {
             Entity* e = t.getEntity();
             if (e) {
-                delete(e);
                 t.setEntity(nullptr);
             }
         }
