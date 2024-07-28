@@ -25,6 +25,7 @@ public:
     void die();
     virtual void attach(Tile*);
     virtual void detach(Tile*);
+    virtual Entity* getLoot();
     virtual void notifyObservers();
 
     virtual ~Entity() = 0;

@@ -42,5 +42,9 @@
         for(auto p: observers) p->notify();
     }
 
+    Entity* Entity::getLoot(){
+        return nullptr;
+    }
+
     Entity::~Entity(){}
     
