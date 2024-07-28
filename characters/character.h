@@ -21,5 +21,6 @@ public:
     virtual pair<bool, string> attack(Direction d, Tile& tile) = 0;
     // move should return a bool indicating success and a string for what happened
     virtual pair<bool, string> move(Direction d, Tile& tile) = 0;
+    virtual void afterAttacked(Character& attacker);
 };
 #endif

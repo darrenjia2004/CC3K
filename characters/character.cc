@@ -23,6 +23,7 @@ int Character::getDefense(){
     return def;
 }
 
+void Character::afterAttacked(Character& attacker){}
 
 // Moves the character without performing any checks
 // Precondition: The tile you are trying to move to must be empty or else memory leak

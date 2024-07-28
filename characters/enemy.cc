@@ -30,6 +30,10 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
 }
 
 pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
+    if(!isAggressive()){
+        return make_pair(false, "Nothing to attack! \n");
+    }
+
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
     Entity* targetEntity = target->getEntity();
@@ -41,6 +45,7 @@ pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
     if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
         if(successfulAttack == 1){
              playerPtr->subtractFromHp(ceil((100.0/(100.0+playerPtr->getDefense()))*getAttack()));
+             playerPtr->afterAttacked(*dynamic_cast<Character*>(this));
             if(playerPtr->getHp() <= 0){
                 playerPtr->die();
             }
@@ -71,4 +76,8 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     else{
         return make_pair(false, "Enemy tried to move but failed \n");
     }
+}
+
+bool Enemy::isAggressive(){
+    return true;
 }

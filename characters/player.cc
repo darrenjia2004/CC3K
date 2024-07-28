@@ -81,6 +81,7 @@ pair<bool, string> Player::attack(Direction d, Tile& tile){
     // kill the enemy if its health falls below 0
     if (Enemy* enemyPtr = dynamic_cast<Enemy*>(targetEntity)){
         enemyPtr->subtractFromHp(ceil((100.0/(100.0+enemyPtr->getDefense()))*getAttack()));
+        enemyPtr->afterAttacked(*dynamic_cast<Character*>(this));
         if(enemyPtr->getHp() <= 0){
             enemyPtr->die();
         }
