@@ -20,7 +20,7 @@ public:
     ~Tile();
     const char c;
     Entity* getEntity();
-    void setEntity(Entity* e);
+    void setEntity(Entity* e, bool deleteOld=true);
     virtual char getChar() override;
     int getChamberNum();
     void setChamberNum(int n);

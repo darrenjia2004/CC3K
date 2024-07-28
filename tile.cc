@@ -48,13 +48,7 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 
 void Tile::notify() {
     if(entity){
-        Entity* loot = entity->getLoot();
-        delete entity;
-        entity = loot;
-
-        if(entity){
-            entity->attach(this);
-        }
+        setEntity(entity->getLoot());
     } 
 
     //otherwise, entity is nullptr and we don't have to do anything
@@ -64,9 +58,20 @@ Entity* Tile::getEntity() {
     return entity;
 }
 
-//TODO handle observer attaches/detaches here
-void Tile::setEntity(Entity* e) {
+void Tile::setEntity(Entity* e, bool deleteOld) {
+    if(entity){
+        entity->detach(this);
+
+        if(deleteOld){
+            delete entity;
+        }
+    }
+
     entity = e;
+
+    if(entity){
+        entity->attach(this);
+    }
 }
 
 void Tile::makeStairs() {

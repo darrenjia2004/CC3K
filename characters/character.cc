@@ -35,7 +35,5 @@ void Character::moveNoChecks(Direction d, Tile& tile){
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
     target->setEntity(this);
-    tile.setEntity(nullptr);
-    this->detach(&tile);
-    this->attach(target);
+    tile.setEntity(nullptr, false);
 }
