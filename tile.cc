@@ -49,12 +49,6 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 }
 
 void Tile::notify() {
-    //cout << "tile notified of death" << endl;
-    // Entity* e = getEntity();
-    // if(e){
-        // //cout << "deleting entity" << endl;
-        //delete e;
-    // }
     setEntity(nullptr);
 }
 

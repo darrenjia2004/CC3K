@@ -330,8 +330,6 @@ Tile** GameModel::getRawMap() {
 
 void GameModel::resetBoard() {
     // detach the player tile from player so we dont remove it
-    // Tile& t = getPlayerTile();
-    // t.setEntity(nullptr);
 
     // clear all the non player entities
     for (auto& v : map) {
@@ -343,7 +341,6 @@ void GameModel::resetBoard() {
         }
     }
 
-    //playerCoords = { -1,-1 };
     map[stairCoords.first][stairCoords.second].unmakeStairs();
     stairCoords = { -1,-1 };
 }
@@ -373,8 +370,6 @@ string GameModel::playerTurn(Command c) {
     if (stairCoords == playerCoords) {
         floor++;
         Player* p = getPlayer();
-        //Entity* playerEntity = map[playerCoords.first][playerCoords.second].takeEntity().get();
-        //Player * p = static_cast<Player*>(playerEntity);
         resetBoard();
         generatePlayer(p);
         generate();

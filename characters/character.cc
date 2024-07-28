@@ -31,11 +31,6 @@ void Character::moveNoChecks(Direction d, Tile& tile) {
     Tile* target = neighbours[d];
 
     tile.moveEntityTo(*target);
-
-    // target->setEntity(this);
-    // tile.setEntity(nullptr);
-
     this->detach(&tile);
-
     this->attach(target);
 }
