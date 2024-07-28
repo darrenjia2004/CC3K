@@ -12,7 +12,7 @@ class Enemy : public Character {
     virtual void onDeath() override;
     // this is the item that the enemy unlocks on death
     Item* ownedItem;
-
+    virtual bool isHostile();
 public:
     virtual pair<bool,string> endOfTurnEffect(Tile& t) override;
 

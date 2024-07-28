@@ -13,17 +13,21 @@ void Enemy::onDeath() {
     }
 }
 
+bool Enemy::isHostile(){
+    return true;
+}
+
 pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     auto neighbours = t.getNeighbours();
-    for (auto d : neighbours){
-        //we try to attack every entity neighbouring us
-        //attack checks if the neighbouring entity is a Character for us
-        pair<bool, string> ret{attack(d.first, t)};
-
-        if(ret.first){
-            return ret;
+    if (isHostile()){
+        for (auto d : neighbours){
+            Entity* targetEntity = d.second->getEntity();
+            if(Character* charPtr = dynamic_cast<Character*>(targetEntity)){
+                return attack(d.first, t);
+            }
         }
     }
+    
     vector<Direction> directions = getGameDirections();
     
     int num{ rand() % 8 };

@@ -6,7 +6,7 @@ bool Merchant::aggressive = false;
 
 Merchant::Merchant(bool hasCompass) : Enemy{ 'M', 30, 70, 5, hasCompass, 0 } {}
 
-bool Merchant::attackHits(){
+bool Merchant::isHostile(){
     return aggressive;
 }
 
