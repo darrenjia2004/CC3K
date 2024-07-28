@@ -4,10 +4,10 @@
 
 class Merchant : public Enemy {
     static bool aggressive;
+    virtual bool isHostile() override;
 public:
     static const char c;
     Merchant(bool hasCompass);
-    bool attackHits() override;
     void afterAttacked(Character& attacker) override;
     Entity* getLoot() override;
 };

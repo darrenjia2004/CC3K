@@ -48,16 +48,20 @@ pair<bool, string> Character::attack(Direction d, Tile& tile) {
     // if the target is not the same team, try to attack
     // kill the enemy if its health falls below 0
     if (Character* charPtr = dynamic_cast<Character*>(targetEntity)) {
-        if ((team == charPtr->team) || !attackHits()) {
-            return make_pair(false, "Did not attack :( \n");
+        if ((team == charPtr->team)) {
+            return make_pair(false, "Did not attack bc same team :( \n");
         }
-
-        charPtr->subtractFromHp(ceil((100.0 / (100.0 + charPtr->getDefense())) * getAttack()));
-        charPtr->afterAttacked(*this);
-        if (charPtr->getHp() <= 0) {
-            charPtr->die();
+        if (!attackHits()){
+            return make_pair(true, "Attack missed \n");
         }
-        return make_pair(true, "Successfully attacked \n");
+        else{
+            charPtr->subtractFromHp(ceil((100.0 / (100.0 + charPtr->getDefense())) * getAttack()));
+            charPtr->afterAttacked(*this);
+            if (charPtr->getHp() <= 0) {
+                charPtr->die();
+            }
+            return make_pair(true, "Successfully attacked \n");
+        }
     }
     else {
         return make_pair(false, "Nothing to attack! \n");
