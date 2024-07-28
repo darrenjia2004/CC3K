@@ -18,7 +18,6 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     for (auto d : neighbours){
         //we try to attack every entity neighbouring us
         //attack checks if the neighbouring entity is a Character for us
-        Entity* targetEntity = d.second->getEntity();
         pair<bool, string> ret{attack(d.first, t)};
 
         if(ret.first){

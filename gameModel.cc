@@ -39,6 +39,18 @@ void GameModel::init() {
     generate();
 }
 
+GameModel::State GameModel::getState(){
+    if(!getPlayer()){ //player is killed
+        return State::LOST;
+    }
+
+    if(floor > numFloors){
+        return State::WON;
+    }
+
+    return State::IN_PROGRESS;
+}
+
 // sets the potion visibilities to false
 void GameModel::setPotionVis() {
     for (int i = 0; i < 6; i++) {
@@ -307,7 +319,13 @@ pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2) {
 
 
 Player* GameModel::getPlayer() {
-    return static_cast<Player*>(getPlayerTile().getEntity());
+    Entity* e = getPlayerTile().getEntity();
+
+    if(e){
+        return static_cast<Player*>(e);
+    }
+
+    return nullptr;
 }
 
 Tile& GameModel::getPlayerTile() {
