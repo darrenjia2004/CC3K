@@ -4,20 +4,19 @@
 #include <cmath> //ceil
 #include "items/usableItem.h"
 
-Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def}, totGold{0}, race{race}, pfx{nullptr} {}
+Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def}, totGold{0}, 
+race{race}, pfx{unique_ptr<Potionfx>{nullptr}} {}
 
 Player::~Player(){
-    delete pfx;
 }
 
-void Player::applyPotion(Potionfx* p){
-    p->next = pfx;
-    pfx = p;
+void Player::applyPotion(unique_ptr<Potionfx> p){
+    p->next = std::move(pfx);
+    pfx = std::move(p);
 }
 
 void Player::clearPotions(){
-    delete pfx;
-    pfx = nullptr;
+    pfx = unique_ptr<Potionfx>{nullptr};
 }
 
 int Player::getAttack(){
@@ -46,7 +45,6 @@ void Player::gainCompass(){
 }
 
 void Player::resetTempFx(){
-    delete pfx;
 }
 
 void Player::gainBarrierSuit(){

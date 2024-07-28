@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "potion.h"
 #include "gameModel.h"
 #include "characters/potionfx.h"
@@ -12,8 +14,7 @@ Potion::~Potion(){
 
 void Potion::applyItemEffect(Player& p){
     GameModel::potionVisibility[c] = true;
-    Potionfx* pfx = new Potionfx{atk, def};
-    p.applyPotion(pfx);
+    p.applyPotion(make_unique<Potionfx>(atk, def));
 
     p.addToHp(hp);
 }

@@ -13,10 +13,10 @@ class Player : public Character {
     virtual void onDeath();
 
 public:
-    Potionfx* pfx;
+    unique_ptr<Potionfx> pfx;
     Player(char c, int maxHp, int atk, int def, string race);
     virtual ~Player();
-    virtual void applyPotion(Potionfx* p);
+    virtual void applyPotion(unique_ptr<Potionfx> p);
     void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;

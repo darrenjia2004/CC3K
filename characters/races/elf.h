@@ -4,7 +4,7 @@
 
 class Elf : public Player {
 public:
-    void applyPotion(Potionfx* p) override;
+    void applyPotion(unique_ptr<Potionfx> p) override;
     Elf();
 };
 #endif
