@@ -73,6 +73,10 @@ pair<bool, string> Player::use(Direction d, Tile& tile){
 }
 
 pair<bool, string> Player::attack(Direction d, Tile& tile){
+    if(!attackHits()){
+        return make_pair(false, "Nothing to attack! \n");
+    }
+
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
     Entity* targetEntity = target->getEntity();

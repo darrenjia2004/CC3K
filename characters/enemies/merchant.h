@@ -7,7 +7,7 @@ class Merchant : public Enemy {
 public:
     static const char c;
     Merchant(bool hasCompass);
-    bool isAggressive() override;
+    bool attackHits() override;
     void afterAttacked(Character& attacker) override;
 };
 #endif

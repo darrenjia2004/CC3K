@@ -23,6 +23,10 @@ int Character::getDefense(){
     return def;
 }
 
+bool Character::attackHits(){
+    return true;
+}
+
 void Character::afterAttacked(Character& attacker){}
 
 // Moves the character without performing any checks

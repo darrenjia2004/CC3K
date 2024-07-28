@@ -30,20 +30,15 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
 }
 
 pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
-    if(!isAggressive()){
-        return make_pair(false, "Nothing to attack! \n");
-    }
-
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
     Entity* targetEntity = target->getEntity();
-    int successfulAttack = rand() % 2;
 
     // if the target is the player then reduce player hp by current attack
     // kill the enemy if its health falls below 0
     // TODO: Merchant magic
     if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
-        if(successfulAttack == 1){
+        if(attackHits()){
              playerPtr->subtractFromHp(ceil((100.0/(100.0+playerPtr->getDefense()))*getAttack()));
              playerPtr->afterAttacked(*dynamic_cast<Character*>(this));
             if(playerPtr->getHp() <= 0){
@@ -78,6 +73,6 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     }
 }
 
-bool Enemy::isAggressive(){
-    return true;
+bool Enemy::attackHits(){
+    return (rand() % 2) == 1;
 }
