@@ -1,6 +1,7 @@
 #ifndef _TILE_H_
 #define _TILE_H_
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -12,11 +13,12 @@ class Entity;
 class Tile : public Drawable {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
-    Entity* entity;
+    std::unique_ptr<Entity> entity;
     bool stairs;
 
 public:
     Tile(char c);
+    Tile(Tile&& t);
     ~Tile();
     const char c;
     Entity* getEntity();
@@ -26,6 +28,7 @@ public:
     void setChamberNum(int n);
     bool isPassable();
     bool isMonsterPassable();
+    void moveEntityTo(Tile& other);
     const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);
     void notify();

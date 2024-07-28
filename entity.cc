@@ -1,7 +1,7 @@
 #include "entity.h"
 #include <algorithm>
 
-    Entity::Entity(char c): hasDoneEndOfTurn{false}, c{c}{}
+    Entity::Entity(char c): hasDoneEndOfTurn{false}, c{c}, observers{vector<Tile*>()}{}
 
    char Entity::getChar(){
         return c;
@@ -35,7 +35,12 @@
     }
 
     void Entity::detach(Tile* t){
-        observers.erase(remove(observers.begin(), observers.end(), t), observers.end());
+
+        auto it = find(observers.begin(), observers.end(), t);
+
+        if(it != observers.end()){
+            observers.erase(it);
+        }
     }
 
     void Entity::notifyObservers(){

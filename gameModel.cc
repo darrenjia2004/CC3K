@@ -56,7 +56,7 @@ void GameModel::loadTiles() {
         row++;
         for (int i = 0; i < line.length(); i++) {
             Tile t{ line[i] };
-            map[row].push_back(t);
+            map[row].push_back(move(t));
         }
     }
     file.close();
@@ -116,7 +116,9 @@ void GameModel::floodFill(Tile& t, int n) {
 void GameModel::generatePlayer(Player* player) {
     if (player) {
         player->clearPotions();
-        playerCoords = addToRandomTile(player, true);
+        pair<int, int> newCoords = addToRandomTile(nullptr, true);
+        Tile& newTile = map[newCoords.first][newCoords.second];
+        map[playerCoords.first][playerCoords.second].moveEntityTo(newTile);
     }
     else {
         switch (playerRaceAction) {
@@ -327,15 +329,15 @@ Tile** GameModel::getRawMap() {
 
 void GameModel::resetBoard() {
     // detach the player tile from player so we dont delete it
-    Tile& t = getPlayerTile();
-    t.setEntity(nullptr);
+    // Tile& t = getPlayerTile();
+    // t.setEntity(nullptr);
 
     // clear all the non player entities
     for (auto& v : map) {
         for (auto& t : v) {
             Entity* e = t.getEntity();
-            if (e) {
-                delete(e);
+            if (e != getPlayer()) {
+                //delete(e);
                 t.setEntity(nullptr);
             }
         }
@@ -371,6 +373,8 @@ string GameModel::playerTurn(Command c) {
     if (stairCoords == playerCoords) {
         floor++;
         Player* p = getPlayer();
+        //Entity* playerEntity = map[playerCoords.first][playerCoords.second].takeEntity().get();
+        //Player * p = static_cast<Player*>(playerEntity);
         resetBoard();
         generatePlayer(p);
         generate();
