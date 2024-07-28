@@ -8,6 +8,7 @@
 using namespace std;
 
 class Player : public Character {
+    static const int playerTeam = 0;
     float totGold;
     const string race;
     virtual void onDeath();
@@ -28,7 +29,6 @@ public:
     void gainBarrierSuit();
     virtual float calculateScore();
     virtual pair<bool, string> use(Direction d, Tile& tile);
-    virtual pair<bool, string> attack(Direction d, Tile& tile) override;
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };
 

@@ -5,9 +5,8 @@
 #include "command.h"
 
 Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
-: Character{ c, maxHp, atk, def }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
 
-// TODO fill these in
 void Enemy::onDeath() {
     if (ownedItem){
         ownedItem->unlock();
@@ -17,9 +16,13 @@ void Enemy::onDeath() {
 pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     auto neighbours = t.getNeighbours();
     for (auto d : neighbours){
+        //we try to attack every entity neighbouring us
+        //attack checks if the neighbouring entity is a Character for us
         Entity* targetEntity = d.second->getEntity();
-        if(Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
-            return attack(d.first, t);
+        pair<bool, string> ret{attack(d.first, t)};
+
+        if(ret.first){
+            return ret;
         }
     }
     vector<Direction> directions = getGameDirections();
@@ -27,30 +30,6 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     int num{ rand() % 8 };
     Direction d = directions[num];
     return move(d, t);
-}
-
-pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
-    auto neighbours = tile.getNeighbours();
-    Tile* target = neighbours[d];
-    Entity* targetEntity = target->getEntity();
-
-    // if the target is the player then reduce player hp by current attack
-    // kill the enemy if its health falls below 0
-    // TODO: Merchant magic
-    if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
-        if(attackHits()){
-             playerPtr->subtractFromHp(ceil((100.0/(100.0+playerPtr->getDefense()))*getAttack()));
-             playerPtr->afterAttacked(*dynamic_cast<Character*>(this));
-            if(playerPtr->getHp() <= 0){
-                playerPtr->die();
-            }
-            return make_pair(true, "Attacked by monster :( \n");
-        }else{
-            return  make_pair(false, "Haha Monster Missed! \n");
-        }
-    }else{
-        return make_pair(false, "Nothing to attack! \n");
-    }
 }
 
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {

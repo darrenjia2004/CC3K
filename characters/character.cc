@@ -1,6 +1,8 @@
+#include <cmath>     // ceil
 #include "characters/character.h"
 
-Character::Character(char c, int maxHp, int atk, int def) : Entity{ c }, maxHp{ maxHp }, atk{ atk }, def{ def }, hp{ maxHp } {}
+Character::Character(char c, int maxHp, int atk, int def, int team) : 
+    Entity{ c }, maxHp{ maxHp }, atk{ atk }, def{ def }, hp{ maxHp }, team{ team } {}
 
 int Character::getHp() {
     return hp;
@@ -36,4 +38,28 @@ void Character::moveNoChecks(Direction d, Tile& tile){
     Tile* target = neighbours[d];
     target->setEntity(this);
     tile.setEntity(nullptr, false);
+}
+
+pair<bool, string> Character::attack(Direction d, Tile& tile) {
+    auto neighbours = tile.getNeighbours();
+    Tile* target = neighbours[d];
+    Entity* targetEntity = target->getEntity();
+
+    // if the target is not the same team, try to attack
+    // kill the enemy if its health falls below 0
+    if (Character* charPtr = dynamic_cast<Character*>(targetEntity)) {
+        if ((team == charPtr->team) || !attackHits()) {
+            return make_pair(false, "Did not attack :( \n");
+        }
+
+        charPtr->subtractFromHp(ceil((100.0 / (100.0 + charPtr->getDefense())) * getAttack()));
+        charPtr->afterAttacked(*this);
+        if (charPtr->getHp() <= 0) {
+            charPtr->die();
+        }
+        return make_pair(true, "Successfully attacked \n");
+    }
+    else {
+        return make_pair(false, "Nothing to attack! \n");
+    }
 }

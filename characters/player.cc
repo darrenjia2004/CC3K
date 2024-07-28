@@ -4,7 +4,7 @@
 #include <cmath> //ceil
 #include "items/usableItem.h"
 
-Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def}, totGold{0}, race{race}, pfx{nullptr} {}
+Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def, playerTeam}, totGold{0}, race{race}, pfx{nullptr} {}
 
 Player::~Player(){
     delete pfx;
@@ -70,29 +70,6 @@ pair<bool, string> Player::use(Direction d, Tile& tile){
 
     return {false, "Player tried to use an item, but failed \n"};
 
-}
-
-pair<bool, string> Player::attack(Direction d, Tile& tile){
-    if(!attackHits()){
-        return make_pair(false, "Nothing to attack! \n");
-    }
-
-    auto neighbours = tile.getNeighbours();
-    Tile* target = neighbours[d];
-    Entity* targetEntity = target->getEntity();
-
-    // if the target is a enemy then reduce enemy hp by current attack
-    // kill the enemy if its health falls below 0
-    if (Enemy* enemyPtr = dynamic_cast<Enemy*>(targetEntity)){
-        enemyPtr->subtractFromHp(ceil((100.0/(100.0+enemyPtr->getDefense()))*getAttack()));
-        enemyPtr->afterAttacked(*dynamic_cast<Character*>(this));
-        if(enemyPtr->getHp() <= 0){
-            enemyPtr->die();
-        }
-        return make_pair(true, "Player successfully attacked \n");
-    }else{
-        return make_pair(false, "Nothing to attack! \n");
-    }
 }
 
 pair<bool, string> Player::move(Direction d, Tile& tile){

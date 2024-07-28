@@ -6,6 +6,7 @@
 class Item;
 
 class Enemy : public Character {
+    static const int enemyTeam = 1;
     const bool hasCompass;
     const int goldDrop;
     virtual void onDeath() override;
@@ -16,7 +17,6 @@ public:
     virtual pair<bool,string> endOfTurnEffect(Tile& t) override;
 
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem = nullptr);
-    virtual pair<bool, string> attack(Direction d, Tile& tile) override;
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
     bool attackHits() override;
 };
