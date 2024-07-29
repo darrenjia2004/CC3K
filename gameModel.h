@@ -26,6 +26,7 @@ class GameModel {
     pair<int, int> playerCoords;
     int chamberCount;
     const unsigned randomSeed;
+    int barrierSuitFloor;
     int floor;
     pair<int, int> stairCoords;
     Tile** rawMap;

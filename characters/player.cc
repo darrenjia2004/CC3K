@@ -4,7 +4,8 @@
 #include <cmath> //ceil
 #include "items/usableItem.h"
 
-Player::Player(char c, int maxHp, int atk, int def, string race): Character{c, maxHp, atk, def, playerTeam}, totGold{0}, race{race}, pfx{nullptr} {}
+Player::Player(char c, int maxHp, int atk, int def, string race): 
+Character{c, maxHp, atk, def, playerTeam}, totGold{0}, race{race}, hasBarrierSuit{false}, pfx{nullptr} {}
 
 Player::~Player(){
     delete pfx;
@@ -41,6 +42,16 @@ void Player::increaseGold(float gold){
     totGold += gold;
 }
 
+void Player::subtractFromHp(int n){
+    if(hasBarrierSuit){
+        int modified{ceil(n / 2.0)};
+        Character::subtractFromHp(modified);
+    }
+    else{
+        Character::subtractFromHp(n);
+    }        
+}
+
 void Player::gainCompass(){
 
 }
@@ -50,7 +61,7 @@ void Player::resetTempFx(){
 }
 
 void Player::gainBarrierSuit(){
-
+    hasBarrierSuit = true;
 }
 
 float Player::calculateScore(){
