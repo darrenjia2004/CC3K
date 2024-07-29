@@ -52,7 +52,11 @@ int Player::subtractFromHp(int n){
 }
 
 void Player::gainCompass(){
+    compassAcquired = true;
+}
 
+bool Player::hasCompass(){
+    return compassAcquired;
 }
 
 void Player::resetTempFx(){

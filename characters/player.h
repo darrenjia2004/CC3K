@@ -11,6 +11,7 @@ class Player : public Character {
     static const int playerTeam = 0;
     float totGold;
     const string race;
+    bool compassAcquired = false;
     bool hasBarrierSuit;
     virtual void onDeath();
 
@@ -27,6 +28,7 @@ public:
     string getRace();
     virtual void increaseGold(float gold);
     void gainCompass();
+    bool hasCompass();
     void resetTempFx();
     void gainBarrierSuit();
     virtual float calculateScore();

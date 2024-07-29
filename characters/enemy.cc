@@ -1,15 +1,17 @@
-#include "characters/enemy.h"
+#include "enemy.h"
 #include "items/item.h"
 #include <cmath>     // ceil
 #include <stdlib.h>  // srand/rand
 #include "command.h"
+#include "items/compass.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Item* ownedItem) 
-: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
-    if (ownedItem){
-        ownedItem->unlock();
+    if (ownedItemTile->getEntity()){
+        // invariant: always points to an item
+        dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
     }
 }
 
@@ -58,4 +60,15 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
 
 bool Enemy::attackHits(){
     return (rand() % 2) == 1;
+}
+
+Entity* Enemy::getLoot(){
+    if(hasCompass){
+        return new Compass;
+    }else{
+        return nullptr;
+    }
+}
+Tile* Enemy::getOwnedItemTile(){
+    return ownedItemTile;
 }

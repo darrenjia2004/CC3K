@@ -191,7 +191,7 @@ void GameModel::generate() {
         //find neighbour of tile
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
-        Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
+        Dragon* d = new Dragon(compassIndex == index, &map[coord.first][coord.second]);
         neighbour->setEntity(d);
         ++index;
     }
@@ -256,6 +256,12 @@ Gold* GameModel::getRandomGold() {
 
 Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     int num{ rand() % 18 };
+    if(hasCompass){
+        // we aint gonna let merchant have da compass
+        while(num < 16){
+            int num{ rand() % 18 };
+        }
+    }
     switch (num) {
     case 0:
     case 1:
@@ -414,6 +420,10 @@ string GameModel::playerTurn(Command c) {
                 e->setHasDoneEndOfTurn(true);
             }
         }
+    }
+
+    if(getPlayer()->hasCompass()){
+        map[stairCoords.first][stairCoords.second].show();
     }
 
     for (int i = 0; i < map.size(); i++) {

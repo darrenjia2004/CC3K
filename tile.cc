@@ -10,7 +10,7 @@ Tile::~Tile() {
 }
 
 char Tile::getChar() {
-    return entity ? entity->getChar() : stairs ? '\\' : c;
+    return entity ? entity->getChar() : (stairs && showStairs) ? '\\' : c;
 }
 
 int Tile::getChamberNum() {
@@ -76,10 +76,19 @@ void Tile::setEntity(Entity* e, bool deleteOld) {
 
 void Tile::makeStairs() {
     stairs = true;
+    hide();
 }
 
 bool Tile::isStairs() {
     return stairs;
+}
+
+void Tile::show() {
+    showStairs = true;
+}
+
+void Tile::hide() {
+    showStairs = false;
 }
 
 void Tile::unmakeStairs(){
