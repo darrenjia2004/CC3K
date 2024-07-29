@@ -69,7 +69,7 @@ void Tile::moveEntityTo(Tile& other) {
 
 }
 
-void Tile::setEntity(Entity* e, bool deleteOld) {
+void Tile::setEntity(Entity* e) {
     if (entity.get()) {
         entity->detach(this);
     }

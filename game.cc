@@ -29,19 +29,23 @@ void Game::start() {
 
             GameModel::State state{gm->getState()};
 
-            if(state == GameModel::State::IN_PROGRESS){
-                render(actionString);
-            }
-            else{
-                if(state == GameModel::State::WON){
-                    v.print("Congratulations! You beat the game!");
-                    v.print("Your score was " + to_string(gm->getPlayer()->calculateScore()));
-                }
+            render(actionString, state != GameModel::State::LOST);
 
-                v.print("If you would like to play again, enter your race.");
-                if (!createGameModel()) {
-                    break;
-                }
+            if(state == GameModel::State::IN_PROGRESS){
+                continue; //keep going
+            }
+            
+            if(state == GameModel::State::WON){
+                v.print("Congratulations! You beat the game!");
+                v.print("Your score was " + to_string(gm->getPlayer()->calculateScore()));
+            }
+            else {
+                v.print("You lost...");
+            }
+
+            v.print("If you would like to play again, enter your race.");
+            if (!createGameModel()) {
+                break;
             }
         }
     }
@@ -71,6 +75,6 @@ bool Game::createGameModel() {
     return true;
 }
 
-void Game::render(string actionString) {
-    v.draw(gm->getRawMap(), gm->map.size(), gm->map[0].size(), gm->getPlayer(), gm->getFloor(), actionString);
+void Game::render(string actionString, bool includePlayerInfo) {
+    v.draw(gm->getRawMap(), gm->map.size(), gm->map[0].size(), gm->getPlayer(), gm->getFloor(), actionString, includePlayerInfo);
 }

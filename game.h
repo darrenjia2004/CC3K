@@ -13,7 +13,7 @@ class Game {
   unique_ptr<InputDevice> id;
   View<Tile> v;
   void init();
-  void render(string actionString);
+  void render(string actionString, bool includePlayerInfo = true);
   bool createGameModel();
 public:
   Game();

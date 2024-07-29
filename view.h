@@ -64,7 +64,7 @@ public:
 
     enable_if_t<is_base_of<Drawable, T>::value, void>
 
-        draw(T** map, int rows, int cols, Player* p, int floor, string actionString) {
+        draw(T** map, int rows, int cols, Player* p, int floor, string actionString, bool includePlayerInfo = true) {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 char c = map[i][j].getChar();
@@ -73,10 +73,13 @@ public:
 
             cout << RESET << endl;
         }
-        cout << "Race: " << p->getRace() << " Gold: " << p->getGold() << "         Floor: " << floor << endl;
-        cout << "HP: " << p->getHp() << endl;
-        cout << "Atk: " << p->getAttack() << endl;
-        cout << "Def: " << p->getDefense() << endl;
+        if(includePlayerInfo){
+            cout << "Race: " << p->getRace() << " Gold: " << p->getGold() << "         Floor: " << floor << endl;
+            cout << "HP: " << p->getHp() << endl;
+            cout << "Atk: " << p->getAttack() << endl;
+            cout << "Def: " << p->getDefense() << endl;
+        }
+
         if(actionString != ""){
             cout << "Action: " << actionString;
         }
