@@ -32,7 +32,7 @@ public:
     void moveEntityTo(Tile& other);
     const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);
-    void notify();
+    string notify();
     void makeStairs();
     void showStairs();
     void hideStairs();

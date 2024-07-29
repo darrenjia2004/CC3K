@@ -48,12 +48,29 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
     return neighbours;
 }
 
-void Tile::notify() {
+string Tile::notify() {
+    string ret{""};
+
     if (entity.get()) {
-        setEntity(entity->getLoot());
+
+        Entity* loot = entity->getLoot();
+
+        if (loot) {
+            string entityName{entity->getProperName()};
+            string lootName{loot->getProperName()};
+            if(entityName == lootName){
+                ret = "In the place of " + entityName + ", another " + lootName + " appeared";
+            }
+            else {
+                ret = "In the place of " + entity->getProperName() + ", " + loot->getProperName() + " appeared";
+            }
+        }
+
+        setEntity(loot);
     }
 
     //otherwise, entity is nullptr and we don't have to do anything
+    return ret;
 }
 
 Entity* Tile::getEntity() {
