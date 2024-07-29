@@ -2,9 +2,7 @@
 
 Elf::Elf() : Player{'@', 140, 30, 10, "Elf"}{}
 
-void Elf::applyPotion(unique_ptr<Potionfx> p){
-    // for an elf we just make a new pfx object with positive values
-    unique_ptr<Potionfx> newfx = make_unique<Potionfx>(p->atk < 0 ? -p->atk : p->atk, p->def < 0 ? -p->def : p->def);
-    newfx->next = std::move(pfx);
-    pfx = std::move(newfx);
+void Elf::applyPotion(int potionHp, int potionAtk, int potionDef) {
+    // for an elf we just use the absolute values of the effects so they're always positive
+    Player::applyPotion(abs(potionHp), abs(potionAtk), abs(potionDef));
 }

@@ -11,9 +11,12 @@ Player::Player(char c, int maxHp, int atk, int def, string race) :
 Player::~Player(){
 }
 
-void Player::applyPotion(unique_ptr<Potionfx> p){
-    p->next = std::move(pfx);
-    pfx = std::move(p);
+void Player::applyPotion(int potionHp, int potionAtk, int potionDef) {
+    unique_ptr<Potionfx> newFx = make_unique<Potionfx>(potionAtk, potionDef);
+    newFx->setNext(pfx.release());
+    pfx = std::move(newFx);
+
+    addToHp(potionHp);
 }
 
 void Player::clearPotions(){

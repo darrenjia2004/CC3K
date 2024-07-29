@@ -14,9 +14,7 @@ Potion::~Potion(){
 
 void Potion::applyItemEffect(Player& p){
     GameModel::potionVisibility[c] = true;
-    p.applyPotion(make_unique<Potionfx>(atk, def));
-
-    p.addToHp(hp);
+    p.applyPotion(hp, atk, def);
 }
 
 char Potion::getChar() const {

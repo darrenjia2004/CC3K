@@ -19,7 +19,7 @@ public:
     unique_ptr<Potionfx> pfx;
     Player(char c, int maxHp, int atk, int def, string race);
     virtual ~Player();
-    virtual void applyPotion(unique_ptr<Potionfx> p);
+    virtual void applyPotion(int potionHp, int potionAtk, int potionDef);
     void clearPotions();
     virtual int getAttack() const override;
     virtual int getDefense() const override;
