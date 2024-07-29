@@ -259,7 +259,7 @@ Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     if(hasCompass){
         // we aint gonna let merchant have da compass
         while(num < 16){
-            int num{ rand() % 18 };
+            num = rand() % 18;
         }
     }
     switch (num) {
