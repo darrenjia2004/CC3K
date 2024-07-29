@@ -42,7 +42,11 @@ void Player::increaseGold(float gold){
 }
 
 void Player::gainCompass(){
+    compassAcquired = true;
+}
 
+bool Player::hasCompass(){
+    return compassAcquired;
 }
 
 void Player::resetTempFx(){

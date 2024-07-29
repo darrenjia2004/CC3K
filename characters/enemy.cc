@@ -1,8 +1,9 @@
-#include "characters/enemy.h"
+#include "enemy.h"
 #include "items/item.h"
 #include <cmath>     // ceil
 #include <stdlib.h>  // srand/rand
 #include "command.h"
+#include "items/compass.h"
 
 Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
 : Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
@@ -57,4 +58,12 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
 
 bool Enemy::attackHits(){
     return (rand() % 2) == 1;
+}
+
+Entity* Enemy::getLoot(){
+    if(hasCompass){
+        return new Compass;
+    }else{
+        return nullptr;
+    }
 }

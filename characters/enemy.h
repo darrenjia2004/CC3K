@@ -1,7 +1,7 @@
 #ifndef _ENEMY_H_
 #define _ENEMY_H_
 
-#include "characters/character.h"
+#include "character.h"
 #include "tile.h"
 class Item;
 
@@ -19,5 +19,6 @@ public:
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem = nullptr);
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
     bool attackHits() override;
+    virtual Entity* getLoot() override;
 };
 #endif
