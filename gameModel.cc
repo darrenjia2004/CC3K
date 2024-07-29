@@ -412,6 +412,10 @@ string GameModel::playerTurn(Command c) {
         }
     }
 
+    if(getPlayer()->hasCompass()){
+        map[stairCoords.first][stairCoords.second].show();
+    }
+
     for (int i = 0; i < map.size(); i++) {
         for (int j = 0; j < map[i].size();j++) {
             Entity* e = map[i][j].getEntity();

@@ -14,6 +14,7 @@ class Tile : public Drawable {
     std::map<Direction, Tile*> neighbours;
     Entity* entity;
     bool stairs;
+    bool showStairs;
 
 public:
     Tile(char c);
@@ -30,6 +31,8 @@ public:
     void setNeighbour(Direction d, Tile* t);
     void notify();
     void makeStairs();
+    void show();
+    void hide();
     bool isStairs();
     void unmakeStairs();
 };

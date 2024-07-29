@@ -1,8 +1,6 @@
 #include "compass.h"
 
-Compass::Compass(): SteppableItem{'C'}{
-
-}
+Compass::Compass(): SteppableItem{'C'}{}
 
 Compass::~Compass(){
     
