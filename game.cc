@@ -56,7 +56,7 @@ void Game::start() {
 bool Game::createGameModel() {
     v.print("Choose your race: (d)warf, (e)lf, (h)uman, or (o)rc.");
     v.print("Alternatively, press q to quit.");
-    Command c{ id->getUserInput() };
+    Command c = id->getUserInput();
     while ((c.action != Action::SELECTDWARF)
         && (c.action != Action::SELECTELF)
         && (c.action != Action::SELECTHUMAN)
@@ -75,6 +75,6 @@ bool Game::createGameModel() {
     return true;
 }
 
-void Game::render(string actionString, bool includePlayerInfo) {
+void Game::render(string actionString, bool includePlayerInfo) const {
     v.draw(gm->getRawMap(), gm->map.size(), gm->map[0].size(), gm->getPlayer(), gm->getFloor(), actionString, includePlayerInfo);
 }

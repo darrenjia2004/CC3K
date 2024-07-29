@@ -56,7 +56,7 @@ Command CinInputDevice::getUserInput(){
     
 }
 
-Direction CinInputDevice::stringToDirection(string s){
+Direction CinInputDevice::stringToDirection(string s) {
     if (s == "no"){
         return Direction::NO;
     }

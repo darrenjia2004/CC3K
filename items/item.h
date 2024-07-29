@@ -10,7 +10,7 @@ class Item : public Entity{
     protected:
     virtual void applyItemEffect(Player& p) =0;
     public:
-    bool getUnlocked();
+    bool getUnlocked() const;
     void unlock();
     Item(char c,  string properName, bool isUnlocked = true);
     virtual ~Item();

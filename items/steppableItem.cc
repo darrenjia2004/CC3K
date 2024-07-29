@@ -13,6 +13,6 @@ void SteppableItem::onStepped(Player& p){
     die();
 }
 
-bool SteppableItem::isPassable(){
+bool SteppableItem::isPassable() const {
     return getUnlocked();
 }

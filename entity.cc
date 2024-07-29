@@ -3,10 +3,10 @@
 
 Entity::Entity(char c, string properName) : hasDoneEndOfTurn{ false }, c{ c }, properName{ properName } {}
 
-string Entity::getProperName() {
+string Entity::getProperName() const {
     return properName;
 }
-char Entity::getChar() {
+char Entity::getChar() const {
     return c;
 }
 
@@ -18,11 +18,11 @@ void Entity::setHasDoneEndOfTurn(bool b) {
     hasDoneEndOfTurn = b;
 }
 
-bool Entity::getHasDoneEndOfTurn() {
+bool Entity::getHasDoneEndOfTurn() const {
     return hasDoneEndOfTurn;
 }
 
-bool Entity::isPassable() {
+bool Entity::isPassable() const {
     return false;
 }
 
@@ -55,7 +55,7 @@ string Entity::notifyObservers() {
     return ret;
 }
 
-Entity* Entity::getLoot() {
+Entity* Entity::getLoot() const {
     return nullptr;
 }
 

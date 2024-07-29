@@ -22,13 +22,13 @@ public:
     Tile(Tile&& t);
     ~Tile();
     const char c;
-    Entity* getEntity();
+    Entity* getEntity() const;
     void setEntity(Entity* e);
-    virtual char getChar() override;
-    int getChamberNum();
+    virtual char getChar() const override;
+    int getChamberNum() const;
     void setChamberNum(int n);
-    bool isPassable();
-    bool isMonsterPassable();
+    bool isPassable() const;
+    bool isMonsterPassable() const;
     void moveEntityTo(Tile& other);
     const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);

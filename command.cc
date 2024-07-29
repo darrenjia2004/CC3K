@@ -1,5 +1,6 @@
 #include "command.h"
 
+Command::Command(Action a, Direction d): action{ a }, direction{ d }{}
 
 // utility functions
 pair<int, int> getCoords(Direction d) {

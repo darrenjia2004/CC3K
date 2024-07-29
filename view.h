@@ -25,7 +25,7 @@ using namespace std;
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 template<typename T> class View {
-    string getColor(char c){
+    static string getColor(char c){
         switch (c) {
             case '@':
                 return BOLDCYAN;
@@ -58,13 +58,13 @@ template<typename T> class View {
         }
     }
 public:
-    void print(string str){
+    void print(string str) const {
         cout << str << endl;
     }
 
     enable_if_t<is_base_of<Drawable, T>::value, void>
 
-        draw(T** map, int rows, int cols, Player* p, int floor, string actionString, bool includePlayerInfo = true) {
+        draw(T** map, int rows, int cols, Player* p, int floor, string actionString, bool includePlayerInfo = true) const {
         for (int i = 0; i < rows; ++i) {
             for (int j = 0; j < cols; ++j) {
                 char c = map[i][j].getChar();

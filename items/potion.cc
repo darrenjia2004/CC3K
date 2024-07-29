@@ -19,7 +19,7 @@ void Potion::applyItemEffect(Player& p){
     p.addToHp(hp);
 }
 
-char Potion::getChar(){
+char Potion::getChar() const {
     if (GameModel::potionVisibility[c]){
         return c;
     }

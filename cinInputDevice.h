@@ -8,7 +8,7 @@
 using namespace std;
 
 class CinInputDevice: public InputDevice {
-  Direction stringToDirection(string s);
+  static Direction stringToDirection(string s);
  public:
   virtual Command getUserInput() override;
 };

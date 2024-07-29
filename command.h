@@ -36,9 +36,9 @@ string getDirectionName(Direction d);
 
 class Command {
   public:
-    Action action;
-    Direction direction;
-    Command(Action a, Direction d = Direction::NONE): action{a},direction{d}{}
+      Action action;
+      Direction direction;
+    Command(Action a, Direction d = Direction::NONE);
 };
 
 #endif

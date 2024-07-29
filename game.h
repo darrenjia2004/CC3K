@@ -14,7 +14,7 @@ class Game {
   View<Tile> v;
   string maptxt;
   void init();
-  void render(string actionString, bool includePlayerInfo = true);
+  void render(string actionString, bool includePlayerInfo = true) const;
   bool createGameModel();
 public:
   Game(string maptxt = "");

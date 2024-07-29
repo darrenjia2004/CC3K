@@ -8,6 +8,6 @@ class Phoenix : public Enemy {
 public:
     static const char c;
     Phoenix(bool hasCompass, int regenCount = 1);
-    Entity* getLoot() override;
+    Entity* getLoot() const override;
 };
 #endif

@@ -8,8 +8,8 @@ class Potionfx{
     const int atk;
     const int def;
     std::unique_ptr<Potionfx> next;
-    int getAtkChange();
-    int getDefChange();
+    int getAtkChange() const;
+    int getDefChange() const;
     Potionfx(int atk, int def);
     ~Potionfx();
 };

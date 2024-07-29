@@ -20,20 +20,20 @@ void Player::clearPotions(){
     pfx = unique_ptr<Potionfx>{nullptr};
 }
 
-int Player::getAttack(){
+int Player::getAttack() const {
     return pfx ? Character::getAttack() + pfx->getAtkChange(): Character::getAttack();
 }
 
-int Player::getDefense(){
+int Player::getDefense()const {
     // TODO: 100 if barrier suit
     return pfx ? Character::getDefense() + pfx->getDefChange(): Character::getDefense();
 }
 
-float Player::getGold(){
+float Player::getGold() const {
     return totGold;
 }
 
-string Player::getRace(){
+string Player::getRace() const {
     return race;
 }
 
@@ -55,7 +55,7 @@ void Player::gainCompass(){
     compassAcquired = true;
 }
 
-bool Player::hasCompass(){
+bool Player::hasCompass() const {
     return compassAcquired;
 }
 
@@ -63,14 +63,11 @@ void Player::loseCompass(){
     compassAcquired = false;
 }
 
-void Player::resetTempFx(){
-}
-
 void Player::gainBarrierSuit(){
     hasBarrierSuit = true;
 }
 
-float Player::calculateScore(){
+float Player::calculateScore() const{
     return totGold;
 }
 

@@ -8,7 +8,7 @@ using namespace std;
 class SteppableItem : public Item {
     public:
     void onStepped(Player& p);
-    virtual bool isPassable() override;
+    virtual bool isPassable() const override;
     SteppableItem(char c, string properName, bool isUnlocked = true);
     virtual ~SteppableItem();
 };

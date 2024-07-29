@@ -14,12 +14,12 @@ protected:
 public:
     Character(char c, int maxHp, int atk, int def, int team,  string properName);
     const int team;
-    int getHp();
+    int getHp() const;
     void addToHp(int n);
     virtual int subtractFromHp(int n);
-    virtual int getAttack();
-    virtual int getDefense();
-    virtual bool attackHits();
+    virtual int getAttack() const;
+    virtual int getDefense() const;
+    virtual bool attackHits() const;
     virtual pair<bool, string> attack(Direction d, Tile& tile);
     // move should return a bool indicating success and a string for what happened
     virtual pair<bool, string> move(Direction d, Tile& tile) = 0;

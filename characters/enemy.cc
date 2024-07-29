@@ -15,7 +15,7 @@ void Enemy::onDeath() {
     }
 }
 
-bool Enemy::isHostile(){
+bool Enemy::isHostile() const {
     return true;
 }
 
@@ -23,7 +23,7 @@ void Enemy::gainCompass(){
     compass = true;
 }
 
-bool Enemy::hasCompass(){
+bool Enemy::hasCompass() const{
     return compass;
 }
 
@@ -68,17 +68,17 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     }
 }
 
-bool Enemy::attackHits(){
+bool Enemy::attackHits() const {
     return (rand() % 2) == 1;
 }
 
-Entity* Enemy::getLoot(){
+Entity* Enemy::getLoot() const {
     if(compass){
         return new Compass;
     }else{
         return nullptr;
     }
 }
-Tile* Enemy::getOwnedItemTile(){
+Tile* Enemy::getOwnedItemTile() const {
     return ownedItemTile;
 }

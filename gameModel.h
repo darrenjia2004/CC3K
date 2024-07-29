@@ -43,16 +43,17 @@ class GameModel {
     pair<int, int> addToRandomTile(Entity* e, bool canBeWithPlayer);
 
     bool inBounds(const pair<int, int>& pos);
-    pair<int, int> getRandomTile();
-    Potion* getRandomPotion();
-    Gold* getRandomGold();
-    Enemy* getRandomEnemy(bool hasCompass);
-    Tile* getRandomNeighbour(const Tile& current);
+    pair<int, int> getRandomTile() const;
+    Potion* getRandomPotion() const;
+    Gold* getRandomGold() const;
+    Enemy* getRandomEnemy(bool hasCompass) const;
+    Tile* getRandomNeighbour(const Tile& current) const;
     void setPotionVis();
     Tile& getPlayerTile();
+    const Tile& getPlayerTile() const;
     void generatePlayer(Player* player = nullptr);
     void generatePlayer(pair<int, int> pcoord, Player* player = nullptr);
-    Entity* getEntityForChar(char c);
+    Entity* getEntityForChar(char c) const;
     void resetBoard();
 
 public:
@@ -66,12 +67,12 @@ public:
     vector<vector<Tile>> map;
 
     string playerTurn(Command c);
-    int getFloor();
-    Player* getPlayer();
+    int getFloor() const;
+    Player* getPlayer() const;
     GameModel(Action a, string maptxt);
     ~GameModel();
-    Tile** getRawMap();
-    State getState();
+    Tile** getRawMap() const;
+    State getState() const;
 };
 
 pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2);
