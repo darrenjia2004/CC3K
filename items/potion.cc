@@ -2,7 +2,7 @@
 #include "gameModel.h"
 #include "characters/potionfx.h"
 
-Potion::Potion(int hp, int atk, int def, char c) : UsableItem{ c }, hp { hp }, atk{ atk }, def{ def } {
+Potion::Potion(int hp, int atk, int def, char c, string properName) : UsableItem{ c, properName }, hp { hp }, atk{ atk }, def{ def } {
 
 }
 

@@ -2,6 +2,7 @@
 #define _COMMAND_H_
 #include <vector>
 #include <utility>
+#include <string>
 using namespace std;
 
 enum class Action {
@@ -31,6 +32,7 @@ enum class Direction {
 
 pair<int, int> getCoords(Direction d);
 vector<Direction> getGameDirections();
+string getDirectionName(Direction d);
 
 class Command {
   public:

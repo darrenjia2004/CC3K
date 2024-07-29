@@ -12,11 +12,11 @@ class Character : public Entity {
 protected:
     void moveNoChecks(Direction d, Tile& tile);
 public:
-    Character(char c, int maxHp, int atk, int def, int team);
+    Character(char c, int maxHp, int atk, int def, int team,  string properName);
     const int team;
     int getHp();
     void addToHp(int n);
-    virtual void subtractFromHp(int n);
+    virtual int subtractFromHp(int n);
     virtual int getAttack();
     virtual int getDefense();
     virtual bool attackHits();

@@ -5,8 +5,8 @@
 #include "command.h"
 #include "items/compass.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Tile* ownedItemTile) 
-: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
     if (ownedItemTile->getEntity()){
@@ -37,6 +37,7 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     return move(d, t);
 }
 
+// we dont want to print out enemy movement so it is always considered failure.
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
@@ -50,7 +51,7 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
             //cout << "entity is null" << endl;
         }
         moveNoChecks(d, tile);
-        return make_pair(true, "Enemy successfully moved \n");
+        return make_pair(false, "Enemy successfully moved \n");
     }
     else{
         return make_pair(false, "Enemy tried to move but failed \n");

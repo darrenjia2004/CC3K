@@ -1,6 +1,6 @@
 #include "steppableItem.h"
 
-SteppableItem::SteppableItem(char c, bool isUnlocked): Item{c, isUnlocked}{
+SteppableItem::SteppableItem(char c, string properName, bool isUnlocked): Item{c, properName, isUnlocked}{
 
 }
 

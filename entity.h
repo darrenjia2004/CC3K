@@ -14,12 +14,14 @@ class Entity : public Drawable {
     vector<Tile*> observers;
     virtual void onDeath();
     bool hasDoneEndOfTurn;
+    const string properName;
 public:
     bool getHasDoneEndOfTurn();
     void setHasDoneEndOfTurn(bool b);
-    Entity(char c);
+    Entity(char c, string properName);
     const char c;
     virtual char getChar() override;
+    virtual string getProperName();
     virtual pair<bool, string> endOfTurnEffect(Tile& t);
     virtual bool isPassable();
     void die();

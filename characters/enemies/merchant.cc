@@ -4,7 +4,7 @@
 const char Merchant::c = 'M';
 bool Merchant::aggressive = false;
 
-Merchant::Merchant(bool hasCompass) : Enemy{ 'M', 30, 70, 5, hasCompass, 0 } {}
+Merchant::Merchant(bool hasCompass) : Enemy{ 'M', 30, 70, 5, hasCompass, 0 , "Merchant"} {}
 
 bool Merchant::isHostile(){
     return aggressive;

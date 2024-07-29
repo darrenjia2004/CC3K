@@ -23,7 +23,7 @@ public:
     void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;
-    void subtractFromHp(int n) override;
+    int subtractFromHp(int n) override;
     float getGold();
     string getRace();
     virtual void increaseGold(float gold);
