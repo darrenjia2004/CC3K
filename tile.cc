@@ -49,7 +49,7 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 }
 
 void Tile::notify() {
-    if (entity) {
+    if (entity.get()) {
         setEntity(entity->getLoot());
     }
 
@@ -66,17 +66,13 @@ void Tile::moveEntityTo(Tile& other) {
 }
 
 void Tile::setEntity(Entity* e, bool deleteOld) {
-    if (entity) {
+    if (entity.get()) {
         entity->detach(this);
-
-        if (deleteOld) {
-            delete entity;
-        }
     }
 
-    entity = e;
+    entity = unique_ptr<Entity>(e);
 
-    if (entity) {
+    if (entity.get()) {
         entity->attach(this);
     }
 }

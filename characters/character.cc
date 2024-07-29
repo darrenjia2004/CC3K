@@ -37,8 +37,7 @@ void Character::afterAttacked(Character& attacker) {}
 void Character::moveNoChecks(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
-    target->setEntity(this);
-    tile.setEntity(nullptr, false);
+    tile.moveEntityTo(*target);
 }
 
 pair<bool, string> Character::attack(Direction d, Tile& tile) {
