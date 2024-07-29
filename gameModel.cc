@@ -430,7 +430,6 @@ string GameModel::playerTurn(Command c) {
         }
     }
 
-
     if (getPlayer() && getPlayer()->hasCompass()) {
         map[stairCoords.first][stairCoords.second].show();
     }

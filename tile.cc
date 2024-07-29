@@ -61,8 +61,12 @@ Entity* Tile::getEntity() {
 }
 
 void Tile::moveEntityTo(Tile& other) {
+    entity->detach(this);
+    entity->attach(&other);
+
     other.entity = move(entity);
     entity = nullptr;
+
 }
 
 void Tile::setEntity(Entity* e, bool deleteOld) {
