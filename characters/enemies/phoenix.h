@@ -3,8 +3,11 @@
 #include "characters/enemy.h"
 
 class Phoenix : public Enemy {
+    static const int maxRegens = 3;
+    const int regenCount;
 public:
     static const char c;
-    Phoenix(bool hasCompass);
+    Phoenix(bool hasCompass, int regenCount = 1);
+    Entity* getLoot() override;
 };
 #endif
