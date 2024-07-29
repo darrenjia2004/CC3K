@@ -9,7 +9,7 @@ Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop,
 : Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
-    if (ownedItemTile->getEntity()){
+    if (ownedItemTile && ownedItemTile->getEntity()){
         // invariant: always points to an item
         dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
     }
