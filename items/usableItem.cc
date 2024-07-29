@@ -1,6 +1,6 @@
 #include "usableItem.h"
 
-UsableItem::UsableItem(char c): Item{c}{
+UsableItem::UsableItem(char c, string properName): Item{c, properName}{
 
 }
 

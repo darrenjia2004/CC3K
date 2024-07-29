@@ -1,27 +1,37 @@
-#include "characters/enemy.h"
+#include "enemy.h"
 #include "items/item.h"
 #include <cmath>     // ceil
 #include <stdlib.h>  // srand/rand
 #include "command.h"
+#include "items/compass.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
-: Character{ c, maxHp, atk, def }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
-// TODO fill these in
 void Enemy::onDeath() {
-    if (ownedItem){
-        ownedItem->unlock();
+    if (ownedItemTile && ownedItemTile->getEntity()){
+        // invariant: always points to an item
+        dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
     }
+}
+
+bool Enemy::isHostile(){
+    return true;
 }
 
 pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     auto neighbours = t.getNeighbours();
-    for (auto d : neighbours){
-        Entity* targetEntity = d.second->getEntity();
-        if(Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
-            return attack(d.first, t);
+    if (isHostile()){
+        for (auto d : neighbours){
+            Entity* targetEntity = d.second->getEntity();
+            if(Character* charPtr = dynamic_cast<Character*>(targetEntity)){
+                if ((team != charPtr->team)) {
+                    return attack(d.first, t);
+                }   
+            }
         }
     }
+    
     vector<Direction> directions = getGameDirections();
     
     int num{ rand() % 8 };
@@ -29,30 +39,7 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     return move(d, t);
 }
 
-pair<bool, string> Enemy::attack(Direction d, Tile& tile) {
-    auto neighbours = tile.getNeighbours();
-    Tile* target = neighbours[d];
-    Entity* targetEntity = target->getEntity();
-    int successfulAttack = rand() % 2;
-
-    // if the target is the player then reduce player hp by current attack
-    // kill the enemy if its health falls below 0
-    // TODO: Merchant magic
-    if (Player* playerPtr = dynamic_cast<Player*>(targetEntity)){
-        if(successfulAttack == 1){
-             playerPtr->subtractFromHp(ceil((100.0/(100.0+playerPtr->getDefense()))*getAttack()));
-            if(playerPtr->getHp() <= 0){
-                playerPtr->die();
-            }
-            return make_pair(true, "Attacked by monster :( \n");
-        }else{
-            return  make_pair(false, "Haha Monster Missed! \n");
-        }
-    }else{
-        return make_pair(false, "Nothing to attack! \n");
-    }
-}
-
+// we dont want to print out enemy movement so it is always considered failure.
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
@@ -66,9 +53,24 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
             //cout << "entity is null" << endl;
         }
         moveNoChecks(d, tile);
-        return make_pair(true, "Enemy successfully moved \n");
+        return make_pair(false, "Enemy successfully moved \n");
     }
     else{
         return make_pair(false, "Enemy tried to move but failed \n");
     }
+}
+
+bool Enemy::attackHits(){
+    return (rand() % 2) == 1;
+}
+
+Entity* Enemy::getLoot(){
+    if(hasCompass){
+        return new Compass;
+    }else{
+        return nullptr;
+    }
+}
+Tile* Enemy::getOwnedItemTile(){
+    return ownedItemTile;
 }

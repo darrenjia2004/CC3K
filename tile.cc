@@ -5,14 +5,14 @@
 Tile::Tile(char c) : chamberNum{ -1 }, entity{ std::unique_ptr<Entity>{nullptr} }, stairs{ false }, c{ c } {
 }
 
-Tile::Tile(Tile&& t): chamberNum{t.chamberNum}, entity{move(t.entity)}, stairs{t.stairs}, 
-c{t.c}, neighbours{t.neighbours}{}
+Tile::Tile(Tile&& t) : chamberNum{ t.chamberNum }, entity{ move(t.entity) }, stairs{ t.stairs },
+c{ t.c }, neighbours{ t.neighbours } {}
 
 Tile::~Tile() {
 }
 
 char Tile::getChar() {
-    return entity.get() ? entity->getChar() : stairs ? '\\' : c;
+    return entity ? entity->getChar() : (stairs && showStairs) ? '\\' : c;
 }
 
 int Tile::getChamberNum() {
@@ -28,7 +28,7 @@ bool Tile::isPassable() {
     if (c == '#' || c == '\\' || c == '.' || c == '+') {
         tilePassable = true;
     }
-    
+
     return entity.get() ? tilePassable && entity->isPassable() : tilePassable;
 }
 
@@ -49,31 +49,55 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 }
 
 void Tile::notify() {
-    setEntity(nullptr);
+    if (entity) {
+        setEntity(entity->getLoot());
+    }
+
+    //otherwise, entity is nullptr and we don't have to do anything
 }
 
 Entity* Tile::getEntity() {
     return entity.get();
 }
 
-void Tile::moveEntityTo(Tile& other){
+void Tile::moveEntityTo(Tile& other) {
     other.entity = move(entity);
     entity = nullptr;
 }
 
-//TODO handle observer attaches/detaches here
-void Tile::setEntity(Entity* e) {
-    entity = unique_ptr<Entity>(e);
+void Tile::setEntity(Entity* e, bool deleteOld) {
+    if (entity) {
+        entity->detach(this);
+
+        if (deleteOld) {
+            delete entity;
+        }
+    }
+
+    entity = e;
+
+    if (entity) {
+        entity->attach(this);
+    }
 }
 
 void Tile::makeStairs() {
     stairs = true;
+    hide();
 }
 
 bool Tile::isStairs() {
     return stairs;
 }
 
-void Tile::unmakeStairs(){
+void Tile::show() {
+    showStairs = true;
+}
+
+void Tile::hide() {
+    showStairs = false;
+}
+
+void Tile::unmakeStairs() {
     stairs = false;
 }

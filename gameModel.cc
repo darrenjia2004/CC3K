@@ -6,6 +6,7 @@
 #include "characters/races/orc.h"
 #include "items/potion.h"
 #include "items/gold.h"
+#include "items/barrierSuit.h"
 #include "characters/enemies/werewolf.h"
 #include "characters/enemies/vampire.h"
 #include "characters/enemies/goblin.h"
@@ -23,6 +24,7 @@ unordered_map<char, bool> GameModel::potionVisibility;
 GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
 floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} } {
     srand(randomSeed);
+    barrierSuitFloor = rand() % numFloors;
     init();
 }
 
@@ -36,6 +38,18 @@ void GameModel::init() {
     loadChambers();
     generatePlayer();
     generate();
+}
+
+GameModel::State GameModel::getState() {
+    if (!getPlayer()) { //player is killed
+        return State::LOST;
+    }
+
+    if (floor > numFloors) {
+        return State::WON;
+    }
+
+    return State::IN_PROGRESS;
 }
 
 // sets the potion visibilities to false
@@ -163,6 +177,14 @@ void GameModel::generate() {
         }
     }
 
+    //barrier suit generation
+    if (floor == barrierSuitFloor) {
+        BarrierSuit* bs = new BarrierSuit{};
+        pair<int, int> p{ addToRandomTile(bs, true) };
+
+        dragonHordes.push_back(p);
+    }
+
     //enemy generation
     int compassIndex{ rand() % numEnemies };
     int index{ 0 };
@@ -171,9 +193,8 @@ void GameModel::generate() {
         //find neighbour of tile
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
-        Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
+        Dragon* d = new Dragon(compassIndex == index, &map[coord.first][coord.second]);
         neighbour->setEntity(d);
-        d->attach(neighbour);
         ++index;
     }
 
@@ -203,17 +224,17 @@ Potion* GameModel::getRandomPotion() {
 
     switch (num) {
     case 0: //RH
-        return new Potion{ 10, 0, 0, '0' };
+        return new Potion{ 10, 0, 0, '0', "RH" };
     case 1: //BA
-        return new Potion{ 0, 5, 0, '1' };
+        return new Potion{ 0, 5, 0, '1', "BA" };
     case 2: //BD
-        return new Potion{ 0, 0, 5, '2' };
+        return new Potion{ 0, 0, 5, '2', "BD" };
     case 3: //PH
-        return new Potion{ -10, 0, 0, '3' };
+        return new Potion{ -10, 0, 0, '3', "PH" };
     case 4: //WA
-        return new Potion{ 0, -5, 0, '4' };
+        return new Potion{ 0, -5, 0, '4', "WA" };
     default: // corresponds to 5, WD
-        return new Potion{ 0, 0, -5, '5' };
+        return new Potion{ 0, 0, -5, '5', "WD" };
     }
 }
 
@@ -237,6 +258,12 @@ Gold* GameModel::getRandomGold() {
 
 Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     int num{ rand() % 18 };
+    if (hasCompass) {
+        // we aint gonna let merchant have da compass
+        while (num >= 16) {
+            num = rand() % 18;
+        }
+    }
     switch (num) {
     case 0:
     case 1:
@@ -295,9 +322,6 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
     }
 
     map[p.first][p.second].setEntity(e);
-    if (e) {
-        e->attach(&map[p.first][p.second]);
-    }
     return p;
 }
 
@@ -313,7 +337,13 @@ pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2) {
 
 
 Player* GameModel::getPlayer() {
-    return static_cast<Player*>(getPlayerTile().getEntity());
+    Entity* e = getPlayerTile().getEntity();
+
+    if (e) {
+        return static_cast<Player*>(e);
+    }
+
+    return nullptr;
 }
 
 Tile& GameModel::getPlayerTile() {
@@ -358,14 +388,15 @@ string GameModel::playerTurn(Command c) {
         break;
     }
     case Action::USE: {
-        return getPlayer()->use(c.direction, getPlayerTile()).second;
+        actionString = getPlayer()->use(c.direction, getPlayerTile()).second;
+        break;
     }
     case Action::ATTACK: {
-        return getPlayer()->attack(c.direction, getPlayerTile()).second;
+        actionString = getPlayer()->attack(c.direction, getPlayerTile()).second;
+        break;
     }
     default:
-        actionString = "some other action \n";
-        break;
+        return "Invalid Command \n";
     }
     if (stairCoords == playerCoords) {
         floor++;
@@ -373,7 +404,7 @@ string GameModel::playerTurn(Command c) {
         resetBoard();
         generatePlayer(p);
         generate();
-        return "Player moved onto stairs \n";
+        return "PC moved onto stairs \n";
     }
 
     //trigger the end of turn effects for all entities
@@ -381,7 +412,10 @@ string GameModel::playerTurn(Command c) {
         for (int j = 0; j < map[i].size();j++) {
             Entity* e = map[i][j].getEntity();
             if (e && !e->getHasDoneEndOfTurn()) {
-                e->endOfTurnEffect(map[i][j]);
+                auto res = e->endOfTurnEffect(map[i][j]);
+                if (res.first) {
+                    actionString += res.second;
+                }
                 e->setHasDoneEndOfTurn(true);
             }
         }
@@ -394,6 +428,11 @@ string GameModel::playerTurn(Command c) {
                 e->setHasDoneEndOfTurn(false);
             }
         }
+    }
+
+
+    if (getPlayer() && getPlayer()->hasCompass()) {
+        map[stairCoords.first][stairCoords.second].show();
     }
 
     return actionString;

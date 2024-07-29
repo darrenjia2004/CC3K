@@ -19,6 +19,7 @@ class Enemy;
 using namespace std;
 
 class GameModel {
+    static const int numFloors{ 5 };
     static const int numPotions{ 10 };
     static const int numGolds{ 10 };
     static const int numEnemies{ 20 };
@@ -26,6 +27,7 @@ class GameModel {
     pair<int, int> playerCoords;
     int chamberCount;
     const unsigned randomSeed;
+    int barrierSuitFloor;
     int floor;
     pair<int, int> stairCoords;
     unique_ptr<Tile*[]> rawMap;
@@ -50,6 +52,12 @@ class GameModel {
     void resetBoard();
 
 public:
+    enum class State {
+        IN_PROGRESS,
+        WON,
+        LOST
+    };
+
     static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
 
@@ -59,6 +67,7 @@ public:
     GameModel(Action a);
     ~GameModel();
     Tile** getRawMap();
+    State getState();
 };
 
 pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2);

@@ -37,3 +37,26 @@ vector<Direction> getGameDirections() {
         Direction::SW,
     };
 }
+
+string getDirectionName(Direction d) {
+    switch (d) {
+    case Direction::NO:
+        return "north";
+    case Direction::SO:
+        return "south";
+    case Direction::EA:
+        return "east";
+    case Direction::WE:
+        return "west";
+    case Direction::NE:
+        return "north east";
+    case Direction::NW:
+        return "north west";
+    case Direction::SE:
+        return "south east";
+    case Direction::SW:
+        return "south west";
+    default:
+        return "";
+    }
+}

@@ -1,6 +1,6 @@
 #include "item.h"
 
-Item::Item(char c, bool isUnlocked): Entity{c}, isUnlocked{isUnlocked}{
+Item::Item(char c, string properName, bool isUnlocked): Entity{c, properName}, isUnlocked{isUnlocked}{
 
 }
 

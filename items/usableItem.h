@@ -8,7 +8,7 @@ using namespace std;
 
 class UsableItem : public Item {
     public:
-    UsableItem(char c);
+    UsableItem(char c, string properName);
     void onUse(Player& p);
     virtual ~UsableItem();
 };

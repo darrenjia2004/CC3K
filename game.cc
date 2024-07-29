@@ -26,7 +26,23 @@ void Game::start() {
         }
         else {
             string actionString = gm->playerTurn(c);
-            render(actionString);
+
+            GameModel::State state{gm->getState()};
+
+            if(state == GameModel::State::IN_PROGRESS){
+                render(actionString);
+            }
+            else{
+                if(state == GameModel::State::WON){
+                    v.print("Congratulations! You beat the game!");
+                    v.print("Your score was " + to_string(gm->getPlayer()->calculateScore()));
+                }
+
+                v.print("If you would like to play again, enter your race.");
+                if (!createGameModel()) {
+                    break;
+                }
+            }
         }
     }
 

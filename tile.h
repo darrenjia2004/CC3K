@@ -15,6 +15,7 @@ class Tile : public Drawable {
     std::map<Direction, Tile*> neighbours;
     std::unique_ptr<Entity> entity;
     bool stairs;
+    bool showStairs;
 
 public:
     Tile(char c);
@@ -22,7 +23,7 @@ public:
     ~Tile();
     const char c;
     Entity* getEntity();
-    void setEntity(Entity* e);
+    void setEntity(Entity* e, bool deleteOld=true);
     virtual char getChar() override;
     int getChamberNum();
     void setChamberNum(int n);
@@ -33,6 +34,8 @@ public:
     void setNeighbour(Direction d, Tile* t);
     void notify();
     void makeStairs();
+    void show();
+    void hide();
     bool isStairs();
     void unmakeStairs();
 };

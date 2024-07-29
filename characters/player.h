@@ -8,8 +8,11 @@
 using namespace std;
 
 class Player : public Character {
+    static const int playerTeam = 0;
     float totGold;
     const string race;
+    bool compassAcquired = false;
+    bool hasBarrierSuit;
     virtual void onDeath();
 
 public:
@@ -20,15 +23,16 @@ public:
     void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;
+    int subtractFromHp(int n) override;
     float getGold();
     string getRace();
     virtual void increaseGold(float gold);
     void gainCompass();
+    bool hasCompass();
     void resetTempFx();
     void gainBarrierSuit();
     virtual float calculateScore();
     virtual pair<bool, string> use(Direction d, Tile& tile);
-    virtual pair<bool, string> attack(Direction d, Tile& tile) override;
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };
 
