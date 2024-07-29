@@ -25,7 +25,9 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
         for (auto d : neighbours){
             Entity* targetEntity = d.second->getEntity();
             if(Character* charPtr = dynamic_cast<Character*>(targetEntity)){
-                return attack(d.first, t);
+                if ((team != charPtr->team)) {
+                    return attack(d.first, t);
+                }   
             }
         }
     }

@@ -51,9 +51,6 @@ pair<bool, string> Character::attack(Direction d, Tile& tile) {
     // returns true if the attack succesfully went off whether it hit or not
     if (Character* charPtr = dynamic_cast<Character*>(targetEntity)) {
         string enemyName = charPtr->getProperName();
-        if ((team == charPtr->team)) {
-            return make_pair(false, name + " did not attack bc the target is on the same team. \n");
-        }
         if (!attackHits()){
             return make_pair(true, name + "'s attack against " + enemyName + " missed \n");
         }
