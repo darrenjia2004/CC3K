@@ -12,6 +12,7 @@ class Player : public Character {
     float totGold;
     const string race;
     bool compassAcquired = false;
+    bool hasBarrierSuit;
     virtual void onDeath();
 
 public:
@@ -22,6 +23,7 @@ public:
     void clearPotions();
     virtual int getAttack() override;
     virtual int getDefense() override;
+    void subtractFromHp(int n) override;
     float getGold();
     string getRace();
     virtual void increaseGold(float gold);

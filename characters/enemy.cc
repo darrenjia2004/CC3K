@@ -5,12 +5,13 @@
 #include "command.h"
 #include "items/compass.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
-: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
-    if (ownedItem){
-        ownedItem->unlock();
+    if (ownedItemTile->getEntity()){
+        // invariant: always points to an item
+        dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
     }
 }
 
@@ -66,4 +67,7 @@ Entity* Enemy::getLoot(){
     }else{
         return nullptr;
     }
+}
+Tile* Enemy::getOwnedItemTile(){
+    return ownedItemTile;
 }

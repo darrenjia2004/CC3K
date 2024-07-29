@@ -6,6 +6,7 @@
 #include "characters/races/orc.h"
 #include "items/potion.h"
 #include "items/gold.h"
+#include "items/barrierSuit.h"
 #include "characters/enemies/werewolf.h"
 #include "characters/enemies/vampire.h"
 #include "characters/enemies/goblin.h"
@@ -23,6 +24,7 @@ unordered_map<char, bool> GameModel::potionVisibility;
 GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount { 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
 floor{ 1 }, rawMap { nullptr } {
     srand(randomSeed);
+    barrierSuitFloor = rand() % numFloors;
     init();
 }
 
@@ -173,6 +175,14 @@ void GameModel::generate() {
         }
     }
 
+    //barrier suit generation
+    if (floor == barrierSuitFloor){
+        BarrierSuit* bs = new BarrierSuit{};
+        pair<int, int> p{addToRandomTile(bs, true)};
+
+        dragonHordes.push_back(p);
+    }
+
     //enemy generation
     int compassIndex{ rand() % numEnemies };
     int index{ 0 };
@@ -181,7 +191,7 @@ void GameModel::generate() {
         //find neighbour of tile
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
-        Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
+        Dragon* d = new Dragon(compassIndex == index, &map[coord.first][coord.second]);
         neighbour->setEntity(d);
         ++index;
     }
