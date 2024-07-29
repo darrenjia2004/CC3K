@@ -4,8 +4,8 @@
 #include <stdlib.h>  // srand/rand
 #include "command.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
-: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Item* ownedItem) 
+: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
 
 void Enemy::onDeath() {
     if (ownedItem){
@@ -35,6 +35,7 @@ pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     return move(d, t);
 }
 
+// we dont want to print out enemy movement so it is always considered failure.
 pair<bool, string> Enemy::move(Direction d, Tile& tile) {
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];
@@ -48,7 +49,7 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
             //cout << "entity is null" << endl;
         }
         moveNoChecks(d, tile);
-        return make_pair(true, "Enemy successfully moved \n");
+        return make_pair(false, "Enemy successfully moved \n");
     }
     else{
         return make_pair(false, "Enemy tried to move but failed \n");

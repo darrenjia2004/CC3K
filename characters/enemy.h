@@ -16,7 +16,7 @@ class Enemy : public Character {
 public:
     virtual pair<bool,string> endOfTurnEffect(Tile& t) override;
 
-    Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem = nullptr);
+    Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Item* ownedItem = nullptr);
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
     bool attackHits() override;
 };

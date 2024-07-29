@@ -2,7 +2,7 @@
 
 const char Dragon::c = 'D';
 
-Dragon::Dragon(bool hasCompass, Item* ownedItem) : Enemy{ 'D', 150, 20, 20, hasCompass, 0 , ownedItem} {}
+Dragon::Dragon(bool hasCompass, Item* ownedItem) : Enemy{ 'D', 150, 20, 20, hasCompass, 0 ,"Dragon", ownedItem} {}
 
 // dragon does not move, so this does nothing
 pair<bool, string> Dragon::move(Direction d, Tile& t) {

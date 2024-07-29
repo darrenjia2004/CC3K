@@ -222,17 +222,17 @@ Potion* GameModel::getRandomPotion() {
 
     switch (num) {
     case 0: //RH
-        return new Potion{ 10, 0, 0, '0' };
+        return new Potion{ 10, 0, 0, '0', "RH" };
     case 1: //BA
-        return new Potion{ 0, 5, 0, '1' };
+        return new Potion{ 0, 5, 0, '1', "BA" };
     case 2: //BD
-        return new Potion{ 0, 0, 5, '2' };
+        return new Potion{ 0, 0, 5, '2', "BD" };
     case 3: //PH
-        return new Potion{ -10, 0, 0, '3' };
+        return new Potion{ -10, 0, 0, '3', "PH" };
     case 4: //WA
-        return new Potion{ 0, -5, 0, '4' };
+        return new Potion{ 0, -5, 0, '4', "WA" };
     default: // corresponds to 5, WD
-        return new Potion{ 0, 0, -5, '5' };
+        return new Potion{ 0, 0, -5, '5', "WD" };
     }
 }
 
@@ -383,14 +383,15 @@ string GameModel::playerTurn(Command c) {
         break;
     }
     case Action::USE: {
-        return getPlayer()->use(c.direction, getPlayerTile()).second;
+        actionString = getPlayer()->use(c.direction, getPlayerTile()).second;
+        break;
     }
     case Action::ATTACK: {
-        return getPlayer()->attack(c.direction, getPlayerTile()).second;
+        actionString = getPlayer()->attack(c.direction, getPlayerTile()).second;
+        break;
     }
     default:
-        actionString = "some other action \n";
-        break;
+        return "Invalid Command \n";
     }
     if (stairCoords == playerCoords) {
         floor++;
@@ -398,7 +399,7 @@ string GameModel::playerTurn(Command c) {
         resetBoard();
         generatePlayer(p);
         generate();
-        return "Player moved onto stairs \n";
+        return "PC moved onto stairs \n";
     }
 
     //trigger the end of turn effects for all entities
@@ -406,7 +407,10 @@ string GameModel::playerTurn(Command c) {
         for (int j = 0; j < map[i].size();j++) {
             Entity* e = map[i][j].getEntity();
             if (e && !e->getHasDoneEndOfTurn()) {
-                e->endOfTurnEffect(map[i][j]);
+                auto res = e->endOfTurnEffect(map[i][j]);
+                if (res.first){
+                    actionString += res.second;
+                }
                 e->setHasDoneEndOfTurn(true);
             }
         }

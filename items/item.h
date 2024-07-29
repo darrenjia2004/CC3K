@@ -12,7 +12,7 @@ class Item : public Entity{
     public:
     bool getUnlocked();
     void unlock();
-    Item(char c, bool isUnlocked = true);
+    Item(char c,  string properName, bool isUnlocked = true);
     virtual ~Item();
 };
 

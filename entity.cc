@@ -1,8 +1,11 @@
 #include "entity.h"
 #include <algorithm>
 
-    Entity::Entity(char c): hasDoneEndOfTurn{false}, c{c}{}
+    Entity::Entity(char c, string properName): hasDoneEndOfTurn{false}, c{c}, properName{properName}{}
 
+    string Entity:: getProperName(){
+        return properName;
+    }
    char Entity::getChar(){
         return c;
     }

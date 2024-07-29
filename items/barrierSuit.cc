@@ -1,6 +1,6 @@
 #include "barrierSuit.h"
 
-BarrierSuit::BarrierSuit(bool isUnlocked): SteppableItem{'B', isUnlocked}{
+BarrierSuit::BarrierSuit(bool isUnlocked): SteppableItem{'B', "BarrierSuit", isUnlocked}{
 
 }
 
