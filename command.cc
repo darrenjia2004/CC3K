@@ -47,7 +47,7 @@ string getDirectionName(Direction d) {
     case Direction::EA:
         return "east";
     case Direction::WE:
-        return "we";
+        return "west";
     case Direction::NE:
         return "north east";
     case Direction::NW:

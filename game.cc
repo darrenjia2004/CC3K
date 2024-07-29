@@ -39,9 +39,6 @@ void Game::start() {
                     v.print("Congratulations! You beat the game!");
                     v.print("Your score was " + to_string(gm->getPlayer()->calculateScore()));
                 }
-                else{
-                    v.print("You died :(");
-                }
 
                 v.print("If you would like to play again, enter your race.");
                 if (!createGameModel()) {
