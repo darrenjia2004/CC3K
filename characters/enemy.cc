@@ -5,8 +5,8 @@
 #include "command.h"
 #include "items/compass.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, string properName, Tile* ownedItemTile) 
-: Character{ c, maxHp, atk, def, enemyTeam, properName }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool compass, int goldDrop, string properName, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam, properName }, compass{ compass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
     if (ownedItemTile && ownedItemTile->getEntity()){
@@ -20,7 +20,11 @@ bool Enemy::isHostile(){
 }
 
 void Enemy::gainCompass(){
-    hasCompass = true;
+    compass = true;
+}
+
+bool Enemy::hasCompass(){
+    return compass;
 }
 
 pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
@@ -69,7 +73,7 @@ bool Enemy::attackHits(){
 }
 
 Entity* Enemy::getLoot(){
-    if(hasCompass){
+    if(compass){
         return new Compass;
     }else{
         return nullptr;

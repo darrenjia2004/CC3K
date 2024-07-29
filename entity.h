@@ -24,11 +24,11 @@ public:
     virtual string getProperName();
     virtual pair<bool, string> endOfTurnEffect(Tile& t);
     virtual bool isPassable();
-    void die();
+    string die();
     virtual void attach(Tile*);
     virtual void detach(Tile*);
     virtual Entity* getLoot();
-    virtual void notifyObservers();
+    virtual string notifyObservers();
 
     virtual ~Entity() = 0;
 };

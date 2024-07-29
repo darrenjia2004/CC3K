@@ -28,9 +28,9 @@ bool Entity::isPassable() {
 
 void Entity::onDeath() {}
 
-void Entity::die() {
+string Entity::die() {
     onDeath();
-    notifyObservers();
+    return notifyObservers();
 }
 
 void Entity::attach(Tile* t) {
@@ -46,8 +46,13 @@ void Entity::detach(Tile* t) {
     }
 }
 
-void Entity::notifyObservers() {
-    for (auto p : observers) p->notify();
+string Entity::notifyObservers() {
+    string ret;
+    for (auto p : observers) {
+        ret += p->notify() + '\n';
+    };
+
+    return ret;
 }
 
 Entity* Entity::getLoot() {
