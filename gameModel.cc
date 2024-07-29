@@ -256,6 +256,12 @@ Gold* GameModel::getRandomGold() {
 
 Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     int num{ rand() % 18 };
+    if(hasCompass){
+        // we aint gonna let merchant have da compass
+        while(num < 16){
+            int num{ rand() % 18 };
+        }
+    }
     switch (num) {
     case 0:
     case 1:
