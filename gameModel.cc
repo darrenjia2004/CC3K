@@ -555,11 +555,11 @@ string GameModel::playerTurn(Command c) {
         Player* p = getPlayer();
         resetBoard();
         if (maptxt.empty()){
-            generatePlayer();
+            generatePlayer(p);
             generate();
         }
         else{
-            generateWithText();
+            generateWithText(p);
         }
         return "PC moved onto stairs \n";
     }
