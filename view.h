@@ -2,9 +2,11 @@
 #define _VIEW_H_
 #include <string>
 #include <vector>
+#include <iomanip>
 #include <iostream>
 #include "drawable.h"
 #include "characters/player.h"
+
 using namespace std;
 #define RESET   "\033[0m"
 #define BLACK   "\033[30m"      /* Black */
@@ -25,36 +27,36 @@ using namespace std;
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 template<typename T> class View {
-    static string getColor(char c){
+    static string getColor(char c) {
         switch (c) {
-            case '@':
-                return BOLDCYAN;
-            case '\\':
-                return BOLDMAGENTA;
-            case 'C':
-            case 'B':
-            case 'P':
-                return BLUE;
-            case 'G':
-                return BOLDYELLOW;
-            case '0':
-            case '1':
-            case '2':
-                return GREEN;
-            case '3':
-            case '4':
-            case '5':
-                return RED;
-            case 'V':
-            case 'W':
-            case 'N':
-            case 'M':
-            case 'D':
-            case 'X':
-            case 'T':
-                return BOLDRED;
-            default:
-                return "";
+        case '@':
+            return BOLDCYAN;
+        case '\\':
+            return BOLDMAGENTA;
+        case 'C':
+        case 'B':
+        case 'P':
+            return BLUE;
+        case 'G':
+            return BOLDYELLOW;
+        case '0':
+        case '1':
+        case '2':
+            return GREEN;
+        case '3':
+        case '4':
+        case '5':
+            return RED;
+        case 'V':
+        case 'W':
+        case 'N':
+        case 'M':
+        case 'D':
+        case 'X':
+        case 'T':
+            return BOLDRED;
+        default:
+            return "";
         }
     }
 public:
@@ -73,15 +75,19 @@ public:
 
             cout << RESET << endl;
         }
-        if(includePlayerInfo){
-            cout << "Race: " << p->getRace() << " Gold: " << p->getGold() << "         Floor: " << floor << endl;
-            cout << "HP: " << p->getHp() << endl;
-            cout << "Atk: " << p->getAttack() << endl;
-            cout << "Def: " << p->getDefense() << endl;
+        if (includePlayerInfo) {
+            cout << right << setw(10) << "Race: " << left << setw(10) << p->getRace();
+            cout << right << setw(10) << "Gold: " << left << setw(10) << p->getGold();
+            cout << right << setw(35) << "Floor " << floor;
+            cout << endl;
+
+            cout << right << setw(10) << "HP: " << left << setw(10) << p->getHp() << setw(45) << right << "  N  " << endl;
+            cout << right << setw(10) << "Atk: " << left << setw(10) << p->getAttack() << setw(45) << right << "W   E" << endl;
+            cout << right << setw(10) << "Def: " << left << setw(10) << p->getDefense() << setw(45) << right << "  S  " << endl;
         }
 
-        if(actionString != ""){
-            cout << "Action: " << actionString;
+        if (actionString != "") {
+            cout << right << setw(10) << "Action: " << actionString;
         }
     }
 };
