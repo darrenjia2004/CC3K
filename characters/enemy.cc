@@ -78,3 +78,10 @@ Entity* Enemy::getLoot(){
 Tile* Enemy::getOwnedItemTile(){
     return ownedItemTile;
 }
+
+char Enemy::getChar(){
+    if(hasCompass){
+        return '!';
+    }
+    return c;
+}

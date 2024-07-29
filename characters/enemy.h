@@ -21,5 +21,6 @@ public:
     virtual Entity* getLoot() override;
     Tile* getOwnedItemTile();
     void gainCompass();
+    char getChar() override;
 };
 #endif

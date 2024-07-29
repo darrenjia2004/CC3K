@@ -14,8 +14,6 @@ pair<bool, string> Dragon::attack(Direction d, Tile& t){
 
     Tile* target = t.getNeighbours().at(d);
 
-
-
     for(auto& candidate: getOwnedItemTile()->getNeighbours()){
         if(candidate.second == target){
             return Character::attack(d, t);
