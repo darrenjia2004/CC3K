@@ -6,7 +6,7 @@
 
 class Enemy : public Character {
     static const int enemyTeam = 1;
-    const bool hasCompass;
+    bool hasCompass;
     const int goldDrop;
     virtual void onDeath() override;
     // this is the item that the enemy unlocks on death
@@ -20,5 +20,6 @@ public:
     bool attackHits() override;
     virtual Entity* getLoot() override;
     Tile* getOwnedItemTile();
+    void gainCompass();
 };
 #endif

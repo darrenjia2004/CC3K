@@ -30,7 +30,9 @@ class GameModel {
     int floor;
     pair<int, int> stairCoords;
     Tile** rawMap;
+    const string maptxt;
 
+    void generateWithText(Player* p = nullptr);
     void init();
     void loadTiles();
     void loadNeighbours();
@@ -48,6 +50,8 @@ class GameModel {
     void setPotionVis();
     Tile& getPlayerTile();
     void generatePlayer(Player* player = nullptr);
+    void generatePlayer(pair<int,int> pcoord, Player* player = nullptr);
+    Entity* getEntityForChar(char c);
     void resetBoard();
 
 public:
@@ -63,7 +67,7 @@ public:
     string playerTurn(Command c);
     int getFloor();
     Player* getPlayer();
-    GameModel(Action a);
+    GameModel(Action a, string maptxt);
     ~GameModel();
     Tile** getRawMap();
     State getState();
