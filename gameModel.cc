@@ -75,8 +75,7 @@ void GameModel::loadTiles() {
         map.push_back(vector<Tile>());
         row++;
         for (int i = 0; i < line.length(); i++) {
-            Tile t{ line[i] };
-            map[row].push_back(move(t));
+            map[row].push_back(Tile{ line[i]});
         }
     }
     file.close();

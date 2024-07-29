@@ -5,12 +5,6 @@
 Tile::Tile(char c) : chamberNum{ -1 }, entity{ std::unique_ptr<Entity>{nullptr} }, stairs{ false }, c{ c } {
 }
 
-Tile::Tile(Tile&& t) : chamberNum{ t.chamberNum }, entity{ move(t.entity) }, stairs{ t.stairs },
-c{ t.c }, neighbours{ t.neighbours } {}
-
-Tile::~Tile() {
-}
-
 char Tile::getChar() const {
     return entity ? entity->getChar() : (stairs && visibleStairs) ? '\\' : c;
 }

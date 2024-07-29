@@ -19,8 +19,6 @@ class Tile : public Drawable {
 
 public:
     Tile(char c);
-    Tile(Tile&& t);
-    ~Tile();
     const char c;
     Entity* getEntity() const;
     void setEntity(Entity* e);
