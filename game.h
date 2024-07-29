@@ -11,11 +11,12 @@ class Game {
   GameModel* gm;
   InputDevice* id;
   View<Tile> v;
+  string maptxt;
   void init();
   void render(string actionString);
   bool createGameModel();
 public:
-  Game();
+  Game(string maptxt = "");
   virtual ~Game();
   void start();
 };

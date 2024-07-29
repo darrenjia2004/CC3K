@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : gm{ nullptr } {
+Game::Game(string maptxt) : gm{ nullptr }, maptxt{maptxt} {
     init();
 }
 
@@ -69,7 +69,7 @@ bool Game::createGameModel() {
     }
 
     delete gm;
-    gm = new GameModel(c.action);
+    gm = new GameModel(c.action, maptxt);
     render("");
     return true;
 }

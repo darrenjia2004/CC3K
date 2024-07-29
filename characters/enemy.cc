@@ -19,6 +19,10 @@ bool Enemy::isHostile(){
     return true;
 }
 
+void Enemy::gainCompass(){
+    hasCompass = true;
+}
+
 pair<bool,string> Enemy::endOfTurnEffect(Tile& t) {
     auto neighbours = t.getNeighbours();
     if (isHostile()){
