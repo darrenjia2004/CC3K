@@ -191,7 +191,7 @@ void GameModel::generate() {
         //find neighbour of tile
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
-        Dragon* d = new Dragon(compassIndex == index, static_cast<Item*>(map[coord.first][coord.second].getEntity()));
+        Dragon* d = new Dragon(compassIndex == index, &map[coord.first][coord.second]);
         neighbour->setEntity(d);
         ++index;
     }

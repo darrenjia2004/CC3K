@@ -4,12 +4,13 @@
 #include <stdlib.h>  // srand/rand
 #include "command.h"
 
-Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Item* ownedItem) 
-: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItem{ownedItem} {}
+Enemy::Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop, Tile* ownedItemTile) 
+: Character{ c, maxHp, atk, def, enemyTeam }, hasCompass{ hasCompass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
 void Enemy::onDeath() {
-    if (ownedItem){
-        ownedItem->unlock();
+    if (ownedItemTile->getEntity()){
+        // invariant: always points to an item
+        dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
     }
 }
 
@@ -57,4 +58,8 @@ pair<bool, string> Enemy::move(Direction d, Tile& tile) {
 
 bool Enemy::attackHits(){
     return (rand() % 2) == 1;
+}
+
+Tile* Enemy::getOwnedItemTile(){
+    return ownedItemTile;
 }
