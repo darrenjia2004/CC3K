@@ -6,8 +6,8 @@
 
 class Character : public Entity {
     const int maxHp;
-    const int atk;
-    const int def;
+    int atk;
+    int def;
     int hp;
 protected:
     void moveNoChecks(Direction d, Tile& tile);
@@ -17,6 +17,7 @@ public:
     int getHp();
     void addToHp(int n);
     virtual int subtractFromHp(int n);
+    void addToStatsRandom();
     virtual int getAttack();
     virtual int getDefense();
     virtual bool attackHits();
