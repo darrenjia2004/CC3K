@@ -41,6 +41,16 @@ void Player::increaseGold(float gold){
     totGold += gold;
 }
 
+void Player::activateHpShrine(){
+    totGold -= 1;
+    Character::addToHp(20);
+}
+
+void Player::activateStatsShrine(){
+    subtractFromHp(10);
+    Character::addToStatsRandom();
+}
+
 int Player::subtractFromHp(int n){
     if(hasBarrierSuit){
         int modified{ceil(n / 2.0)};
