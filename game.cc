@@ -1,6 +1,6 @@
 #include "game.h"
 
-Game::Game() : gm{ unique_ptr<GameModel>(nullptr) } {
+Game::Game(string maptxt) : gm{ unique_ptr<GameModel>(nullptr) }, maptxt{ maptxt } {
     init();
 }
 
@@ -27,15 +27,15 @@ void Game::start() {
         else {
             string actionString = gm->playerTurn(c);
 
-            GameModel::State state{gm->getState()};
+            GameModel::State state{ gm->getState() };
 
             render(actionString, state != GameModel::State::LOST);
 
-            if(state == GameModel::State::IN_PROGRESS){
+            if (state == GameModel::State::IN_PROGRESS) {
                 continue; //keep going
             }
-            
-            if(state == GameModel::State::WON){
+
+            if (state == GameModel::State::WON) {
                 v.print("Congratulations! You beat the game!");
                 v.print("Your score was " + to_string(gm->getPlayer()->calculateScore()));
             }
@@ -70,7 +70,7 @@ bool Game::createGameModel() {
         return false;
     }
 
-    gm = unique_ptr<GameModel>(new GameModel(c.action));
+    gm = make_unique<GameModel>(c.action, maptxt);
     render("");
     return true;
 }

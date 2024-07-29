@@ -21,8 +21,8 @@
 
 unordered_map<char, bool> GameModel::potionVisibility;
 
-GameModel::GameModel(Action a) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} } {
+GameModel::GameModel(Action a, string maptxt) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
     srand(randomSeed);
     barrierSuitFloor = rand() % numFloors;
     init();
@@ -36,8 +36,14 @@ void GameModel::init() {
     loadTiles();
     loadNeighbours();
     loadChambers();
-    generatePlayer();
-    generate();
+    if (maptxt.empty()) {
+        generatePlayer();
+        generate();
+    }
+    else {
+        generateWithText();
+    }
+
 }
 
 GameModel::State GameModel::getState() {
@@ -80,6 +86,126 @@ void GameModel::loadTiles() {
 
     for (int i = 0; i < map.size(); ++i) {
         rawMap[i] = &map[i][0];
+    }
+}
+
+// generates the entities for the tiles given maptxt. Also places the given player on the map
+void GameModel::generateWithText(Player* p) {
+    string line;
+    ifstream file(maptxt);
+    int startLine = (floor - 1) * 25;
+    // skip to the line that we want for the floor
+    for (int i = 0; i < startLine; i++) {
+        getline(file, line);
+    }
+    vector<Enemy*> enemies;
+    vector<pair<int, int>> dragonHordes;
+    // the map is always the default map so always 25 lines
+    for (int i = 0; i < 25; i++) {
+        getline(file, line);
+        for (int j = 0; j < line.length(); j++) {
+            char c = line[j];
+            Entity* e = getEntityForChar(c);
+
+            // if it is an enemy and not a merchant, add to enemies
+            if (Enemy* enemyPtr = dynamic_cast<Enemy*>(e)) {
+                if (Merchant* merchantPtr = dynamic_cast<Merchant*>(e)) {
+
+                }
+                else {
+                    enemies.push_back(enemyPtr);
+                }
+            }
+
+            // add entity to the tile
+            map[i][j].setEntity(e);
+
+            // place the player and stairs
+            if (c == '\\') {
+                stairCoords = make_pair(i, j);
+                map[i][j].makeStairs();
+            }
+            else if (c == '@') {
+                playerCoords = make_pair(i, j);
+                generatePlayer(playerCoords, p);
+            }
+            else if (c == '9' || c == 'B') {
+                // hold the location of the dragon hordes for when we create the dragons
+                dragonHordes.push_back(make_pair(i, j));
+            }
+        }
+    }
+    file.close();
+
+    // we need to do a second pass for the dragons
+    file.open(maptxt);
+    for (int i = 0; i < startLine; i++) {
+        getline(file, line);
+    }
+    for (int i = 0; i < 25; i++) {
+        getline(file, line);
+        for (int j = 0; j < line.length(); j++) {
+            char c = line[j];
+            // if the tile needs a dragon and there is a horde nearby, we can create our dragon pointing to the horde
+            if (c == 'D') {
+                for (auto p : dragonHordes) {
+                    if (abs(p.first - i) <= 1 && abs(p.second - j) <= 1) {
+                        Dragon* d = new Dragon(false, &map[p.first][p.second]);
+                        map[i][j].setEntity(d);
+                        enemies.push_back(d);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    file.close();
+
+    // now assign the compass to one of the enemies
+    int num{ rand() % enemies.size() };
+    enemies[num]->gainCompass();
+}
+
+// excludes Dragon. Dragons need to be made on second pass of file input
+Entity* GameModel::getEntityForChar(char c) {
+    switch (c)
+    {
+    case '0': //RH
+        return new Potion{ 10, 0, 0, '0', "RH" };
+    case '1': //BA
+        return new Potion{ 0, 5, 0, '1', "BA" };
+    case '2': //BD
+        return new Potion{ 0, 0, 5, '2', "BD" };
+    case '3': //PH
+        return new Potion{ -10, 0, 0, '3', "PH" };
+    case '4': //WA
+        return new Potion{ 0, -5, 0, '4', "WA" };
+    case '5': // WD
+        return new Potion{ 0, 0, -5, '5', "WD" };
+    case '6':
+        return new Gold{ 1 }; //normal
+    case '7':
+        return new Gold{ 2 }; //small hoard
+    case '8':
+        return new Gold{ 4 }; //merchant hoard
+    case '9':
+        return new Gold{ 6, false }; //dragon hoard
+    case 'B':
+        return new BarrierSuit{}; //dragon hoard
+    case 'W':
+        return new Werewolf(false);
+    case 'X':
+        return new Phoenix(false);
+    case 'N':
+        return new Goblin(false);
+    case 'T':
+        return new Troll(false);
+    case 'M':
+        return new Merchant(false);
+    case 'V':
+        return new Vampire(false);
+    default:
+        return nullptr;
     }
 }
 
@@ -149,6 +275,31 @@ void GameModel::generatePlayer(Player* player) {
         case Action::SELECTHUMAN:
         default:
             playerCoords = addToRandomTile(new Human(), true);
+            break;
+        }
+    }
+}
+
+// this overload generates the player at a specific coord
+void GameModel::generatePlayer(pair<int, int> pcoord, Player* player) {
+    if (player) {
+        player->clearPotions();
+        map[pcoord.first][pcoord.second].setEntity(player);
+    }
+    else {
+        switch (playerRaceAction) {
+        case Action::SELECTDWARF:
+            map[pcoord.first][pcoord.second].setEntity(new Dwarf());
+            break;
+        case Action::SELECTELF:
+            map[pcoord.first][pcoord.second].setEntity(new Elf());
+            break;
+        case Action::SELECTORC:
+            map[pcoord.first][pcoord.second].setEntity(new Orc());
+            break;
+        case Action::SELECTHUMAN:
+        default:
+            map[pcoord.first][pcoord.second].setEntity(new Human());
             break;
         }
     }
@@ -402,8 +553,13 @@ string GameModel::playerTurn(Command c) {
         floor++;
         Player* p = getPlayer();
         resetBoard();
-        generatePlayer(p);
-        generate();
+        if (maptxt.empty()) {
+            generatePlayer(p);
+            generate();
+        }
+        else {
+            generateWithText(p);
+        }
         return "PC moved onto stairs \n";
     }
 

@@ -12,11 +12,12 @@ class Game {
   unique_ptr<GameModel> gm;
   unique_ptr<InputDevice> id;
   View<Tile> v;
+  string maptxt;
   void init();
   void render(string actionString, bool includePlayerInfo = true);
   bool createGameModel();
 public:
-  Game();
+  Game(string maptxt = "");
   virtual ~Game();
   void start();
 };
