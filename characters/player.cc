@@ -59,6 +59,10 @@ bool Player::hasCompass(){
     return compassAcquired;
 }
 
+void Player::loseCompass(){
+    compassAcquired = false;
+}
+
 void Player::resetTempFx(){
 }
 

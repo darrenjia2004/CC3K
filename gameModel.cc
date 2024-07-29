@@ -586,8 +586,11 @@ string GameModel::playerTurn(Command c) {
         }
     }
 
-    if (getPlayer() && getPlayer()->hasCompass()) {
-        map[stairCoords.first][stairCoords.second].show();
+    
+    if(getPlayer() && getPlayer()->hasCompass()){
+        map[stairCoords.first][stairCoords.second].showStairs();
+    }else{
+        map[stairCoords.first][stairCoords.second].hideStairs();
     }
 
     return actionString;

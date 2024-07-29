@@ -28,6 +28,7 @@ public:
     string getRace();
     virtual void increaseGold(float gold);
     void gainCompass();
+    void loseCompass();
     bool hasCompass();
     void resetTempFx();
     void gainBarrierSuit();
