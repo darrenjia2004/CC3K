@@ -76,6 +76,15 @@ bool Enemy::attackHits() const {
     return (rand() % 2) == 1;
 }
 
+void Enemy::afterAttacked(Character& attacker){
+    //precondition: attacker is player
+
+    if(getHp() <= 0){
+        Player& p = dynamic_cast<Player&>(attacker);
+        p.increaseGold(goldDrop);
+    }
+}
+
 Entity* Enemy::getLoot() const {
     if(compass){
         return new Compass;

@@ -42,7 +42,7 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
 }
 
 string Tile::notify(Entity& e) {
-    if((&e != entity.get()) || e.isAlive()){
+    if((&e != entity.get())){
         return "";
     }
 

@@ -10,6 +10,7 @@ class Character : public Entity {
     int def;
     int hp;
 protected:
+    virtual void afterAttacked(Character& attacker);
     void moveNoChecks(Direction d, Tile& tile);
 public:
     Character(char c, int maxHp, int atk, int def, int team,  string properName);
@@ -25,6 +26,5 @@ public:
     virtual pair<bool, string> attack(Direction d, Tile& tile);
     // move should return a bool indicating success and a string for what happened
     virtual pair<bool, string> move(Direction d, Tile& tile) = 0;
-    virtual void afterAttacked(Character& attacker);
 };
 #endif
