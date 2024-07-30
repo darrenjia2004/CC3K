@@ -144,6 +144,7 @@ void GameModel::generateWithText(Player* p) {
                 for (auto p : dragonHordes) {
                     if (abs(p.first - i) <= 1 && abs(p.second - j) <= 1) {
                         Dragon* d = new Dragon(false, &map[p.first][p.second]);
+                        d->attach(this);
                         map[i][j].setEntity(d);
                         enemies.push_back(d);
                         break;
@@ -168,38 +169,55 @@ Entity* GameModel::getEntityForChar(char c) {
     {
     case '0': //RH
         e = new Potion{ 10, 0, 0, '0', "RH" };
+        break;
     case '1': //BA
         e = new Potion{ 0, 5, 0, '1', "BA" };
+        break;
     case '2': //BD
         e = new Potion{ 0, 0, 5, '2', "BD" };
+        break;
     case '3': //PH
         e = new Potion{ -10, 0, 0, '3', "PH" };
+        break;
     case '4': //WA
         e = new Potion{ 0, -5, 0, '4', "WA" };
+        break;
     case '5': // WD
         e = new Potion{ 0, 0, -5, '5', "WD" };
+        break;
     case '6':
         e = new Gold{ 1 }; //normal
+        break;
     case '7':
         e = new Gold{ 2 }; //small hoard
+        break;
     case '8':
         e = new Gold{ 4 }; //merchant hoard
+        break;
     case '9':
         e = new Gold{ 6, false }; //dragon hoard
+        break;
     case 'B':
         e = new BarrierSuit{}; //dragon hoard
+        break;
     case 'W':
         e = new Werewolf(false);
+        break;
     case 'X':
         e = new Phoenix(false);
+        break;
     case 'N':
         e = new Goblin(false);
+        break;
     case 'T':
         e = new Troll(false);
+        break;
     case 'M':
         e = new Merchant(false);
+        break;
     case 'V':
         e = new Vampire(false);
+        break;
     default:
         return nullptr;
     }
