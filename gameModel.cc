@@ -418,8 +418,6 @@ Gold* GameModel::getRandomGold() const {
 }
 
 Enemy* GameModel::getRandomEnemy(bool hasCompass) const {
-    return new Werewolf(true);
-
     int num{ rand() % 18 };
     if (hasCompass) {
         // we aint gonna let merchant have da compass

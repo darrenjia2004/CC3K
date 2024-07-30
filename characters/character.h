@@ -15,6 +15,7 @@ public:
     Character(char c, int maxHp, int atk, int def, int team,  string properName);
     const int team;
     int getHp() const;
+    int getMaxHp() const;
     void addToHp(int n);
     virtual int subtractFromHp(int n);
     virtual int getAttack() const;

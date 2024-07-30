@@ -8,6 +8,10 @@ int Character::getHp() const {
     return hp;
 }
 
+int Character::getMaxHp() const {
+    return maxHp;
+}
+
 void Character::addToHp(int n) {
     hp += n;
     hp = min(hp, maxHp);

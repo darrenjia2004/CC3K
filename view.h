@@ -1,5 +1,6 @@
 #ifndef _VIEW_H_
 #define _VIEW_H_
+#include <cmath>
 #include <string>
 #include <vector>
 #include <iomanip>
@@ -27,6 +28,8 @@ using namespace std;
 #define BOLDWHITE   "\033[1m\033[37m"      /* Bold White */
 
 template<typename T> class View {
+    static const int healthWidth{15};
+
     static string getColor(char c) {
         switch (c) {
         case '@':
@@ -59,6 +62,11 @@ template<typename T> class View {
             return "";
         }
     }
+
+    void printHp(int hp, int maxHp){
+
+
+    }
 public:
     void print(string str) const {
         cout << str << endl;
@@ -81,7 +89,24 @@ public:
             cout << right << setw(35) << "Floor " << floor;
             cout << endl;
 
-            cout << right << setw(10) << "HP: " << left << setw(10) << p->getHp() << setw(45) << right << "  N  " << endl;
+            cout << right << setw(10) << "HP: " << left << setw(10) << p->getHp();
+            
+            //ceil ensures we have numGreen be 0 (all red) iff we are dead
+            int numGreen{ ceil(healthWidth * p->getHp() / static_cast<float>(p->getMaxHp())) };
+
+            cout << BOLDGREEN;
+
+            for (int i = 0; i < healthWidth; ++i) {
+                if (i == numGreen) {
+                    cout << BOLDRED;
+                }
+
+                cout << '#';
+            }
+
+            cout << RESET;
+            
+            cout << setw(45 - healthWidth) << right << "  N  " << endl;
             cout << right << setw(10) << "Atk: " << left << setw(10) << p->getAttack() << setw(45) << right << "W   E" << endl;
             cout << right << setw(10) << "Def: " << left << setw(10) << p->getDefense() << setw(45) << right << "  S  " << endl;
         }
