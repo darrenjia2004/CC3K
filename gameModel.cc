@@ -65,7 +65,7 @@ void GameModel::loadTiles() {
     ifstream file("defaultMap.txt");
     int row = -1;
 
-    while (getline(file, line)) {
+    while (getline(file, line) && !line.empty()) {
         map.push_back(vector<Tile>());
         row++;
         for (int i = 0; i < line.length(); i++) {
