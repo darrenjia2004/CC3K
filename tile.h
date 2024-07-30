@@ -10,6 +10,7 @@
 #include "observer.h"
 #include "entity.h"
 
+//precondition when attached: Tile is LAST observer to be attached
 class Tile : public Drawable, public Observer {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
