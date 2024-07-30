@@ -11,6 +11,7 @@ bool Merchant::isHostile() const {
 }
 
 void Merchant::afterAttacked(Character& attacker){
+    Enemy::afterAttacked(attacker);
     aggressive = true;
 }
 

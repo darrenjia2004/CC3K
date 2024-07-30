@@ -130,5 +130,3 @@ pair<bool, string> Player::move(Direction d, Tile& tile){
         return make_pair(false, name + " tried to move " + getDirectionName(d) + " but failed \n");
     }
 }
-
-void Player::onDeath(){}

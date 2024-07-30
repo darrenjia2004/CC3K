@@ -21,10 +21,9 @@
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>  //getpid
 
-unordered_map<char, bool> GameModel::potionVisibility;
-
-GameModel::GameModel(Action a, string maptxt) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
+GameModel::GameModel(Action a, string maptxt) : playerRaceAction{ a }, compassHolder{ nullptr }, 
+chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
+floor{ 1 }, knowsCompassHolder{ false }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
     srand(randomSeed);
     barrierSuitFloor = rand() % numFloors;
     init();
@@ -34,7 +33,7 @@ GameModel::~GameModel() {
 }
 
 void GameModel::init() {
-    setPotionVis();
+    Potion::resetVisibility();
     loadTiles();
     loadNeighbours();
     loadChambers();
@@ -58,13 +57,6 @@ GameModel::State GameModel::getState() const {
     }
 
     return State::IN_PROGRESS;
-}
-
-// sets the potion visibilities to false
-void GameModel::setPotionVis() {
-    for (int i = 0; i < 6; i++) {
-        potionVisibility['0' + i] = false;
-    }
 }
 
 // method which loads the default map into the tile map
@@ -165,49 +157,55 @@ void GameModel::generateWithText(Player* p) {
     // now assign the compass to one of the enemies
     int num{ rand() % enemies.size() };
     enemies[num]->gainCompass();
+    compassHolder = enemies[num];
 }
 
 // excludes Dragon. Dragons need to be made on second pass of file input
-Entity* GameModel::getEntityForChar(char c) const {
+Entity* GameModel::getEntityForChar(char c) {
+    Entity* e = nullptr;
+
     switch (c)
     {
     case '0': //RH
-        return new Potion{ 10, 0, 0, '0', "RH" };
+        e = new Potion{ 10, 0, 0, '0', "RH" };
     case '1': //BA
-        return new Potion{ 0, 5, 0, '1', "BA" };
+        e = new Potion{ 0, 5, 0, '1', "BA" };
     case '2': //BD
-        return new Potion{ 0, 0, 5, '2', "BD" };
+        e = new Potion{ 0, 0, 5, '2', "BD" };
     case '3': //PH
-        return new Potion{ -10, 0, 0, '3', "PH" };
+        e = new Potion{ -10, 0, 0, '3', "PH" };
     case '4': //WA
-        return new Potion{ 0, -5, 0, '4', "WA" };
+        e = new Potion{ 0, -5, 0, '4', "WA" };
     case '5': // WD
-        return new Potion{ 0, 0, -5, '5', "WD" };
+        e = new Potion{ 0, 0, -5, '5', "WD" };
     case '6':
-        return new Gold{ 1 }; //normal
+        e = new Gold{ 1 }; //normal
     case '7':
-        return new Gold{ 2 }; //small hoard
+        e = new Gold{ 2 }; //small hoard
     case '8':
-        return new Gold{ 4 }; //merchant hoard
+        e = new Gold{ 4 }; //merchant hoard
     case '9':
-        return new Gold{ 6, false }; //dragon hoard
+        e = new Gold{ 6, false }; //dragon hoard
     case 'B':
-        return new BarrierSuit{}; //dragon hoard
+        e = new BarrierSuit{}; //dragon hoard
     case 'W':
-        return new Werewolf(false);
+        e = new Werewolf(false);
     case 'X':
-        return new Phoenix(false);
+        e = new Phoenix(false);
     case 'N':
-        return new Goblin(false);
+        e = new Goblin(false);
     case 'T':
-        return new Troll(false);
+        e = new Troll(false);
     case 'M':
-        return new Merchant(false);
+        e = new Merchant(false);
     case 'V':
-        return new Vampire(false);
+        e = new Vampire(false);
     default:
         return nullptr;
     }
+
+    e->attach(this);
+    return e;
 }
 
 void GameModel::loadNeighbours() {
@@ -355,12 +353,22 @@ void GameModel::generate() {
         Tile* neighbour = getRandomNeighbour(map[coord.first][coord.second]);
 
         Dragon* d = new Dragon(compassIndex == index, &map[coord.first][coord.second]);
+        d->attach(this);
+
+        if(compassIndex == index){
+            compassHolder = d;
+        }
+
         neighbour->setEntity(d);
         ++index;
     }
 
     for (;index < numEnemies; ++index) {
-        addToRandomTile(getRandomEnemy(compassIndex == index), true);
+        Enemy* e = getRandomEnemy(compassIndex == index);
+        if(compassIndex == index){
+            compassHolder = e;
+        }
+        addToRandomTile(e, true);
     }
 
     //TODO checks for at least one free space next to dragon hoard
@@ -482,11 +490,28 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
         p = getRandomTile();
     }
 
+    if (e) {
+        e->attach(this);
+    }
+
     map[p.first][p.second].setEntity(e);
+
     return p;
 }
 
+string GameModel::notify(Entity& e){
+    switch(e.getChar()){
+        case 'V': //vampire
+            if(getPlayer()->hasCompass() || knowsCompassHolder){
+                return "";
+            }
 
+            knowsCompassHolder = true;
+            return "As " + e.getProperName() + " is dying, it reveals that " + compassHolder->getProperName() + " holds a Compass";
+        default:
+            return "";
+    }
+}
 
 bool GameModel::inBounds(const pair<int, int>& pos) {
     return pos.first < map.size() && pos.second < map[pos.first].size();
@@ -524,8 +549,6 @@ Tile** GameModel::getRawMap() const {
 }
 
 void GameModel::resetBoard() {
-    // detach the player tile from player so we dont remove it
-
     // clear all the non player entities
     for (auto& v : map) {
         for (auto& t : v) {
@@ -538,6 +561,7 @@ void GameModel::resetBoard() {
 
     map[stairCoords.first][stairCoords.second].unmakeStairs();
     stairCoords = { -1,-1 };
+    knowsCompassHolder = false;
 }
 
 string GameModel::playerTurn(Command c) {

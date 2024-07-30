@@ -13,7 +13,6 @@ class Player : public Character {
     const string race;
     bool compassAcquired = false;
     bool hasBarrierSuit;
-    virtual void onDeath();
 
 public:
     unique_ptr<Potionfx> pfx;

@@ -1,5 +1,8 @@
-#include "entity.h"
 #include <algorithm>
+
+#include "entity.h"
+#include "observer.h"
+#include "tile.h"
 
 Entity::Entity(char c, string properName) : hasDoneEndOfTurn{ false }, c{ c }, properName{ properName } {}
 
@@ -26,18 +29,30 @@ bool Entity::isPassable() const {
     return false;
 }
 
-void Entity::onDeath() {}
-
-string Entity::die() {
-    onDeath();
-    return notifyObservers();
+string Entity::onDeath() {
+    return "";
 }
 
-void Entity::attach(Tile* t) {
+string Entity::die() {
+    string deathString{onDeath()};
+    string observerString{notifyObservers()};
+
+    if(deathString.empty()){
+        return observerString;
+    }
+
+    if(observerString.empty()){
+        return deathString;
+    }
+
+    return deathString + '\n' + observerString;
+}
+
+void Entity::attach(Observer* t) {
     observers.emplace_back(t);
 }
 
-void Entity::detach(Tile* t) {
+void Entity::detach(Observer* t) {
 
     auto it = find(observers.begin(), observers.end(), t);
 
@@ -48,8 +63,12 @@ void Entity::detach(Tile* t) {
 
 string Entity::notifyObservers() {
     string ret;
-    for (auto p : observers) {
-        ret += p->notify() + '\n';
+    for (auto o : observers) {
+        string current{o->notify(*this)};
+
+        if(!current.empty()){
+            ret += ret.empty() ? current : '\n' + current;
+        }
     };
 
     return ret;
