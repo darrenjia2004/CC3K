@@ -32,6 +32,7 @@ class GameModel : public Observer {
     int barrierSuitFloor;
     const int shrineFloor = 3;
     int floor;
+    bool knowsCompassHolder;
     pair<int, int> stairCoords;
     unique_ptr<Tile* []> rawMap;
     const string maptxt;

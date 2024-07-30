@@ -15,7 +15,7 @@ using namespace std;
 
 class Entity : public Drawable {
     vector<Observer*> observers;
-    virtual void onDeath();
+    virtual string onDeath();
     bool hasDoneEndOfTurn;
     const string properName;
     bool alive;

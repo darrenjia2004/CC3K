@@ -8,7 +8,7 @@ class Enemy : public Character {
     static const int enemyTeam = 1;
     bool compass;
     const int goldDrop;
-    virtual void onDeath() override;
+    virtual string onDeath() override;
     // this is the item that the enemy unlocks on death
     Tile* ownedItemTile;
     virtual bool isHostile() const;

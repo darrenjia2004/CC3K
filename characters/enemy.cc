@@ -8,11 +8,15 @@
 Enemy::Enemy(char c, int maxHp, int atk, int def, bool compass, int goldDrop, string properName, Tile* ownedItemTile) 
 : Character{ c, maxHp, atk, def, enemyTeam, properName }, compass{ compass }, goldDrop{ goldDrop }, ownedItemTile{ownedItemTile} {}
 
-void Enemy::onDeath() {
+string Enemy::onDeath() {
     if (ownedItemTile && ownedItemTile->getEntity()){
         // invariant: always points to an item
         dynamic_cast<Item*>(ownedItemTile->getEntity())->unlock();
+
+        return ownedItemTile->getEntity()->getProperName() + " is now accessible after death of " + getProperName(); 
     }
+
+    return "";
 }
 
 bool Enemy::isHostile() const {

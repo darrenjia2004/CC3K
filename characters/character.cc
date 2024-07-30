@@ -72,7 +72,11 @@ pair<bool, string> Character::attack(Direction d, Tile& tile) {
             string enemyDiedString = "";
             if (charPtr->getHp() <= 0) {
                 enemyDiedString = "and " + enemyName + " died";
-                enemyDiedString += '\n' + charPtr->die();
+                string dieString{charPtr->die()};
+
+                if(!dieString.empty()){
+                    enemyDiedString += '\n' + dieString;
+                }
             }
             return make_pair(true,
                 name + " attacked " + enemyName + " for " + to_string(damage) + " damage " + enemyDiedString + "\n");

@@ -5,6 +5,7 @@
 #include <vector>
 #include <iomanip>
 #include <iostream>
+#include <sstream>
 #include "drawable.h"
 #include "characters/player.h"
 
@@ -112,7 +113,17 @@ public:
         }
 
         if (actionString != "") {
-            cout << right << setw(10) << "Action: " << actionString;
+            auto stream = stringstream{actionString};
+
+            bool first{true};
+
+            string line;
+
+            while(getline(stream, line)){
+                cout << right << setw(10) << (first ? "Action: " : "") << line << endl;
+
+                first = false;
+            }
         }
     }
 };

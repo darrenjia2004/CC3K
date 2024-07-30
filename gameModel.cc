@@ -23,7 +23,7 @@
 
 GameModel::GameModel(Action a, string maptxt) : playerRaceAction{ a }, compassHolder{ nullptr }, 
 chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
-floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
+floor{ 1 }, knowsCompassHolder{ false }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
     srand(randomSeed);
     barrierSuitFloor = rand() % numFloors;
     init();
@@ -502,7 +502,12 @@ pair<int, int> GameModel::addToRandomTile(Entity* e, bool canBeWithPlayer) {
 string GameModel::notify(Entity& e){
     switch(e.getChar()){
         case 'V': //vampire
-            return "As " + e.getProperName() + " dies, it whispers to you, revealing that " + compassHolder->getProperName() + " holds Compass";
+            if(getPlayer()->hasCompass() || knowsCompassHolder){
+                return "";
+            }
+
+            knowsCompassHolder = true;
+            return "As " + e.getProperName() + " is dying, it reveals that " + compassHolder->getProperName() + " holds a Compass";
         default:
             return "";
     }
@@ -544,8 +549,6 @@ Tile** GameModel::getRawMap() const {
 }
 
 void GameModel::resetBoard() {
-    // detach the player tile from player so we dont remove it
-
     // clear all the non player entities
     for (auto& v : map) {
         for (auto& t : v) {
@@ -558,6 +561,7 @@ void GameModel::resetBoard() {
 
     map[stairCoords.first][stairCoords.second].unmakeStairs();
     stairCoords = { -1,-1 };
+    knowsCompassHolder = false;
 }
 
 string GameModel::playerTurn(Command c) {

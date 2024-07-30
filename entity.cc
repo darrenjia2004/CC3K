@@ -29,12 +29,24 @@ bool Entity::isPassable() const {
     return false;
 }
 
-void Entity::onDeath() {}
+string Entity::onDeath() {
+    return "";
+}
 
 string Entity::die() {
-    onDeath();
+    string deathString{onDeath()};
     alive = false;
-    return notifyObservers();
+    string observerString{notifyObservers()};
+
+    if(deathString.empty()){
+        return observerString;
+    }
+
+    if(observerString.empty()){
+        return deathString;
+    }
+
+    return deathString + '\n' + observerString;
 }
 
 bool Entity::isAlive() const {
@@ -57,7 +69,11 @@ void Entity::detach(Observer* t) {
 string Entity::notifyObservers() {
     string ret;
     for (auto o : observers) {
-        ret += o->notify(*this) + '\n';
+        string current{o->notify(*this)};
+
+        if(!current.empty()){
+            ret += ret.empty() ? current : '\n' + current;
+        }
     };
 
     return ret;
