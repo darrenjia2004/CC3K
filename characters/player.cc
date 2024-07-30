@@ -15,8 +15,11 @@ void Player::applyPotion(int potionHp, int potionAtk, int potionDef) {
     unique_ptr<Potionfx> newFx = make_unique<Potionfx>(potionAtk, potionDef);
     newFx->setNext(pfx.release());
     pfx = std::move(newFx);
-
-    addToHp(potionHp);
+    if(potionHp < 0 && getHp() <= -potionHp){
+        addToHp(-getHp()+1);
+    }else{
+        addToHp(potionHp);
+    }
 }
 
 void Player::clearPotions(){

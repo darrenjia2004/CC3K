@@ -40,6 +40,8 @@ template<typename T> class View {
         case 'C':
         case 'B':
         case 'P':
+        case 'S':
+        case 'H':
             return BLUE;
         case 'G':
             return BOLDYELLOW;
