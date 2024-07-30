@@ -18,6 +18,15 @@ int Character::subtractFromHp(int n) {
     return n;
 }
 
+void Character::addToStatsRandom() {
+    int addAtk = rand() % 2;
+    if(addAtk == 0){
+        atk += 20;
+    }else{
+        def += 20;
+    }
+}
+
 int Character::getAttack() const {
     return atk;
 }

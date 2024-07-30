@@ -6,8 +6,8 @@
 
 class Character : public Entity {
     const int maxHp;
-    const int atk;
-    const int def;
+    int atk;
+    int def;
     int hp;
 protected:
     void moveNoChecks(Direction d, Tile& tile);
@@ -20,6 +20,7 @@ public:
     virtual int getAttack() const;
     virtual int getDefense() const;
     virtual bool attackHits() const;
+    void addToStatsRandom();
     virtual pair<bool, string> attack(Direction d, Tile& tile);
     // move should return a bool indicating success and a string for what happened
     virtual pair<bool, string> move(Direction d, Tile& tile) = 0;

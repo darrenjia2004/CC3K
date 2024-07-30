@@ -27,6 +27,8 @@ public:
     float getGold() const;
     string getRace() const;
     virtual void increaseGold(float gold);
+    void activateHpShrine();
+    void activateStatsShrine();
     void gainCompass();
     void loseCompass();
     bool hasCompass() const;

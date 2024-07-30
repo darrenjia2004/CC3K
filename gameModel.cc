@@ -7,6 +7,8 @@
 #include "items/potion.h"
 #include "items/gold.h"
 #include "items/barrierSuit.h"
+#include "items/hpShrine.h"
+#include "items/statsShrine.h"
 #include "characters/enemies/werewolf.h"
 #include "characters/enemies/vampire.h"
 #include "characters/enemies/goblin.h"
@@ -333,6 +335,18 @@ void GameModel::generate() {
         pair<int, int> p{ addToRandomTile(bs, true) };
 
         dragonHordes.push_back(p);
+    }
+
+    // hp shrine generation
+    if (floor == shrineFloor) {
+        HpShrine* hs = new HpShrine{};
+        pair<int, int> p{ addToRandomTile(hs, true) };
+    }
+
+    // stats shrine generation
+    if (floor == shrineFloor) {
+        StatsShrine* ss = new StatsShrine{};
+        pair<int, int> p{ addToRandomTile(ss, true) };
     }
 
     //enemy generation
