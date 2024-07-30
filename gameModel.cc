@@ -256,11 +256,8 @@ void GameModel::floodFill(Tile& t, int n) {
 // if the provided player is null, create a new player and add it to a random tile, otherwise put the provided player on the board
 void GameModel::generatePlayer(Player* player) {
     if (player) {
-        player->clearPotions();
-        pair<int, int> newCoords = addToRandomTile(nullptr, true);
-        Tile& newTile = map[newCoords.first][newCoords.second];
-        map[playerCoords.first][playerCoords.second].moveEntityTo(newTile);
-        playerCoords = newCoords;
+        player->reset();
+        playerCoords = addToRandomTile(player, true);
     }
     else {
         switch (playerRaceAction) {
@@ -421,6 +418,8 @@ Gold* GameModel::getRandomGold() const {
 }
 
 Enemy* GameModel::getRandomEnemy(bool hasCompass) const {
+    return new Werewolf(true);
+
     int num{ rand() % 18 };
     if (hasCompass) {
         // we aint gonna let merchant have da compass
@@ -568,14 +567,14 @@ string GameModel::playerTurn(Command c) {
     }
     if (stairCoords == playerCoords) {
         floor++;
-        Player* p = getPlayer();
+        Player* player = static_cast<Player*>(getPlayerTile().takeEntity());
         resetBoard();
         if (maptxt.empty()) {
-            generatePlayer(p);
+            generatePlayer(player);
             generate();
         }
         else {
-            generateWithText(p);
+            generateWithText(player);
         }
         return "PC moved onto stairs \n";
     }

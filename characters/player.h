@@ -34,6 +34,7 @@ public:
     bool hasCompass() const;
     void gainBarrierSuit();
     virtual float calculateScore() const;
+    void reset();
     virtual pair<bool, string> use(Direction d, Tile& tile);
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
 };

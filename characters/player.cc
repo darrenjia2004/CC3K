@@ -84,6 +84,11 @@ float Player::calculateScore() const{
     return totGold;
 }
 
+void Player::reset(){
+    clearPotions();
+    loseCompass();
+}
+
 pair<bool, string> Player::use(Direction d, Tile& tile){
     auto neighbours = tile.getNeighbours();
     Tile* target = neighbours[d];

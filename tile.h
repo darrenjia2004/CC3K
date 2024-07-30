@@ -21,6 +21,7 @@ public:
     Tile(char c);
     const char c;
     Entity* getEntity() const;
+    Entity* takeEntity();
     void setEntity(Entity* e);
     virtual char getChar() const override;
     int getChamberNum() const;

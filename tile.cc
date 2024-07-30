@@ -71,6 +71,11 @@ Entity* Tile::getEntity() const {
     return entity.get();
 }
 
+Entity* Tile::takeEntity(){
+    entity->detach(this);
+    return entity.release();
+}
+
 void Tile::moveEntityTo(Tile& other) {
     entity->detach(this);
     entity->attach(&other);
