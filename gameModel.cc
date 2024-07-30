@@ -21,8 +21,6 @@
 #include <stdlib.h>  // srand/rand
 #include <unistd.h>  //getpid
 
-unordered_map<char, bool> GameModel::potionVisibility;
-
 GameModel::GameModel(Action a, string maptxt) : playerRaceAction{ a }, chamberCount{ 0 }, randomSeed{ std::chrono::system_clock::now().time_since_epoch().count() },
 floor{ 1 }, rawMap{ unique_ptr<Tile * []>{} }, maptxt{ maptxt } {
     srand(randomSeed);
@@ -34,7 +32,7 @@ GameModel::~GameModel() {
 }
 
 void GameModel::init() {
-    setPotionVis();
+    Potion::resetVisibility();
     loadTiles();
     loadNeighbours();
     loadChambers();
@@ -58,13 +56,6 @@ GameModel::State GameModel::getState() const {
     }
 
     return State::IN_PROGRESS;
-}
-
-// sets the potion visibilities to false
-void GameModel::setPotionVis() {
-    for (int i = 0; i < 6; i++) {
-        potionVisibility['0' + i] = false;
-    }
 }
 
 // method which loads the default map into the tile map

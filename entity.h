@@ -18,6 +18,7 @@ class Entity : public Drawable {
     virtual void onDeath();
     bool hasDoneEndOfTurn;
     const string properName;
+    bool alive;
 public:
     bool getHasDoneEndOfTurn() const;
     void setHasDoneEndOfTurn(bool b);
@@ -28,6 +29,7 @@ public:
     virtual pair<bool, string> endOfTurnEffect(Tile& t);
     virtual bool isPassable() const;
     string die();
+    bool isAlive() const;
     virtual void attach(Observer*);
     virtual void detach(Observer*);
     virtual Entity* getLoot() const;

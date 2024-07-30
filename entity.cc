@@ -4,7 +4,7 @@
 #include "observer.h"
 #include "tile.h"
 
-Entity::Entity(char c, string properName) : hasDoneEndOfTurn{ false }, c{ c }, properName{ properName } {}
+Entity::Entity(char c, string properName) : hasDoneEndOfTurn{ false }, c{ c }, properName{ properName }, alive{ true } {}
 
 string Entity::getProperName() const {
     return properName;
@@ -33,7 +33,12 @@ void Entity::onDeath() {}
 
 string Entity::die() {
     onDeath();
+    alive = false;
     return notifyObservers();
+}
+
+bool Entity::isAlive() const {
+    return alive;
 }
 
 void Entity::attach(Observer* t) {

@@ -49,7 +49,6 @@ class GameModel {
     Gold* getRandomGold() const;
     Enemy* getRandomEnemy(bool hasCompass) const;
     Tile* getRandomNeighbour(const Tile& current) const;
-    void setPotionVis();
     Tile& getPlayerTile();
     const Tile& getPlayerTile() const;
     void generatePlayer(Player* player = nullptr);
@@ -64,7 +63,6 @@ public:
         LOST
     };
 
-    static unordered_map<char, bool> potionVisibility;
     vector<vector<Tile>> map;
 
     string playerTurn(Command c);
