@@ -28,7 +28,7 @@ class GameModel {
     int chamberCount;
     const unsigned randomSeed;
     int barrierSuitFloor;
-    const int shrineFloor = 3;
+    const int shrineFloor = 2;
     int floor;
     pair<int, int> stairCoords;
     unique_ptr<Tile* []> rawMap;
