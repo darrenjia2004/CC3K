@@ -1,5 +1,4 @@
 #include "command.h"
-#include "entity.h"
 #include "tile.h"
 
 Tile::Tile(char c) : chamberNum{ -1 }, entity{ std::unique_ptr<Entity>{nullptr} }, stairs{ false }, c{ c } {
@@ -42,7 +41,11 @@ const map<Direction, Tile*>& Tile::getNeighbours() const {
     return neighbours;
 }
 
-string Tile::notify() {
+string Tile::notify(Entity& e) {
+    if(&e != entity.get()){
+        return "";
+    }
+
     string ret{""};
 
     if (entity.get()) {

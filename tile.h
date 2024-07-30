@@ -7,10 +7,10 @@
 
 #include "command.h"
 #include "drawable.h"
+#include "observer.h"
+#include "entity.h"
 
-class Entity;
-
-class Tile : public Drawable {
+class Tile : public Drawable, public Observer {
     int chamberNum;
     std::map<Direction, Tile*> neighbours;
     std::unique_ptr<Entity> entity;
@@ -31,7 +31,7 @@ public:
     void moveEntityTo(Tile& other);
     const std::map<Direction, Tile*>& getNeighbours() const;
     void setNeighbour(Direction d, Tile* t);
-    string notify();
+    string notify(Entity& e) override;
     void makeStairs();
     void showStairs();
     void hideStairs();

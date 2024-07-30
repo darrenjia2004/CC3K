@@ -7,11 +7,14 @@
 #include <vector>
 
 #include "drawable.h"
-#include "tile.h"
+
+class Observer;
+class Tile;
+
 using namespace std;
 
 class Entity : public Drawable {
-    vector<Tile*> observers;
+    vector<Observer*> observers;
     virtual void onDeath();
     bool hasDoneEndOfTurn;
     const string properName;
@@ -25,8 +28,8 @@ public:
     virtual pair<bool, string> endOfTurnEffect(Tile& t);
     virtual bool isPassable() const;
     string die();
-    virtual void attach(Tile*);
-    virtual void detach(Tile*);
+    virtual void attach(Observer*);
+    virtual void detach(Observer*);
     virtual Entity* getLoot() const;
     virtual string notifyObservers();
 
