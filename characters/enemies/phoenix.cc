@@ -3,7 +3,7 @@
 Phoenix::Phoenix(bool hasCompass, int regenCount) : 
     Enemy{ 'X', 50 / regenCount, 35, 20, hasCompass, 1 , "Phoenix"}, regenCount{regenCount} {}
 
-Entity* Phoenix::getLoot(){
+Entity* Phoenix::getLoot() const {
     if(regenCount >= maxRegens){
         return Enemy::getLoot();
     }

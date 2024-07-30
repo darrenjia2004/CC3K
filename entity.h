@@ -16,18 +16,18 @@ class Entity : public Drawable {
     bool hasDoneEndOfTurn;
     const string properName;
 public:
-    bool getHasDoneEndOfTurn();
+    bool getHasDoneEndOfTurn() const;
     void setHasDoneEndOfTurn(bool b);
     Entity(char c, string properName);
     const char c;
-    virtual char getChar() override;
-    virtual string getProperName();
+    virtual char getChar() const override;
+    virtual string getProperName() const;
     virtual pair<bool, string> endOfTurnEffect(Tile& t);
-    virtual bool isPassable();
+    virtual bool isPassable() const;
     string die();
     virtual void attach(Tile*);
     virtual void detach(Tile*);
-    virtual Entity* getLoot();
+    virtual Entity* getLoot() const;
     virtual string notifyObservers();
 
     virtual ~Entity() = 0;

@@ -48,7 +48,7 @@ void GameModel::init() {
 
 }
 
-GameModel::State GameModel::getState() {
+GameModel::State GameModel::getState() const {
     if (!getPlayer()) { //player is killed
         return State::LOST;
     }
@@ -77,8 +77,7 @@ void GameModel::loadTiles() {
         map.push_back(vector<Tile>());
         row++;
         for (int i = 0; i < line.length(); i++) {
-            Tile t{ line[i] };
-            map[row].push_back(move(t));
+            map[row].push_back(Tile{ line[i]});
         }
     }
     file.close();
@@ -169,7 +168,7 @@ void GameModel::generateWithText(Player* p) {
 }
 
 // excludes Dragon. Dragons need to be made on second pass of file input
-Entity* GameModel::getEntityForChar(char c) {
+Entity* GameModel::getEntityForChar(char c) const {
     switch (c)
     {
     case '0': //RH
@@ -370,7 +369,7 @@ void GameModel::generate() {
     //TODO checks for at least one free space next to dragon hoard
 }
 
-pair<int, int> GameModel::getRandomTile() {
+pair<int, int> GameModel::getRandomTile() const {
     int randomChamber{ rand() % chamberCount };
 
     int row{ rand() % map.size() };
@@ -384,7 +383,7 @@ pair<int, int> GameModel::getRandomTile() {
     return { row, col };
 }
 
-Potion* GameModel::getRandomPotion() {
+Potion* GameModel::getRandomPotion() const {
     int num{ rand() % 6 };
 
     switch (num) {
@@ -403,7 +402,7 @@ Potion* GameModel::getRandomPotion() {
     }
 }
 
-Gold* GameModel::getRandomGold() {
+Gold* GameModel::getRandomGold() const {
     int num{ rand() % 8 };
 
     switch (num) {
@@ -421,7 +420,7 @@ Gold* GameModel::getRandomGold() {
     }
 }
 
-Enemy* GameModel::getRandomEnemy(bool hasCompass) {
+Enemy* GameModel::getRandomEnemy(bool hasCompass) const {
     int num{ rand() % 18 };
     if (hasCompass) {
         // we aint gonna let merchant have da compass
@@ -456,7 +455,7 @@ Enemy* GameModel::getRandomEnemy(bool hasCompass) {
     }
 }
 
-Tile* GameModel::getRandomNeighbour(const Tile& current) {
+Tile* GameModel::getRandomNeighbour(const Tile& current) const {
     vector<Direction> dirs{ getGameDirections() };
     const std::map<Direction, Tile*> neighbours{ current.getNeighbours() };
 
@@ -501,7 +500,7 @@ pair<int, int> operator+(const pair<int, int>& p1, const pair<int, int>& p2) {
 }
 
 
-Player* GameModel::getPlayer() {
+Player* GameModel::getPlayer() const {
     Entity* e = getPlayerTile().getEntity();
 
     if (e) {
@@ -511,15 +510,19 @@ Player* GameModel::getPlayer() {
     return nullptr;
 }
 
-Tile& GameModel::getPlayerTile() {
-    return map[playerCoords.first][playerCoords.second];
+const Tile& GameModel::getPlayerTile() const {
+    return map.at(playerCoords.first).at(playerCoords.second);
 }
 
-int GameModel::getFloor() {
+Tile& GameModel::getPlayerTile() {
+    return map.at(playerCoords.first).at(playerCoords.second);
+}
+
+int GameModel::getFloor() const {
     return floor;
 }
 
-Tile** GameModel::getRawMap() {
+Tile** GameModel::getRawMap() const {
     return rawMap.get();
 }
 

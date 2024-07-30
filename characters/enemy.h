@@ -11,16 +11,16 @@ class Enemy : public Character {
     virtual void onDeath() override;
     // this is the item that the enemy unlocks on death
     Tile* ownedItemTile;
-    virtual bool isHostile();
+    virtual bool isHostile() const;
 public:
     virtual pair<bool,string> endOfTurnEffect(Tile& t) override;
 
     Enemy(char c, int maxHp, int atk, int def, bool hasCompass, int goldDrop,  string properName, Tile* ownedItem = nullptr);
     virtual pair<bool, string> move(Direction d, Tile& tile) override;
-    bool attackHits() override;
-    virtual Entity* getLoot() override;
-    Tile* getOwnedItemTile();
+    bool attackHits() const override;
+    virtual Entity* getLoot() const override;
+    Tile* getOwnedItemTile() const;
     void gainCompass();
-    bool hasCompass();
+    bool hasCompass() const;
 };
 #endif

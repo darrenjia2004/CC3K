@@ -12,6 +12,6 @@ void Item::unlock(){
     isUnlocked = true;
 }
 
-bool Item::getUnlocked(){
+bool Item::getUnlocked() const {
     return isUnlocked;
 }

@@ -4,7 +4,7 @@
 Character::Character(char c, int maxHp, int atk, int def, int team, string properName) :
     Entity{ c , properName }, maxHp{ maxHp }, atk{ atk }, def{ def }, hp{ maxHp }, team{ team } {}
 
-int Character::getHp() {
+int Character::getHp() const {
     return hp;
 }
 
@@ -27,15 +27,15 @@ void Character::addToStatsRandom() {
     }
 }
 
-int Character::getAttack() {
+int Character::getAttack() const {
     return atk;
 }
 
-int Character::getDefense() {
+int Character::getDefense() const {
     return def;
 }
 
-bool Character::attackHits() {
+bool Character::attackHits() const {
     return true;
 }
 

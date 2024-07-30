@@ -4,13 +4,14 @@
 #include <memory>
 
 class Potionfx{
+    std::unique_ptr<Potionfx> next;
+
    public:
     const int atk;
     const int def;
-    std::unique_ptr<Potionfx> next;
-    int getAtkChange();
-    int getDefChange();
     Potionfx(int atk, int def);
-    ~Potionfx();
+    int getAtkChange() const;
+    int getDefChange() const;
+    void setNext(Potionfx* p);
 };
 #endif

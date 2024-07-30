@@ -11,29 +11,32 @@ Player::Player(char c, int maxHp, int atk, int def, string race) :
 Player::~Player(){
 }
 
-void Player::applyPotion(unique_ptr<Potionfx> p){
-    p->next = std::move(pfx);
-    pfx = std::move(p);
+void Player::applyPotion(int potionHp, int potionAtk, int potionDef) {
+    unique_ptr<Potionfx> newFx = make_unique<Potionfx>(potionAtk, potionDef);
+    newFx->setNext(pfx.release());
+    pfx = std::move(newFx);
+
+    addToHp(potionHp);
 }
 
 void Player::clearPotions(){
     pfx = unique_ptr<Potionfx>{nullptr};
 }
 
-int Player::getAttack(){
+int Player::getAttack() const {
     return pfx ? Character::getAttack() + pfx->getAtkChange(): Character::getAttack();
 }
 
-int Player::getDefense(){
+int Player::getDefense()const {
     // TODO: 100 if barrier suit
     return pfx ? Character::getDefense() + pfx->getDefChange(): Character::getDefense();
 }
 
-float Player::getGold(){
+float Player::getGold() const {
     return totGold;
 }
 
-string Player::getRace(){
+string Player::getRace() const {
     return race;
 }
 
@@ -65,7 +68,7 @@ void Player::gainCompass(){
     compassAcquired = true;
 }
 
-bool Player::hasCompass(){
+bool Player::hasCompass() const {
     return compassAcquired;
 }
 
@@ -73,14 +76,11 @@ void Player::loseCompass(){
     compassAcquired = false;
 }
 
-void Player::resetTempFx(){
-}
-
 void Player::gainBarrierSuit(){
     hasBarrierSuit = true;
 }
 
-float Player::calculateScore(){
+float Player::calculateScore() const{
     return totGold;
 }
 

@@ -5,17 +5,11 @@
 Tile::Tile(char c) : chamberNum{ -1 }, entity{ std::unique_ptr<Entity>{nullptr} }, stairs{ false }, c{ c } {
 }
 
-Tile::Tile(Tile&& t) : chamberNum{ t.chamberNum }, entity{ move(t.entity) }, stairs{ t.stairs },
-c{ t.c }, neighbours{ t.neighbours } {}
-
-Tile::~Tile() {
-}
-
-char Tile::getChar() {
+char Tile::getChar() const {
     return entity ? entity->getChar() : (stairs && visibleStairs) ? '\\' : c;
 }
 
-int Tile::getChamberNum() {
+int Tile::getChamberNum() const {
     return chamberNum;
 }
 
@@ -23,7 +17,7 @@ void Tile::setChamberNum(int n) {
     chamberNum = n;
 }
 
-bool Tile::isPassable() {
+bool Tile::isPassable() const {
     bool tilePassable = false;
     if (c == '#' || c == '\\' || c == '.' || c == '+') {
         tilePassable = true;
@@ -32,7 +26,7 @@ bool Tile::isPassable() {
     return entity.get() ? tilePassable && entity->isPassable() : tilePassable;
 }
 
-bool Tile::isMonsterPassable() {
+bool Tile::isMonsterPassable() const {
     bool tilePassable = false;
     if (c == '\\' || c == '.') {
         tilePassable = true;
@@ -73,7 +67,7 @@ string Tile::notify() {
     return ret;
 }
 
-Entity* Tile::getEntity() {
+Entity* Tile::getEntity() const {
     return entity.get();
 }
 
